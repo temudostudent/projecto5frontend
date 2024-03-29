@@ -1,0 +1,258 @@
+#root{
+    --light-color: #F6F4EB;
+    --pastel-color: #D7D4B9;
+    --blue-color: #91C8E4;
+    --blue2-color: #749BC2;
+    --blue3-color: #4682A9;
+    --orange-color: #D7693C;
+    --dark-color: #282828;
+
+}
+
+/*---------
+Header
+----------*/
+
+.site-header { 
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: .5em 4em;
+    align-items: center;
+    width: 100%;
+    z-index: 999;
+}
+
+.site-header::after {
+content: "";
+display: table;
+clear: both;
+}
+
+.site-identity {
+    float: left;
+    padding-top: 1.5em;
+  }
+
+.site-identity img {
+
+    margin: 0 10px 0 0;
+    max-width: 20em;
+    height: auto;
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+/*--------
+Profile username and Photo
+ --------*/
+
+.profile-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 10%
+  }
+
+.photo-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+}
+
+.photo-container img{
+  width: 100%;
+  height: auto; 
+  object-fit: cover;
+}
+
+/*--------
+Menu
+ --------*/
+
+.menu {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    padding: 0.5em 13em 0 1.5em;
+    max-width: 800px;
+    margin: 20px auto;
+    border-bottom: 1px solid #eee;
+  
+  @media (max-width: 650px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .item {
+    padding: 18px 28px;
+    cursor: pointer;
+    transition: color 0.3s ease-out;
+    text-decoration: none;
+    color: #111;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin: 5px 0;
+    position: relative;
+
+    &.active {
+      color: #fff;
+    }
+  }
+
+.menu-item {
+  margin-right: 20px;
+  position: relative;
+}
+
+.submenu {
+  display: flex;
+  flex-direction: column; /* Alterado para column para alinhar os itens do submenu verticalmente */
+  position: absolute;
+  top: 95%;
+  left: -7%;
+  background-color: #fff; /* Alterado para branco para contrastar com o fundo do menu */
+  border: 1px solid #ccc; /* Adicionado para definir uma borda ao redor do submenu */
+  border-radius: 29px; /* Adicionado para suavizar as bordas do submenu */
+  z-index: 2; /* Aumentado para garantir que o submenu esteja acima dos itens do menu */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submenu-item {
+  padding: 10px;
+        font-size: 14px; 
+        color: #333; 
+        text-decoration: none; 
+        transition: background-color 0.3s ease;
+        text-align: center;
+}
+
+.submenu-item:hover { /* Adicionado para melhorar a experiência do usuário */
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+}
+
+.container-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+  .indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 30px;
+  }
+
+  .item.active+.indicator {
+    transform: translateX(0);
+  }
+  
+  .indicator:nth-child(1) {
+    background-color: var(--light-color);
+  }
+  
+  .indicator:nth-child(2) {
+    background-color: var(--pastel-color);
+  }
+}
+
+
+/*---------
+Account Drop
+ ----------*/
+
+.accountDrop{
+  position: absolute;
+  top: 18%;
+  right: 1.5%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  width: 10em;
+}
+
+.accountDrop a{
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.accountDrop a:hover{
+  background-color: var(--light-color);
+}
+  
+/*-----
+Table
+-----*/
+
+.bottom-table-container{
+  display: flex;
+  justify-content:space-between ;
+}
+
+.add-category-button-container{
+
+  margin: 0 15px;
+  padding: 2px;
+
+  button{
+    padding: 0;
+    width: 100px;
+    cursor: pointer;
+  }
+}
+
+.table-buttons-container{
+  display: flex;
+  
+
+}
+
+
+
+/*-----
+Footer
+-----*/
+
+footer {
+    background-color: var(--dark-color);
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+
+footer p {
+    margin: 10px 0;
+}
+
+.footer-container{
+    display: flex;
+    justify-content: space-around;
+}

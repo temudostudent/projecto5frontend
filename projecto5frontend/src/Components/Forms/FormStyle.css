@@ -1,0 +1,55 @@
+.form-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    
+    form{
+        background-color: #f6f5f7;
+    }
+
+    input{
+        margin: 8px 0;
+        border-radius: 10px;
+    }
+
+    input[type='date']{
+        cursor: pointer;
+    }
+
+    select{
+        margin: 12px 0;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 7px;
+    }
+
+    option{
+        cursor: pointer;
+    }
+
+    label{
+        margin-right: 8px;
+    }
+
+    button{
+        margin: 15px 0;
+        color: black;
+        background-color: #ffffff80;
+        border: #f6f5f7;
+        cursor: pointer;
+    }
+
+    button:hover{
+        color: #749BC2;
+        border: #1770ca;
+    }
+}
+
+.container-withLabel{
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+}

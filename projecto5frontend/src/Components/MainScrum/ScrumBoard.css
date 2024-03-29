@@ -1,0 +1,269 @@
+#root{
+--light-color: #F6F4EB;
+--pastel-color: #D7D4B9;
+--lightblue-color: #d7edf8;
+--blue-color: #91C8E4;
+--blue2-color: #749BC2;
+--blue3-color: #4682A9;
+--orange-color: #D7693C;
+--dark-color: #282828;
+--lowpriority-color: #ace942;
+--mediumpriority-color: #f3f04d;
+--highpriority-color: #ff5619;
+}
+
+.scrum_section {
+  display: flex;
+  justify-content: center;
+  padding-left: 7%;
+}
+
+
+/*Selecionador de todas as colunas toDo, doing e done. flex-shrink faz com que quando fazemos o resize as colunas não mudem de forma 
+e matém-se na mesma poisção*/
+.column {
+  margin: 40px 10px 0px 10px;
+  flex-shrink: 0;
+  width: 25%;
+  height: 500px;
+  border-radius: 12px;
+  border-width: 2px;
+  padding-top: 12px;
+  box-shadow: 3px 5px rgb(192, 192, 192);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button{
+    width: 100%;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background-color: var(--white);
+    color: var(--dark-color);
+    padding: 3px 0px 8px 5px;
+    font-weight: bold;
+    cursor: pointer;
+    
+  }
+
+}
+
+.column1{
+  background-color: #c8ae7e44;
+}
+
+.column2{
+  background-color: #59a4b16b;
+}
+
+.column3{
+  background-color: #4d7d9980;
+}
+
+/*overflow-wrap faz com que quando a palavra chegar ao max-width seja partida e vá para alinha a seguir*/
+.title {
+  text-align: center;
+  font-size: 16px;
+  border-bottom: solid;
+  color: var(--dark-color);
+  font-weight: bold;
+  margin: 0px 30px;
+  padding: 0px 50px;
+  overflow-wrap: break-word;
+  width: -moz-available;
+}
+
+/*display: flex faz com que todos os elementos filhos deste sejam flexíveis. Quando não há nenhum flex-direction defenido
+o standard é fazer um "flex-direction: row;" que faz com que os filhos tenham um comportamento igual a um "span"*/
+.priority-color{
+  height: 4px;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+
+.low{
+  width: 35%;
+  background-color: var(--lowpriority-color);
+}
+
+.medium{
+  width: 40%;
+  background-color: var(--mediumpriority-color);
+}
+
+.high{
+  width: 45%;
+  background-color: var(--highpriority-color);
+}
+
+
+.task {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0.1px 1px 0.3px rgb(160, 160, 160);
+  text-align: left;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #0e0e0e;
+  border: solid;
+  border-width: 1.8px;
+  border-color: transparent;
+  margin: 6px 0;
+  padding: 4px 8px 0 8px;
+  width:97%;
+
+  .top-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 4px;
+
+    span{
+      font-size: 0.7em;
+    }
+  }
+
+  .container-task{
+    display: flex;
+    justify-content: space-between;
+    overflow-wrap: break-word;
+    max-width: 100%;
+
+    .text-container{
+
+      width: 90%;
+      padding: 0 0 10px;
+    }
+  }
+
+  .buttons-container{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     justify-content: space-evenly;
+     padding: 0 5px;
+
+     span {
+      position: relative;
+      color: var(--dark-color);
+     }
+
+     span::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 23px;
+      height: 23px; 
+      border-radius: 50%;
+      background-color: var(--blue3-color);
+      transition: opacity 0.3s; 
+      opacity: 0;
+      }
+      
+    span:hover::after {
+      opacity: 0.3;
+    }
+     
+  }
+}
+
+.task:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 0.8px 0.3px rgb(160, 160, 160);
+  border-color: rgb(86, 86, 86);
+}
+
+.task.erased{
+  opacity: 0.5;
+}
+
+
+
+/*Esta classe existe principalmente para diferenciar o elemento que está a ser arrastado. No máximo só um elemento
+poderá ter esta classe. Se não houver nenhum elemento a ser arrastado esta classe não vai estar a ser usada*/
+.drag {
+  background-color: grey;
+}
+
+.task_title {
+  margin-left: 10px;
+  width: 215px;
+  margin-top: 2px;
+  overflow-wrap: break-word;
+  max-width: 200px;
+}
+
+/*transform: translate(0%,-50%) faz uma translação do elemento para cima igual ao valor de metade do elemento*/
+.task_btn {
+  border-radius: 50%;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  margin: 0px 5px 0px 6px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+  margin-left: 6px;
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  visibility: hidden;
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.delete_btn {
+  border-radius: 50%;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  margin: 0px 0px 2px 10px;
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  visibility: hidden;
+  position: relative;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.task_btn:hover {
+  background-color: var(--white_hover);
+  cursor: pointer;
+}
+
+/*flex-direction: column faz com que os elementos se comportem como um div,ou seja irão para baixo uns dos outros
+consoante vão sendo adicionados*/
+.task_list {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4%;
+  height: 81%;;
+  overflow-y: auto;
+  width: 70%;
+}
+
+.task_list::-webkit-scrollbar {
+  width: 9px;
+}
+
+.task_list::-webkit-scrollbar-thumb {
+  background-color: rgb(159, 159, 159);
+  border-radius: 10px;
+}
+
+.task_list::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgb(186, 186, 186);
+  margin-top: 5px;
+}
+
+
+
