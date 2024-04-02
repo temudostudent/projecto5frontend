@@ -8,12 +8,16 @@ import { useTaskStore } from '../Stores/TaskStore'
 import { useActionsStore } from '../Stores/ActionStore'
 import { useCategoryStore } from '../Stores/CategoryStore'
 import Sidebar from '../Components/CommonElements/Sidebar'
+import { useNotificationStore } from '../Stores/NotificationStore';
+import WebSocketClient from '../Components/Websocket/WebSocketClient';
 
 const Home = () => {
 
     const location = useLocation(); // Get current location
 
     // Destructure values from stores
+    const { notifications } = useNotificationStore();
+    WebSocketClient();
     const token = userStore((state) => state.token);
     const userData = userStore((state) => state.userData);
     const { categories, updateCategories } = useCategoryStore();
@@ -254,6 +258,8 @@ const Home = () => {
 
     return (
         <div className='Home'>
+            <h2>Notifications</h2> 
+            <p>You have {notifications.length} notifications</p> 
             {!loading && (
                 <div className={`container-home ${showSidebar ? 'sidebar-active' : 'sidebar-inactive'}`}>
                     <div className="sidebar-container">

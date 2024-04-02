@@ -593,5 +593,21 @@ width: 60%;
         padding: 0 50px;
         height: 100%;
         text-align: center;
+
+		.photo-info-container{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden;
+			width: 20em;
+			height: 20em;
+			border-radius: 50%;
+			
+			img{
+				width: 100%;
+                height: 100%;
+                object-fit: cover;
+			}
+		}
 	}
 }
