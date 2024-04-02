@@ -564,3 +564,34 @@ Modal Info Tasks
 		cursor: pointer;
 	}
   }
+
+
+/*---------------
+Profile Page
+---------------*/
+
+.profile-info-body{
+display: flex;
+justify-content: center;
+align-items: center;
+height: 78vh;
+}
+
+.profile-info-container {
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: -moz-fit-content;
+height: fit-content;
+width: 60%;
+
+	.profile-container-left{
+		display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 50px;
+        height: 100%;
+        text-align: center;
+	}
+}

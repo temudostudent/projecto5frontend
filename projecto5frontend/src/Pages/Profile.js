@@ -2,7 +2,6 @@ import React from 'react'
 import AuthService from '../Components/Service/AuthService'
 import EditProfileForm from '../Components/Forms/EditProfileForm'
 import { userStore } from '../Stores/UserStore'
-import Header from '../Components/CommonElements/Header'
 
 const Profile = () => {
 
@@ -30,7 +29,6 @@ const Profile = () => {
 
   return (
       <div>
-          <Header /> {/* Render Header component */}
           <div className='edit-profile-body'>
               <div className='edit-profile-container'>
                   {userData && // Render EditProfileForm component if userData is available

@@ -100,7 +100,7 @@ const Header = () => {
             {/* Dropdown menu for account */}
             {showAccountDrop && (
             <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>
-                <a onClick={() => navigate("/profile")}>My Profile</a>
+                <a onClick={() => navigate(`/edit/${userData.username}`)}>My Profile</a>
                 <a onClick={handleLogout}>Logout</a>
 
             </div>
