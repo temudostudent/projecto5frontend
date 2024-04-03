@@ -1,26 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AuthService from '../Components/Service/AuthService';
+import StatsService from '../Components/Service/StatsService';
+import DoughnutChart from '../Components/Charts/DoughnutChart';
 import { userStore } from '../Stores/UserStore'
 
 const PublicProfile = () => {
   const { username } = useParams();
   const token = userStore((state) => state.token);
   const [userData, setUserData] = useState(null);
+  const [userTasksCount, setUserTasksCount] = useState([]);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userData = await AuthService.getUserData(token, username);
-        console.log("aqui", userData);
+        
         setUserData(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
+    const fetchStats = async () => {
+      try{
+        const totalTasks = await StatsService.getCountTasks(token, username, null);
+        const toDoTasks = await StatsService.getCountTasks(token, username, 100);
+        const doingTasks = await StatsService.getCountTasks(token, username, 200);
+        const doneTasks = await StatsService.getCountTasks(token, username, 300);
+
+        setUserTasksCount([totalTasks, toDoTasks, doingTasks, doneTasks]);
+      }catch (error) {
+        console.error("Error fetching statistics:", error);
+      }
+    };
+
     fetchUserData();
+    fetchStats();
   }, [username]);
+
+  const userStats =[
+    { name: 'To Do', value: userTasksCount[1] },
+    { name: 'Doing', value: userTasksCount[2] },
+    { name: 'Done', value: userTasksCount[3] },
+  ];
+
 
   return (
     <div>
@@ -37,8 +62,10 @@ const PublicProfile = () => {
               </span> 
             </div>
             <div className='profile-statistics-container'>
-              <p>Número total de tarefas!!!!!!!!</p>
-              <p>Número de tarefas por estado!!!!!!!!!!</p>
+              <p>Total tasks: {userTasksCount[0]}</p>
+              <div>
+                {userTasksCount.length > 0 && <DoughnutChart data={userStats} />}
+              </div>
             </div>
           </div>
         }

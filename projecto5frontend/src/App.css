@@ -582,8 +582,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 height: -moz-fit-content;
-height: fit-content;
-width: 60%;
+width: 70%;
 
 	.profile-container-left{
 		display: flex;
@@ -609,5 +608,16 @@ width: 60%;
                 object-fit: cover;
 			}
 		}
+	}
+
+	.profile-statistics-container{
+		display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 50px;
+        height: 100%;
+
+		
 	}
 }
