@@ -7,7 +7,7 @@ import { PieChart, Pie, Sector } from "recharts";
   { name: "Group C", value: 300 }
 ];*/
 
-const renderActiveShape = (props: any) => {
+const renderActiveShape = ({props}) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,
