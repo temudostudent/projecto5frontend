@@ -7,7 +7,7 @@ import { PieChart, Pie, Sector } from "recharts";
   { name: "Group C", value: 300 }
 ];*/
 
-const renderActiveShape = ({props}) => {
+const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
   const {
     cx,
@@ -34,7 +34,7 @@ const renderActiveShape = ({props}) => {
 
   return (
     <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill='#413e3e'>
         {payload.name}
       </text>
       <Sector
@@ -73,8 +73,9 @@ const renderActiveShape = ({props}) => {
         dy={18}
         textAnchor={textAnchor}
         fill="#999"
+        fontSize={13}
       >
-        {`(Rate ${(percent * 100).toFixed(2)}%)`}
+        {`(Rate ${(percent * 100).toFixed(1)}%)`}
       </text>
     </g>
   );

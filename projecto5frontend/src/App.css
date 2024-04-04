@@ -621,3 +621,23 @@ width: 70%;
 		
 	}
 }
+
+
+/*---------------
+Dashboard
+---------------*/
+
+
+.charts-containers{
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+	width: 100%;
+	margin: 0 auto;
+
+	div{
+		border: solid 1px #000000;
+	}
+}
+

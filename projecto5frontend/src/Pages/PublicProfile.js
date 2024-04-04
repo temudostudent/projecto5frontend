@@ -26,11 +26,10 @@ const PublicProfile = () => {
     const fetchStats = async () => {
       try{
         const totalTasks = await StatsService.getCountTasks(token, username, null);
-        const toDoTasks = await StatsService.getCountTasks(token, username, 100);
-        const doingTasks = await StatsService.getCountTasks(token, username, 200);
-        const doneTasks = await StatsService.getCountTasks(token, username, 300);
 
-        setUserTasksCount([totalTasks, toDoTasks, doingTasks, doneTasks]);
+        console.log(totalTasks);
+
+        setUserTasksCount(totalTasks);
       }catch (error) {
         console.error("Error fetching statistics:", error);
       }
@@ -38,13 +37,16 @@ const PublicProfile = () => {
 
     fetchUserData();
     fetchStats();
-  }, [username]);
+  }, [username, token]);
 
+  //Info formatada para mostrar as legendas pretendidas
   const userStats =[
-    { name: 'To Do', value: userTasksCount[1] },
-    { name: 'Doing', value: userTasksCount[2] },
-    { name: 'Done', value: userTasksCount[3] },
+    { name: 'To Do', value: userTasksCount.toDo, fill:'#c8ae7e44'  },
+    { name: 'Doing', value: userTasksCount.doing, fill:'#59a4b16b' },
+    { name: 'Done', value: userTasksCount.done, fill:'#4d7d9980' },
   ];
+
+  console.log(userStats);
 
 
   return (
@@ -62,9 +64,9 @@ const PublicProfile = () => {
               </span> 
             </div>
             <div className='profile-statistics-container'>
-              <p>Total tasks: {userTasksCount[0]}</p>
-              <div>
-                {userTasksCount.length > 0 && <DoughnutChart data={userStats} />}
+              <p>Total tasks: {userTasksCount.tasks}</p>
+              <div className='chart'>
+                {userTasksCount.tasks > 0 && <DoughnutChart data={userStats} />}
               </div>
             </div>
           </div>
