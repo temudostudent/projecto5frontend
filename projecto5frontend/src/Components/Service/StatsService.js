@@ -10,7 +10,7 @@ USER
 ----------------------*/
 
     // Function to get users stats
-    getCountUsers: async (token, typeOfUser, visible) => {
+    getCountUsers: async (token, typeOfUser) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/users`, {
                 headers: {
@@ -18,8 +18,7 @@ USER
                     'token': token
                 },
                 params: {
-                    type: typeOfUser,
-                    visible: visible
+                    type: typeOfUser
                 }
             });
             if (response.status === 200) {
