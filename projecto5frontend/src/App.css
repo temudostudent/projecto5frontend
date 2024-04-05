@@ -628,41 +628,40 @@ Dashboard
 ---------------*/
 
 
-.charts-containers{
-	display: grid;
-	grid-template-rows: 1fr 1fr 1fr;
-	grid-template-columns: 1fr 1fr;
-	grid-gap: 5px;
-	width: 100%;
-	margin: 0 auto;
+.stat-container{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	height: 200px;
+	background-color: #f0edec98;
+	padding: 2px;
+}
 
-	.chart-div{
-		border: solid 2px #424242;
-		background-color: #fdfdfd;
-		width: 100%;
-		height: 200px;
-	}
+.number-stat-container{
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100;
+    background-color: #D7693C;
+    padding: 2px;
+}
 
-	.sector1{
-		display: flex;
-		width: 100%;
+.line-stat-container{
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 400px;
+    background-color: #ffffff29;
+    padding: 2px;
 
-		span{
-			flex: 1;
-		}
-	}
+}
 
-	.sector2{
-		display: grid;
-		grid-template-columns: auto auto;
-		width: 100%;
-		
-
-		span{
-			flex: 1;
-            margin: 2px;
-			background-color: #D7693C;
-		}
-	}
+.bar-stat-container{
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 500px;
+    background-color: #f8ff28;
+    padding: 2px 0 100px 0;
 }
 

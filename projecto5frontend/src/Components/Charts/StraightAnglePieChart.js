@@ -13,14 +13,14 @@ export default class StraightAnglePieChart extends PureComponent {
   
       return (
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart width={150} height={150}>
+          <PieChart width={200} height={200}>
             <Pie
               dataKey="value"
               startAngle={180}
               endAngle={0}
               data={data}
-              cx="45%"
-              cy="70%"
+              cx="50%"
+              cy="80%"
               outerRadius={80}
               fill="#8884d8"
               label={({
@@ -42,7 +42,7 @@ export default class StraightAnglePieChart extends PureComponent {
                   <text
                     x={x}
                     y={y}
-                    style={{ fontSize: "0.9em" }}
+                    style={{ fontSize: "0.8em" }}
                     fill="#253955"
                     textAnchor={x > cx ? "start" : "end"}
                     dominantBaseline="central"
@@ -52,9 +52,9 @@ export default class StraightAnglePieChart extends PureComponent {
                 );
               }}
             />
-            <text x="45%" y="80%" textAnchor="middle" dominantBaseline="middle">
+            {total && <text x="50%" y="88%" textAnchor="middle" dominantBaseline="middle" fontSize= "0.8em">
               Total: {total}
-            </text>
+            </text>}
           </PieChart>
         </ResponsiveContainer>
       );

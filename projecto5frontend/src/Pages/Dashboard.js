@@ -1,6 +1,11 @@
 import React, {useState, useEffect} from "react";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import StatsService from '../Components/Service/StatsService';
 import DoughnutChart from '../Components/Charts/DoughnutChart';
+import SimpleLineChart from '../Components/Charts/SimpleLineChart';
+import SimpleBarChart from '../Components/Charts/SimpleBarChart';
 import StraightAnglePieChart from '../Components/Charts/StraightAnglePieChart';
 import { userStore } from '../Stores/UserStore'
 
@@ -19,7 +24,7 @@ const Dashboard = () => {
             console.log("tasks", totalTasks);
             console.log("users", totalUsers);
     
-            setTasksCount(tasksCount);
+            setTasksCount(totalTasks);
             setUsersCount(totalUsers);
           }catch (error) {
             console.error("Error fetching statistics:", error);
@@ -36,7 +41,13 @@ const Dashboard = () => {
         { name: 'Product Owner', value: usersCount.productOwners, fill:'#4682A9' },
       ];
 
-      //HARDCODED
+      const tasksStatus =[
+        { name: 'To Do', value: tasksCount.toDo, fill:'#c8ae7e44'  },
+        { name: 'Doing', value: tasksCount.doing, fill:'#59a4b16b' },
+        { name: 'Done', value: tasksCount.done, fill:'#4d7d9980' },
+      ]
+
+      //HARDCODED!!!!!!!!!!!!!!!!!!!!!!!!
       const userStatusStats =[
         { name: 'Confirmed', value: 7, fill:'#4682A9'  },
         { name: 'Not Confirmed', value: 2, fill:'#8fa6b1ad' },
@@ -44,51 +55,50 @@ const Dashboard = () => {
 
 
     return (
-        <div className="dashboard-body">
-            <h1>Dashboard</h1>
-            <div className="charts-containers">
-
-                <div className="chart-div sector1">
-                    <span>
-                        <p>Team Roles</p>
-                        {usersCount.users > 0 && <StraightAnglePieChart data={teamRolesStats} total={usersCount.users} />}
-                    </span>
-                    <span>
-                        <p>Users State</p>
-                        <StraightAnglePieChart data={userStatusStats}/>
-                    </span>
-                </div>
-                <div className="chart-div sector2">
-                    <span>
-                        <p>Average Tasks per User</p>
-                        30
-                    </span>
-                    <span>
-                        <p>Average Task Time</p>
-                    </span>
-                </div>
-                <div className="chart-div">
-                    
-                </div>
-                <div className="chart-div">
+        <Container fluid>
+            <Row xs={1} md={3} lg={3} >
+                <Col sm={12} md={4} lg={4} className="stat-container"> 
+                    <p>Team Roles</p>
+                    {usersCount.users > 0 && <StraightAnglePieChart data={teamRolesStats} total={usersCount.users} />}
+                </Col>
+                <Col sm={12} md={4} lg={4} className="stat-container">
+                    <p>Users State</p>
+                    <StraightAnglePieChart data={userStatusStats}/>
+                </Col>
+                <Col sm={12} md={4} lg={4} className="stat-container">
                     <p>Tasks Status</p>
-                </div>
-                <div className="chart-div">
-                    <p>Categories</p>
-                </div>
-                <div className="chart-div">
-                    <p>User Status</p>
-                </div>
-
-                <div className="chart-div">
-                    <p>Users over Time</p>
-                </div>
-                <div className="chart-div">
-                    <p>Tasks over Time</p>
-                </div>
-            </div>
-            
-        </div>
+                    {tasksCount.tasks > 0 && <StraightAnglePieChart data={tasksStatus} total={tasksCount.tasks}/>}
+                </Col>
+            </Row>
+            <Row >
+                <Col sm={6} md={6} lg={6} className="number-stat-container">
+                    <p>Average Tasks per User</p>
+                    {tasksCount.avgTasksPerUser}
+                </Col>
+                <Col sm={6} md={6} lg={6} className="number-stat-container">
+                    <p>Average Task Time</p>
+                </Col>
+            </Row>
+            <Row xs={1} md={2} lg={2} >
+                <Col className="line-stat-container">
+                    Users over Time
+                    <SimpleLineChart />
+                </Col>
+                <Col className="line-stat-container">
+                    Tasks Done over Time
+                    <SimpleLineChart />
+                </Col>
+            </Row>
+            <Row xs={1} md={2} lg={2} >
+                <Col className="bar-stat-container">
+                    Categories
+                    <SimpleBarChart/>
+                </Col>
+                <Col className="bar-stat-container">
+                    User Status
+                </Col>
+            </Row>
+        </Container>
     );
 }
 
