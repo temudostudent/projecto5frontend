@@ -79,6 +79,11 @@ const Header = () => {
                 { name: "Add New User", path: "/register-user" }
             ] : null
         },
+        {   
+            name: "Dashboard", 
+            color: "#4d6199", 
+            path: "/dashboard" 
+        },
     ];
 
     return (

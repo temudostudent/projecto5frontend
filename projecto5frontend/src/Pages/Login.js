@@ -25,7 +25,7 @@ function Login() {
     }
 
     return (
-        <div className="container" ref={containerRef}> {/* Container with reference for animation */}
+        <div className="container-index" ref={containerRef}> {/* Container with reference for animation */}
             <ToastContainer position="top-center" /> {/* ToastContainer for displaying notifications */}
             <SignupForm onSignUpSuccess={handleSignUpSuccess}/> {/* SignupForm component with callback for sign-up success */}
             <LoginForm /> {/* LoginForm component */}

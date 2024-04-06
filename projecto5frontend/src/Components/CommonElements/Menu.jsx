@@ -69,7 +69,10 @@ const Menu = ({ items, typeOfUser }) => {
             {items.map((item, index) => (
                 <div key={item.name} className="menu-item" onMouseEnter={() => handleMenuItemHover(index)} onClick={() => handleMenuItemClick(index)}>
                     {/* Conditional rendering based on user type and item type */}
-                    {(item.name === "Board" || (item.name === "Users" && typeOfUser !== 100) || (item.name === "Categories" && typeOfUser === 300)) && (
+                    {(item.name === "Board" 
+                    || (item.name === "Users" && typeOfUser !== 100) 
+                    || (item.name === "Categories" && typeOfUser === 300)
+                    || (item.name === "Dashboard" && typeOfUser === 300) ) && (
                         <a
                             ref={$items.current[index]}
                             className={`item ${active === index ? "active" : ""}`}
@@ -78,7 +81,7 @@ const Menu = ({ items, typeOfUser }) => {
                         >
                             <span className="container-item">
                                 {item.name} 
-                                {!(item.name === "Categories" || (item.name === "Users" && typeOfUser === 200)) && (
+                                {!(item.name === "Categories" || item.name === "Dashboard" || (item.name === "Users" && typeOfUser === 200)) && (
                                     <IoMdArrowDropdown />
                                 )}                        
                             </span>
