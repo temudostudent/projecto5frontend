@@ -86,6 +86,9 @@ function LoginForm() {
                     />
                     {/* Submit button */}
                     <button type="submit">Login</button>
+                    <span className="click-link" onClick={() => navigate('/forgotPassword')} >
+                        Forgot password?
+                    </span>
             </form>
         </div>
     );

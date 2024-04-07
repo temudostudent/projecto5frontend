@@ -107,6 +107,32 @@ USER
             }
         },
 
+    // Function to handle user reset password
+    forgotPassword: async (inputs) => {
+
+        try{
+            const response = await axios.post(`${API_BASE_URL}/forgotPassword`, inputs, 
+            {
+                headers: 
+                {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                toast.success("We have sent you an email with further instructions");
+                return response;
+            } else if (response.status === 401) {
+                toast.error("Email not registed");
+            } else {
+                throw new Error("Something went wrong");
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            toast.error("An error occurred, please try again later.");
+        };
+    },
+
 
     // Function to get user data
     getUserData: async (token , username) => {

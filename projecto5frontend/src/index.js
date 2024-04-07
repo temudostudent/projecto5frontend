@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './App.css'
 import App from './App'
+import ForgotPassword from './Pages/ForgotPassword'
 import Home from './Pages/Home'
 import Categories from './Pages/Categories'
 import Profile from './Pages/Profile'
@@ -19,6 +20,9 @@ function Routing() {
   return (
     <div>
       <Routes>
+        <Route path="/forgotPassword" element={<>
+          <ForgotPassword />
+        </>} />
         <Route path="/home" element={<>
           <Header />
           <Home />

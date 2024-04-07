@@ -267,11 +267,29 @@ input {
 	transform: translateX(0);
 }
 
-.App{
+.click-link{
+	cursor: pointer;
+	color: #4682A9;
+	text-decoration-line: underline;
+}
+
+.App, .container-forgotPassword{
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
+}
+
+/*----------------
+Forgot Password
+-----------------*/
+
+.container-fg{
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	flex-direction: column;
+	width: 40%;
 }
 
 /*----------------
