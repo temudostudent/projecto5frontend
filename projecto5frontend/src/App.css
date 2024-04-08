@@ -270,7 +270,6 @@ input {
 .click-link{
 	cursor: pointer;
 	color: #4682A9;
-	text-decoration-line: underline;
 }
 
 .App, .container-forgotPassword{

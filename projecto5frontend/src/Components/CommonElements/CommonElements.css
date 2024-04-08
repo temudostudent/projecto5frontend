@@ -18,11 +18,26 @@ Header
     flex-direction: column;
 }
 
+.top-header{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #0086bbdf;
+  padding: 5px;
+  margin: 5px 15px;
+  border-radius: 10px;
+
+  .language-select{
+    height: 23px;
+    padding: 0 10px;
+  }
+}
+
 
 .bottom-header { 
     display: flex;
     border-bottom: 1px solid #ccc;
-    padding: .5em 4em;
+    padding: 0 4em .5em 4em;
     align-items: center;
     width: 100%;
     z-index: 999;
@@ -36,13 +51,12 @@ clear: both;
 
 .site-identity {
     float: left;
-    padding-top: 1.5em;
   }
 
 .site-identity img {
 
     margin: 0 10px 0 0;
-    max-width: 20em;
+    max-width: 18em;
     height: auto;
 }
 
@@ -91,9 +105,9 @@ Menu
     justify-content: space-between;
     position: relative;
     z-index: 1;
-    padding: 0.5em 13em 0 1.5em;
+    padding: 0 13em 0 1.5em;
     max-width: 800px;
-    margin: 20px auto;
+    margin: 10px auto;
     border-bottom: 1px solid #eee;
   
   @media (max-width: 650px) {

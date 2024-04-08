@@ -95,7 +95,7 @@ const Header = () => {
         <header className="site-header">
             <ToastContainer position="top-center" />
             <div className="top-header">
-                <select onChange={handleSelect} defaultValue={locale}> 
+                <select className="language-select" onChange={handleSelect} defaultValue={locale}> 
                     {["en", "pt", "fr"].map(language => (<option            
                     key={language}>{language}</option>))} 
                 </select> 

@@ -16,6 +16,7 @@ const ForgotPassword = () => {
         if (response.status === 200) {
             navigate('/');
         } else {
+            navigate('/');
             console.log(response.data.message);
         }
 
@@ -30,13 +31,15 @@ const ForgotPassword = () => {
                     <div className='logo-top' >
                         <img src={logo} alt="Logo da empresa" style={{ width: '50%', height: 'auto' }} />
                     </div> 
-                    <h1 style={{ fontSize: '1.5em', padding:'35px' }}>Forgot Password</h1>
+                    <h1 style={{ fontSize: '1.5em', padding:'35px' }}>Reset your password</h1>
+                    <p>We will send you an email to reset your password.</p>
                 </div>
                 
                 <form onSubmit={handleSubmit}>
                     <input type="email" name="email" placeholder="Email" />
                     <button type="submit">Reset Password</button>
                 </form>
+                <p style={{textDecorationLine: 'underline', cursor: 'pointer'}} onClick={() => navigate('/')} >Cancel</p>
             </div>
         </div>
     )
