@@ -10,6 +10,9 @@ export const userStore = create (
 
             userData:[],
             updateUserData: (newUserData) => set({ userData: newUserData }),
+
+            locale:"en",
+            updateLocale : (locale) => set({ locale })
         }),
         {
             name: 'userStore',

@@ -10,6 +10,8 @@ import { useCategoryStore } from '../Stores/CategoryStore'
 import Sidebar from '../Components/CommonElements/Sidebar'
 import { useNotificationStore } from '../Stores/NotificationStore';
 import WebSocketClient from '../Components/Websocket/WebSocketClient';
+import languages from "../Translations"; 
+import { IntlProvider, FormattedMessage } from "react-intl"; 
 
 const Home = () => {
 
@@ -18,8 +20,7 @@ const Home = () => {
     // Destructure values from stores
     const { notifications } = useNotificationStore();
     WebSocketClient();
-    const token = userStore((state) => state.token);
-    const userData = userStore((state) => state.userData);
+    const {token, userData, locale, updateLocale} = userStore();
     const { categories, updateCategories } = useCategoryStore();
     const { usersListData, updateUsersListData } = useUsersListStore();
     const { updateTasks, selectedTask, setSelectedTask } = useTaskStore();
@@ -258,8 +259,22 @@ const Home = () => {
 
     return (
         <div className='Home'>
+            <IntlProvider locale={locale} messages={languages[locale]}> 
+            <p> 
+            <FormattedMessage id="greeting" values={{username: userData.username}} /> 
+            <br/> 
+            <FormattedMessage id="time" values={{t: Date.now()}} /> 
+            <br/> 
+            <FormattedMessage id="date" values={{d: Date.now()}} /> 
+            <br/> 
+            </p> 
+            </IntlProvider> 
+
+
             <h2>Notifications</h2> 
             <p>You have {notifications.length} notifications</p> 
+
+
             {!loading && (
                 <div className={`container-home ${showSidebar ? 'sidebar-active' : 'sidebar-inactive'}`}>
                     <div className="sidebar-container">

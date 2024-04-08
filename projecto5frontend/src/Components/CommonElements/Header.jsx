@@ -13,10 +13,10 @@ import { useCategoryStore } from '../../Stores/CategoryStore'
 import { useTaskStore } from '../../Stores/TaskStore'
 import { useUsersListStore } from '../../Stores/UsersDataStore'
 
+
 const Header = () => {
     // Accessing state variables and functions from stores
-    const token = userStore((state) => state.token);
-    const userData = userStore((state) => state.userData);
+    const {token, userData, locale, updateLocale} = userStore();
     const navigate = useNavigate();
     const [showAccountDrop, setShowAccountDrop] = useState(false);
     const [headerUsername, setHeaderUsername] = useState('');
@@ -52,6 +52,11 @@ const Header = () => {
             console.log(error);
         }
     }
+
+    const handleSelect = (event) => { 
+        console.log(event.target.value); 
+        updateLocale(event.target.value); 
+    } 
     
     // Menu items
     const items = [
@@ -89,27 +94,34 @@ const Header = () => {
     return (
         <header className="site-header">
             <ToastContainer position="top-center" />
-            {/* Logo */}
-            <div className="site-identity">
-                <img src={logo} alt="Logo da empresa" />
-            </div> 
-            {/* Menu */}
-            <Menu items={items} typeOfUser={userData.typeOfUser}/>
-            {/* User profile */}
-            <div className="profile-container" onClick={() => setShowAccountDrop(true)}>
-                <a>{headerUsername}</a> {/* Show username */}
-                <span className="photo-container">
-                    <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
-                </span> 
+            <div className="top-header">
+                <select onChange={handleSelect} defaultValue={locale}> 
+                    {["en", "pt", "fr"].map(language => (<option            
+                    key={language}>{language}</option>))} 
+                </select> 
             </div>
-            {/* Dropdown menu for account */}
-            {showAccountDrop && (
-            <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>
-                <a onClick={() => navigate(`/edit/${userData.username}`)}>My Profile</a>
-                <a onClick={handleLogout}>Logout</a>
-
+            <div className="bottom-header">
+                {/* Logo */}
+                <div className="site-identity">
+                    <img src={logo} alt="Logo da empresa" />
+                </div> 
+                {/* Menu */}
+                <Menu items={items} typeOfUser={userData.typeOfUser}/>
+                {/* User profile */}
+                <div className="profile-container" onClick={() => setShowAccountDrop(true)}>
+                    <a>{headerUsername}</a> {/* Show username */}
+                    <span className="photo-container">
+                        <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
+                    </span>
+                </div>
+                {/* Dropdown menu for account */}
+                {showAccountDrop && (
+                <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>
+                    <a onClick={() => navigate(`/edit/${userData.username}`)}>My Profile</a>
+                    <a onClick={handleLogout}>Logout</a>
+                </div>
+                )}
             </div>
-            )}
         </header>
     );
 };

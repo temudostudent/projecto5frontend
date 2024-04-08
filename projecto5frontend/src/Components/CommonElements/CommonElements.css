@@ -15,6 +15,12 @@ Header
 
 .site-header { 
     display: flex;
+    flex-direction: column;
+}
+
+
+.bottom-header { 
+    display: flex;
     border-bottom: 1px solid #ccc;
     padding: .5em 4em;
     align-items: center;
@@ -22,7 +28,7 @@ Header
     z-index: 999;
 }
 
-.site-header::after {
+.bottom-header::after {
 content: "";
 display: table;
 clear: both;
