@@ -20,8 +20,32 @@ function SignUpForm({ onSignUpSuccess }) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        console.log(inputs);
+
         try {
             const response = await AuthService.register(inputs);
+    
+            console.log(response);
+    
+            if (response.status === 201) {
+                onSignUpSuccess();
+                setInputs({});
+            } else {
+                console.error("Failed to register. Response:", response);
+            }
+        } catch (error) {
+            console.error("An error occurred during registration:", error);
+        }
+    };
+
+    // Function to handle form submission
+    const handleSubmitPendingRegister = async (event) => {
+        event.preventDefault();
+
+        console.log(inputs);
+
+        try {
+            const response = await AuthService.registerPending(inputs);
     
             console.log(response);
     
@@ -39,7 +63,7 @@ function SignUpForm({ onSignUpSuccess }) {
     return (
 
         <div className={pathname === "/" ? "form-container sign-up-container" : pathname === "/register-user" ? "form-container add-new-user-container" : "form-container"}>
-            <form  action="#" onSubmit={handleSubmit}>
+            <form  action="#" onSubmit={pathname === "/" ? handleSubmit : handleSubmitPendingRegister}>
                 <h1>Create Account</h1>
                 <br />
                 {/* Input fields */}
@@ -48,8 +72,24 @@ function SignUpForm({ onSignUpSuccess }) {
 			        <input type="text" name="lastName" value={inputs.lastName || ''} placeholder="Last Name" onChange={handleChange} required/>
 			        <input type="email" name="email" value={inputs.email || ''} placeholder="Email" onChange={handleChange} required/>
                     <input type="text" name="phone" value={inputs.phone || ''} placeholder="Contact" onChange={handleChange} required/>
-                    <input type="password" name="password" value={inputs.password || ''} placeholder="Password" onChange={handleChange} required/>
-                    <input type="text" name="photoURL" value={inputs.photoURL || ''} placeholder="Profile Photo" onChange={handleChange} required/>
+                    {!(pathname === '/register-user') && (
+                        <input type="password" name="password" value={inputs.password || ''} placeholder="Password" onChange={handleChange} required/>
+                    )}
+                    
+                    <input type="url" name="photoURL" value={inputs.photoURL || ''} placeholder="Profile Photo" onChange={handleChange}/>
+
+                    {(pathname === '/register-user') && (
+                        <select
+                        name="typeOfUser"
+                        value={inputs.typeOfUser || inputs.typeOfUser}
+                        onChange={handleChange}
+                      >
+                        <option value={100} disabled>Select Type Of User</option>
+                        <option value={100}>Developer</option>
+                        <option value={200}>Scrum Master</option>
+                        <option value={300}>Product Owner</option>
+                      </select>
+                    )}
                     <button type="submit">Sign Up</button>
             </form>
         </div>

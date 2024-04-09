@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import logo from '../Components/Assets/agileflow-high-resolution-logo-transparent.png'
 import { useNavigate } from 'react-router-dom'
@@ -12,12 +12,20 @@ const ForgotPassword = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         const email = e.target.email.value;
-        const response = await AuthService.forgotPassword(email);
-        if (response.status === 200) {
-            navigate('/');
-        } else {
-            navigate('/');
-            console.log(response.data.message);
+        console.log(email);
+        try{
+            const response = await AuthService.forgotPassword( email );
+            if (response && response.status === 200) {
+                toast.success("We have sent you an email with further instructions");
+                navigate('/');
+            } else if (response && response.status === 401) {
+                toast.error("Email not registered");
+            } else {
+                throw new Error("Something went wrong");
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            toast.error("An error occurred, please try again later.");
         }
 
     };

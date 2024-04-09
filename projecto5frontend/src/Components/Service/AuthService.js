@@ -99,6 +99,59 @@ USER
                         default:
                             console.log('Unknown error message:', errorData);
                             toast.error("Something went wrong");
+                            return response;
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                toast.error("Something went wrong");
+            }
+        },
+
+    // Function to handle user registration
+    registerPending: async (inputs) => {
+
+        try{
+            const response = await axios.post(`${API_BASE_URL}/register/pending`, inputs, 
+            {
+                headers: 
+                {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 201) {
+
+                toast.success("Account registered successfully!");
+                return response;
+
+            }else {
+                    const errorData = await response.statusText();
+
+                    switch (response.status) {
+                        case 422:
+                            switch (errorData) {
+                                case "There's an empty field, fill all values":
+                                    toast.error("Please fill all fields");
+                                    break;
+                                case "Invalid email":
+                                    toast.error("The email you used is not valid");
+                                    break;
+                                case "Invalid phone number":
+                                    toast.error("The phone number is not valid");
+                                    break;
+                                default:
+                                    console.error('Unknown error message:', errorData);
+                                    toast.error("Something went wrong");
+                            }
+                            break;
+                        case 409: 
+                            toast.error("Username already in use");
+                            break;
+                        default:
+                            console.log('Unknown error message:', errorData);
+                            toast.error("Something went wrong");
+                            return response;
                     }
                 }
             } catch (error) {
@@ -108,22 +161,21 @@ USER
         },
 
     // Function to handle user reset password
-    forgotPassword: async (inputs) => {
+    forgotPassword: async (email) => {
 
         try{
-            const response = await axios.post(`${API_BASE_URL}/forgotPassword`, inputs, 
+            const response = await axios.post(`${API_BASE_URL}/forgot-password`, null,
             {
                 headers: 
                 {
                     'Accept': '*/*',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "email": email
                 }
             });
             if (response.status === 200) {
                 toast.success("We have sent you an email with further instructions");
                 return response;
-            } else if (response.status === 401) {
-                toast.error("Email not registed");
             } else {
                 throw new Error("Something went wrong");
             }
@@ -225,7 +277,7 @@ USER
             } else if (response.status === 401) {
                 toast.warning("Invalid credentials")
                 return response;
-            } else if (response.status == 422) {
+            } else if (response.status === 422) {
                 toast.warning(response.statusText);
                 return response;
             } else {
