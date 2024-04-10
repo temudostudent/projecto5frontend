@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect, createRef } from "react";
 import gsap from "gsap";
+import { userStore } from '../../Stores/UserStore'
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import languages from "../../Translations"; 
+import { IntlProvider, FormattedMessage } from "react-intl";
 
 const Menu = ({ items, typeOfUser }) => {
     // References for DOM elements
@@ -9,6 +12,7 @@ const Menu = ({ items, typeOfUser }) => {
     const $indicator1 = useRef();
     const $indicator2 = useRef();
     const $items = useRef(items.map(createRef));
+    const {locale} = userStore();
     // State variables
     const [active, setActive] = useState(null);
     const [submenuItems, setSubmenuItems] = useState([]);
@@ -64,15 +68,16 @@ const Menu = ({ items, typeOfUser }) => {
     }, [active]);
 
     return (
+        <IntlProvider locale={locale} messages={languages[locale]}>
         <div ref={$root} className="menu">
             {/* Mapping through menu items */}
             {items.map((item, index) => (
                 <div key={item.name} className="menu-item" onMouseEnter={() => handleMenuItemHover(index)} onClick={() => handleMenuItemClick(index)}>
                     {/* Conditional rendering based on user type and item type */}
-                    {(item.name === "Board" 
-                    || (item.name === "Users" && typeOfUser !== 100) 
-                    || (item.name === "Categories" && typeOfUser === 300)
-                    || (item.name === "Dashboard" && typeOfUser === 300) ) && (
+                    {(item.name === "board" 
+                    || (item.name === "users" && typeOfUser !== 100) 
+                    || (item.name === "categories" && typeOfUser === 300)
+                    || (item.name === "dashboard" && typeOfUser === 300) ) && (
                         <a
                             ref={$items.current[index]}
                             className={`item ${active === index ? "active" : ""}`}
@@ -80,19 +85,19 @@ const Menu = ({ items, typeOfUser }) => {
                             aria-label={item.name}
                         >
                             <span className="container-item">
-                                {item.name} 
-                                {!(item.name === "Categories" || item.name === "Dashboard" || (item.name === "Users" && typeOfUser === 200)) && (
+                                <FormattedMessage id={item.name} />
+                                {!(item.name === "categories" || item.name === "dashboard" || (item.name === "users" && typeOfUser === 200)) && (
                                     <IoMdArrowDropdown />
                                 )}                        
                             </span>
                         </a>
                     )}
                     {/* Submenu rendering */}
-                    {(active === index && (item.name === "Board" || (item.name === "Users" && typeOfUser !== 100) || (item.name === "Categories" && typeOfUser === 300))) && (
+                    {(active === index && (item.name === "board" || (item.name === "users" && typeOfUser !== 100) || (item.name === "categories" && typeOfUser === 300))) && (
                         <div className="submenu" style={{cursor: 'pointer'}}>
                             {submenuItems.map((submenuItem, index) => (
                                 <div key={index} className="submenu-item">
-                                    <a onClick={() => navigate(submenuItem.path)}>{submenuItem.name}</a>
+                                    <a onClick={() => navigate(submenuItem.path)}><FormattedMessage id={submenuItem.name} /></a>
                                 </div>
                             ))}
                         </div>
@@ -101,8 +106,9 @@ const Menu = ({ items, typeOfUser }) => {
             ))}
             {/* Indicator for active menu item */}
             <div ref={$indicator1} className="indicator" />
-            <div ref={$indicator2} className="indicator" />
+            <div ref={$indicator2} className="indicator" /> 
         </div>
+        </IntlProvider>
     );
 };
 

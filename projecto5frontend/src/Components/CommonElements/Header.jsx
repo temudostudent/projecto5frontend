@@ -12,6 +12,8 @@ import { useActionsStore } from '../../Stores/ActionStore'
 import { useCategoryStore } from '../../Stores/CategoryStore'
 import { useTaskStore } from '../../Stores/TaskStore'
 import { useUsersListStore } from '../../Stores/UsersDataStore'
+import languages from "../../Translations"; 
+import { IntlProvider, FormattedMessage } from "react-intl"; 
 
 
 const Header = () => {
@@ -61,31 +63,31 @@ const Header = () => {
     // Menu items
     const items = [
         {   
-            name: "Board", 
+            name: "board", 
             color: "#c8ae7e", 
             submenu: [
-                { name: "My ScrumBoard", path: "/home", onClick: () => {updateIsAllTasksPage(false)} },
-                { name: "Complete ScrumBoard", path: "/alltasks", onClick: () => {updateIsAllTasksPage(true)} },
+                { name: "my_scrumBoard", path: "/home", onClick: () => {updateIsAllTasksPage(false)} },
+                { name: "complete_scrumBoard", path: "/alltasks", onClick: () => {updateIsAllTasksPage(true)} },
             ] 
         },
         {   
-            name: "Categories", 
+            name: "categories", 
             color: "#2D9596", 
             path: "/categories" 
         },
         {   
-            name: "Users", 
+            name: "users", 
             color: "#4d7d99",
             
             path: (userData.typeOfUser === 200) ? "/users" : null,
           
             submenu: (userData.typeOfUser === 300) ? [
-                { name: "Manage Users", path: "/users" },
-                { name: "Add New User", path: "/register-user" }
+                { name: "manage_users", path: "/users" },
+                { name: "add_new_user", path: "/register-user" }
             ] : null
         },
         {   
-            name: "Dashboard", 
+            name: "dashboard", 
             color: "#4d6199", 
             path: "/dashboard" 
         },
@@ -93,6 +95,7 @@ const Header = () => {
 
     return (
         <header className="site-header">
+            <IntlProvider locale={locale} messages={languages[locale]}> 
             <ToastContainer position="top-center" />
             <div className="top-header">
                 <select className="language-select" onChange={handleSelect} defaultValue={locale}> 
@@ -117,11 +120,12 @@ const Header = () => {
                 {/* Dropdown menu for account */}
                 {showAccountDrop && (
                 <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>
-                    <a onClick={() => navigate(`/edit/${userData.username}`)}>My Profile</a>
+                    <a onClick={() => navigate(`/edit/${userData.username}`)}><FormattedMessage id="my_profile" /></a>
                     <a onClick={handleLogout}>Logout</a>
                 </div>
                 )}
             </div>
+            </IntlProvider> 
         </header>
     );
 };

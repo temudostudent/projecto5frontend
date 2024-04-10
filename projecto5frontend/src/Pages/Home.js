@@ -20,7 +20,7 @@ const Home = () => {
     // Destructure values from stores
     const { notifications } = useNotificationStore();
     WebSocketClient();
-    const {token, userData, locale, updateLocale} = userStore();
+    const {token, userData, locale} = userStore();
     const { categories, updateCategories } = useCategoryStore();
     const { usersListData, updateUsersListData } = useUsersListStore();
     const { updateTasks, selectedTask, setSelectedTask } = useTaskStore();
@@ -268,11 +268,13 @@ const Home = () => {
             <FormattedMessage id="date" values={{d: Date.now()}} /> 
             <br/> 
             </p> 
-            </IntlProvider> 
+            
 
 
-            <h2>Notifications</h2> 
-            <p>You have {notifications.length} notifications</p> 
+            <h2><FormattedMessage id="notifications_title" /></h2>
+            <p>
+                <FormattedMessage id="notifications" values={{ size: notifications.length }} />
+            </p>
 
 
             {!loading && (
@@ -303,7 +305,9 @@ const Home = () => {
                 </div>
             )}
             {loading && <div>Loading...</div>}
+            </IntlProvider> 
         </div>
+        
     );
 };
 

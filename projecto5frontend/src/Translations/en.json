@@ -1,5 +1,20 @@
 {
 "greeting":"Hello {username}!", 
 "time":"The time is {t, time, short}", 
-"date":"The date is {d, date}" 
+"date":"The date is {d, date}",
+"notifications_title": "Notifications",
+"notifications": "You have {size} notifications",
+
+"board": "Board",
+"categories": "Categories",
+"users": "Users",
+"dashboard": "Dashboard",
+
+"my_scrumBoard": "My ScrumBoard",
+"complete_scrumBoard": "Complete ScrumBoard",
+"manage_users": "Manage Users",
+"add_new_user": "Add New User",
+
+"my_profile":"My Profile"
+
 } 

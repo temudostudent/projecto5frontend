@@ -1,5 +1,18 @@
 { 
 "greeting":"Bonjour {username}!", 
 "time":"Il est {t, time, short}", 
-"date":"La date est {d, date}" 
+"date":"La date est {d, date}",
+"notifications_title": "Le Notifications",
+"notifications": "Le user {size} notifications",
+"board": "Le Board",
+"categories": "Le Categories",
+"users": "Le Users",
+"dashboard": "Le Dashboard",
+
+"my_scrumBoard": "Le My ScrumBoard",
+"complete_scrumBoard": "Le Complete ScrumBoard",
+"manage_users": "Le Manage Users",
+"add_new_user": "Le Add New User",
+
+"my_profile":"Le Mieu Profile"
 } 
