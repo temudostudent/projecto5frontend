@@ -109,7 +109,7 @@ USER
         },
 
     // Function to handle user registration
-    registerPending: async (inputs) => {
+    registerPending: async (token, inputs) => {
 
         try{
             const response = await axios.post(`${API_BASE_URL}/register/pending`, inputs, 
@@ -117,7 +117,8 @@ USER
                 headers: 
                 {
                     'Accept': '*/*',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'token': token
                 }
             });
             if (response.status === 201) {
@@ -143,6 +144,7 @@ USER
                                 default:
                                     console.error('Unknown error message:', errorData);
                                     toast.error("Something went wrong");
+                                    return response;
                             }
                             break;
                         case 409: 
@@ -185,6 +187,34 @@ USER
         };
     },
 
+    // Function to update task state
+    resetPassword: async (token, newPassword, confirmPass) => {
+        try {
+            const response = await axios.put(`${API_BASE_URL}/resetpassword`, null,  {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                    'token': token,
+                    'newPassword': newPassword,
+                    'confirmPass': confirmPass
+                }
+            });
+            console.log(response);
+            if (response.status === 200) {
+                toast.success('Password updated')
+                return response;
+            } else if (response.status === 400) {
+                toast.warning("Something went wrong")
+                return response;
+            } else if (response.status === 401) {
+                toast.warning("Token not found or invalid")
+                return response;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+
 
     // Function to get user data
     getUserData: async (token , username) => {
@@ -223,6 +253,27 @@ USER
             if (response.status === 200) {
        
                 return response.data;
+      
+              } else if (response.status === 401) {
+                  toast.warning("Invalid credentials")
+              }
+        } catch (error) {
+            console.error('Error getting username:', error);
+        }
+    },
+
+    // Function to get username
+    getUsernamePending: async (token) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/getUsername/pending`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                }
+            });
+            if (response.status === 200) {
+       
+                return response;
       
               } else if (response.status === 401) {
                   toast.warning("Invalid credentials")

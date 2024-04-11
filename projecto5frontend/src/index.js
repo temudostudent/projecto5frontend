@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import './App.css'
 import App from './App'
 import ForgotPassword from './Pages/ForgotPassword'
+import ResetPassword from './Pages/ResetPassword'
+import ConfirmAccount from './Pages/ConfirmAccount'
 import Home from './Pages/Home'
 import Categories from './Pages/Categories'
 import Profile from './Pages/Profile'
@@ -22,6 +24,12 @@ function Routing() {
       <Routes>
         <Route path="/forgotPassword" element={<>
           <ForgotPassword />
+        </>} />
+        <Route path="/reset-password" element={<>
+          <ResetPassword />
+        </>} />
+        <Route path="/confirm-account" element={<>
+          <ConfirmAccount />
         </>} />
         <Route path="/home" element={<>
           <Header />

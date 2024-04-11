@@ -1,27 +1,37 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import logo from '../Components/Assets/agileflow-high-resolution-logo-transparent.png'
 import { useNavigate } from 'react-router-dom'
 import AuthService from "../Components/Service/AuthService"
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
     // Hook for navigation
     const navigate = useNavigate();
+    const { search } = useLocation(); // Captura a string de consulta da URL
+    const params = new URLSearchParams(search);
+    const token = params.get('token'); // Obtém o valor do parâmetro 'token' da string de consulta
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const email = e.target.email.value;
+        const newPassword = e.target.password.value;
+        const confirmPassword = e.target.confirmPassword.value;
 
+        console.log(token, newPassword, confirmPassword);
+       
         try{
-            const response = await AuthService.forgotPassword( email );
+            const response = await AuthService.resetPassword(token, newPassword, confirmPassword);
+            console.log(response);
             if (response && response.status === 200) {
-                toast.success("We have sent you an email with further instructions");
                 navigate('/');
-            } else if (response && response.status === 401) {
-                toast.error("Email not registered");
+            } else if (response && response.status === 400) {
+                toast.error("Something went wrong");
+                console.log("1");
             } else {
+                console.log("2");
                 throw new Error("Something went wrong");
+                
             }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
@@ -39,13 +49,13 @@ const ForgotPassword = () => {
                     <div className='logo-top' >
                         <img src={logo} alt="Logo da empresa" style={{ width: '50%', height: 'auto' }} />
                     </div> 
-                    <h1 style={{ fontSize: '1.5em', padding:'35px' }}>Forgot your password?</h1>
-                    <p>We will send you an email to reset your password.</p>
+                    <h1 style={{ fontSize: '1.5em', padding:'35px' }}>Reset your password</h1>
                 </div>
                 
                 <form onSubmit={handleSubmit}>
-                    <input type="email" name="email" placeholder="Email" />
-                    <button type="submit">Reset Password</button>
+                    <input type="password" name="password" placeholder="Password" />
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" />
+                    <button type="submit">Submit</button>
                 </form>
                 <p style={{textDecorationLine: 'underline', cursor: 'pointer'}} onClick={() => navigate('/')} >Cancel</p>
             </div>
@@ -53,4 +63,4 @@ const ForgotPassword = () => {
     )
 };
 
-export default ForgotPassword;
+export default ResetPassword;

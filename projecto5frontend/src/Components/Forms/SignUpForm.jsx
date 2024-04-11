@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import AuthService from "../Service/AuthService"
 import { useLocation } from 'react-router-dom';
 
-function SignUpForm({ onSignUpSuccess }) {
+function SignUpForm({ onSignUpSuccess, token }) {
 
     // Hook to get the current location
     const location = useLocation();
@@ -45,7 +45,7 @@ function SignUpForm({ onSignUpSuccess }) {
         console.log(inputs);
 
         try {
-            const response = await AuthService.registerPending(inputs);
+            const response = await AuthService.registerPending(token, inputs);
     
             console.log(response);
     
