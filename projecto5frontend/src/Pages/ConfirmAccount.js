@@ -56,7 +56,7 @@ const ConfirmPassword = () => {
 
 
     return (
-        <div className='container-forgotPassword'>
+        <div className='container-initial-generic'>
             <ToastContainer position="top-center" /> {/* ToastContainer for displaying notifications */}
             <div className='container-index container-fg'>
                 <div className='top' style={{ textAlign: 'center' }}>

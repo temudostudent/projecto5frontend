@@ -265,7 +265,7 @@ USER
     // Function to get username
     getUsernamePending: async (token) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/getUsername/pending`, {
+            const response = await axios.get(`${API_BASE_URL}/username/pending`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': token

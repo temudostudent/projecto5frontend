@@ -5,13 +5,35 @@ import 'react-toastify/dist/ReactToastify.css'
 import logo from '../Components/Assets/agileflow-high-resolution-logo-transparent.png'
 import { useNavigate } from 'react-router-dom'
 import AuthService from "../Components/Service/AuthService"
+import TokenService from "../Components/Service/TokenService"
+import { useEffect, useState } from 'react';
 
 const ResetPassword = () => {
     // Hook for navigation
     const navigate = useNavigate();
+    const [validToken, setValidToken] = useState(false);
     const { search } = useLocation(); // Captura a string de consulta da URL
     const params = new URLSearchParams(search);
     const token = params.get('token'); // Obtém o valor do parâmetro 'token' da string de consulta
+
+    useEffect(() => {
+        const checkTokenValidity = async () => {
+            try {
+                // Chamar uma função para verificar se o token é válido
+                const isValid = await TokenService.checkResetPasswordValidation(token);
+                setValidToken(isValid);
+            } catch (error) {
+                console.error('Error checking token validity:', error);
+                setValidToken(false);
+            }
+        };
+
+        if (token) {
+            checkTokenValidity();
+        } else {
+            setValidToken(false);
+        }
+    }, [token]);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -40,9 +62,14 @@ const ResetPassword = () => {
 
     };
 
+    if (!token || !validToken) {
+        // Se o token não existir ou não for válido, redirecionar para uma página de erro
+        navigate('/404');
+    }
+
 
     return (
-        <div className='container-forgotPassword'>
+        <div className='container-initial-generic'>
             <ToastContainer position="top-center" /> {/* ToastContainer for displaying notifications */}
             <div className='container-index container-fg'>
                 <div className='top' style={{ textAlign: 'center' }}>

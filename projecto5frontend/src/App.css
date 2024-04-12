@@ -272,7 +272,7 @@ input {
 	color: #4682A9;
 }
 
-.App, .container-forgotPassword{
+.App, .container-initial-generic{
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -289,6 +289,16 @@ Forgot Password
     align-items: center;
 	flex-direction: column;
 	width: 40%;
+}
+
+/*----------------
+Pending Account Message
+-----------------*/
+
+.text-container{
+	text-align: justify;
+	font-size: 0.9em;
+	padding: 0 60px;
 }
 
 /*----------------

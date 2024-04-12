@@ -12,6 +12,8 @@ import Users from './Pages/Users'
 import RegisterUser from './Pages/RegisterUser'
 import PublicProfile from './Pages/PublicProfile'
 import Dashboard from './Pages/Dashboard'
+import PageNotFound from './Pages/404Page'
+import ConfirmPendingAccount from './Pages/ConfirmPendingAccount'
 import Header from './Components/CommonElements/Header'
 import Footer from './Components/CommonElements/Footer'
 import reportWebVitals from './reportWebVitals'
@@ -30,6 +32,9 @@ function Routing() {
         </>} />
         <Route path="/confirm-account" element={<>
           <ConfirmAccount />
+        </>} />
+        <Route path="/pending" element={<>
+          <ConfirmPendingAccount />
         </>} />
         <Route path="/home" element={<>
           <Header />
@@ -64,6 +69,9 @@ function Routing() {
           <Dashboard />
         </>} />
         <Route index element={<App />} /> 
+        <Route path="/404" element={<>
+          <PageNotFound />
+        </>} />
       </Routes>
       <Footer />
     </div>
