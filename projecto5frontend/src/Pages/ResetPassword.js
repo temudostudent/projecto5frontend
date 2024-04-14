@@ -19,7 +19,7 @@ const ResetPassword = () => {
     useEffect(() => {
         const checkTokenValidity = async () => {
             try {
-                // Chamar uma função para verificar se o token é válido
+                // Chamar função para verificar se o token é válido
                 const isValid = await TokenService.checkResetPasswordValidation(token);
                 setValidToken(isValid);
             } catch (error) {

@@ -9,6 +9,7 @@ function SignUpForm({ onSignUpSuccess, token }) {
     const { pathname } = location;
     // State variable for form inputs
     const [inputs, setInputs] = useState({});
+    const [selectedType, setSelectedType] = useState({});
 
     // Function to handle changes in input fields
     const handleChange = (event) => { 
@@ -16,11 +17,14 @@ function SignUpForm({ onSignUpSuccess, token }) {
         setInputs({...inputs, [name]: value});
     }
 
+    // Function to handle changes in select field
+    const handleSelectChange = (event) => {
+        setSelectedType(event.target.value);
+    };
+
     // Function to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        console.log(inputs);
 
         try {
             const response = await AuthService.register(inputs);
@@ -42,16 +46,20 @@ function SignUpForm({ onSignUpSuccess, token }) {
     const handleSubmitPendingRegister = async (event) => {
         event.preventDefault();
 
-        console.log(inputs);
-
         try {
-            const response = await AuthService.registerPending(token, inputs);
+            const dataToSend = {
+                ...inputs,
+                typeOfUser: parseInt(selectedType) // Add selected type to the data
+            };
+            console.log(dataToSend);
+            const response = await AuthService.registerPending(token, dataToSend);
     
             console.log(response);
     
             if (response.status === 201) {
                 onSignUpSuccess();
                 setInputs({});
+                setSelectedType('');
             } else {
                 console.error("Failed to register. Response:", response);
             }
@@ -81,10 +89,11 @@ function SignUpForm({ onSignUpSuccess, token }) {
                     {(pathname === '/register-user') && (
                         <select
                         name="typeOfUser"
-                        value={inputs.typeOfUser || inputs.typeOfUser}
-                        onChange={handleChange}
+                        value={selectedType}
+                        onChange={handleSelectChange}
+                        required
                       >
-                        <option value={100} disabled>Select Type Of User</option>
+                        <option value={''} disabled>Select Type Of User</option>
                         <option value={100}>Developer</option>
                         <option value={200}>Scrum Master</option>
                         <option value={300}>Product Owner</option>

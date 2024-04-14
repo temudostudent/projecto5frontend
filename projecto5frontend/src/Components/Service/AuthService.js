@@ -187,7 +187,7 @@ USER
         };
     },
 
-    // Function to update task state
+    // Function to update password to a new one
     resetPassword: async (token, newPassword, confirmPass) => {
         try {
             const response = await axios.put(`${API_BASE_URL}/resetpassword`, null,  {
@@ -202,6 +202,34 @@ USER
             console.log(response);
             if (response.status === 200) {
                 toast.success('Password updated')
+                return response;
+            } else if (response.status === 400) {
+                toast.warning("Something went wrong")
+                return response;
+            } else if (response.status === 401) {
+                toast.warning("Token not found or invalid")
+                return response;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+
+    // Function to set first password
+    setFirstPassword: async (token, newPassword, confirmPass) => {
+        try {
+            const response = await axios.put(`${API_BASE_URL}/set-first-password`, null,  {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                    'token': token,
+                    'newPassword': newPassword,
+                    'confirmPass': confirmPass
+                }
+            });
+            console.log(response);
+            if (response.status === 200) {
+                toast.success('Welcome!')
                 return response;
             } else if (response.status === 400) {
                 toast.warning("Something went wrong")

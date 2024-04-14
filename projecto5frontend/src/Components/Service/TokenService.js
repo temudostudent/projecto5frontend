@@ -29,6 +29,29 @@ const TokenService = {
         };
     },
 
+    // Function to verify account confirmation token
+    checkAccountConfirmValidation: async (token) => {
+
+        try{
+            const response = await axios.get(`${API_BASE_URL}/confirmation-account`, 
+            {
+                headers: 
+                {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json',
+                    'token': token
+                }
+            });
+            if (response.status === 200) {
+                return response;
+            } else if (response.status === 401) {
+                toast.warning("Invalid credentials");
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        };
+    },
+
 };
 
 export default TokenService;
