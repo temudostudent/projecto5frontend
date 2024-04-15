@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import logo from '../Assets/agileflow-high-resolution-logo-transparent.png'
+import { IoIosNotificationsOutline } from "react-icons/io";
 import defaultPhoto from "../Assets/profile_pic_default.png"
 import './CommonElements.css'
 import { ToastContainer } from 'react-toastify'
@@ -112,6 +113,7 @@ const Header = () => {
                 <Menu items={items} typeOfUser={userData.typeOfUser}/>
                 {/* User profile */}
                 <div className="profile-container" onClick={() => setShowAccountDrop(true)}>
+                    <IoIosNotificationsOutline style={{size: 12}}/>
                     <a>{headerUsername}</a> {/* Show username */}
                     <span className="photo-container">
                         <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}

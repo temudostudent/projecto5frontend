@@ -14,6 +14,7 @@ import PublicProfile from './Pages/PublicProfile'
 import Dashboard from './Pages/Dashboard'
 import PageNotFound from './Pages/404Page'
 import ConfirmPendingAccount from './Pages/ConfirmPendingAccount'
+import Chat from './Pages/Chat'
 import Header from './Components/CommonElements/Header'
 import Footer from './Components/CommonElements/Footer'
 import reportWebVitals from './reportWebVitals'
@@ -27,48 +28,66 @@ function Routing() {
         <Route path="/forgotPassword" element={<>
           <ForgotPassword />
         </>} />
+
         <Route path="/reset-password" element={<>
           <ResetPassword />
         </>} />
+
         <Route path="/confirm-account" element={<>
           <ConfirmAccount />
         </>} />
+
         <Route path="/pending" element={<>
           <ConfirmPendingAccount />
         </>} />
+
         <Route path="/home" element={<>
           <Header />
           <Home />
         </>} />
+
         <Route path="/alltasks" element={<>
           <Header />
           <Home />
         </>} />
+
         <Route path="/users" element={<>
           <Header />
           <Users />
         </>} />
+
         <Route path="/categories" element={<>
           <Header />
           <Categories />
         </>} />
+
         <Route path="/register-user" element={<>
           <Header />
           <RegisterUser />
         </>} />
+
         <Route path="/edit/:username" element={<>
           <Header />
           <Profile />
         </>} />
+
         <Route path="/profile/:username" element={<>
           <Header />
           <PublicProfile />
         </>} />
+
         <Route path="/dashboard" element={<>
           <Header />
           <Dashboard />
         </>} />
+
+        <Route path="/chat" element={<>
+          <Chat />
+        </>} />
+
+
         <Route index element={<App />} /> 
+
         <Route path="/404" element={<>
           <PageNotFound />
         </>} />

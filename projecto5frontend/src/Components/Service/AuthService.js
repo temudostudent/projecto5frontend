@@ -123,7 +123,7 @@ USER
             });
             if (response.status === 201) {
 
-                toast.success("Account registered successfully!");
+                toast.success("Confirmation email sended!");
                 return response;
 
             }else {
