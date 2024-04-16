@@ -12,7 +12,6 @@ function Chat() {
         className='message-list'
         lockable={true}
         toBottomHeight={'100%'}
-        downButton={true}
         dataSource={[
         {
           position:"left",
