@@ -27,6 +27,7 @@ const Header = () => {
     const [showAccountDrop, setShowAccountDrop] = useState(false);
     const [headerUsername, setHeaderUsername] = useState('');
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
+    const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const { updateIsAllTasksPage } = useActionsStore();
    
 
@@ -59,10 +60,11 @@ const Header = () => {
         }
     }
 
-    const handleSelect = (event) => { 
-        console.log(event.target.value); 
-        updateLocale(event.target.value); 
-    } 
+    const handleClick = (language) => {
+        console.log(language);
+        updateLocale(language);
+        setSelectedLanguage(language);
+    }
     
     // Menu items
     const items = [
@@ -102,10 +104,20 @@ const Header = () => {
             <IntlProvider locale={locale} messages={languages[locale]}> 
             <ToastContainer position="top-center" />
             <div className="top-header">
-                <select className="language-select" onChange={handleSelect} defaultValue={locale}> 
+                {/*<select className="language-select" onChange={handleSelect} defaultValue={locale}> 
                     {["en", "pt", "fr"].map(language => (<option            
                     key={language}>{language}</option>))} 
-                </select> 
+                    </select>*/}
+                <div className="language-select">
+                    {["en", "pt", "fr"].map((language, index) => (
+                        <React.Fragment key={language}>
+                            <span className={selectedLanguage === language ? "selected" : ""} onClick={() => handleClick(language)}>
+                                {language.toUpperCase()}
+                            </span>
+                            {index !== ["en", "pt", "fr"].length - 1 && <span>|</span>}
+                        </React.Fragment>
+                    ))}
+                </div>
             </div>
             <div className="bottom-header">
                 {/* Logo */}
@@ -120,14 +132,15 @@ const Header = () => {
                     <span className="photo-container">
                         <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
                     </span>
-                </div>
-                {
+                    {
                     notifications.length > 0 && (
                         <span className="notifications-number">
                             {notifications.length}
                         </span>
                     )
                 }
+                </div>
+                
                 {/* Dropdown menu for account */}
                 {showAccountDrop && (
                 <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>

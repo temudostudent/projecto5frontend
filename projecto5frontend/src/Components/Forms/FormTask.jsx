@@ -93,9 +93,7 @@ const FormTask = (props) => {
                     name={name} 
                     required={input.required}
                     onChange={handleChange}
-                    value={
-                        formData[name] 
-                      }
+                    value={formData[name]}
                 >
                     {options.map((option, index) => (
                         <option key={index} value={option.value} disabled={option.disabled}>{option.label}</option>

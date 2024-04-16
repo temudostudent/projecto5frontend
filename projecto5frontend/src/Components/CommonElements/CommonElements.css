@@ -6,7 +6,7 @@
     --blue3-color: #4682A9;
     --orange-color: #D7693C;
     --dark-color: #282828;
-
+    --logo-color: #2C94D9;
 }
 
 /*---------
@@ -22,14 +22,27 @@ Header
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background-color: #0086bbdf;
+  background-color: var(--logo-color);
   padding: 5px;
   margin: 5px 15px;
   border-radius: 10px;
 
   .language-select{
-    height: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 10px;
+    width: 7%;
     padding: 0 10px;
+
+    span{
+      cursor: pointer;
+    }
+    
+    .selected {
+      font-weight: bold;
+    }
+
   }
 }
 
@@ -72,6 +85,7 @@ Profile username and Photo
  --------*/
 
 .profile-container {
+    position: relative;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -88,6 +102,7 @@ Profile username and Photo
   width: 5em;
   height: 5em;
   border-radius: 50%;
+  position: relative;
 }
 
 .photo-container img{
@@ -104,11 +119,9 @@ Notification circle
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 63px;
-  right: 68px;
+  top: 9px;
+  right: 2px;
   z-index: 1000;
   background-color: var(--orange-color);
   color: #fff;

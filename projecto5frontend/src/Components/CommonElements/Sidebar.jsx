@@ -2,6 +2,7 @@ import React , { useState, useEffect }  from 'react'
 import { Button, Layout } from 'antd'
 import FormTask from '../Forms/FormTask'
 import EditProfileForm from '../Forms/EditProfileForm'
+import Chat from '../../Pages/Chat'
 import { useActionsStore } from '../../Stores/ActionStore'
 import { IoClose } from "react-icons/io5";
 import { useTaskStore } from '../../Stores/TaskStore'
@@ -11,7 +12,7 @@ import { useLocation } from 'react-router-dom';
 
 const { Sider } = Layout;
 
-function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit}) {
+function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit, userPath}) {
 
     // State variables and functions from the action store
     const updateShowSidebar = useActionsStore((state) => state.updateShowSidebar);
@@ -61,6 +62,10 @@ function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit}) {
                     onUpdateSuccess={onSubmit}
                 />
             ) : null;
+        } else if (location.pathname === `/profile/${userPath}`) {
+            return (
+                <Chat />
+            );
         } else {
             return null;
         }
@@ -71,7 +76,7 @@ function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit}) {
         <Layout className='sidebar-container'>
             {/* Sidebar component */}
             <Sider 
-                width={300}
+                width={location.pathname === `/profile/${userPath}` ? 500 : 300}
                 style={{ height: '80vh', backgroundColor: '#f6f5f7'}}
                 collapsed={showSidebar}
                 collapsedWidth={0}

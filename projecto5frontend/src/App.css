@@ -16,6 +16,7 @@
 	--blue3-color: #4682A9;
 	--orange-color: #D7693C;
 	--dark-color: #282828;
+	--logo-color: #2C94D9;
 }
 
 h1 {
@@ -658,17 +659,17 @@ Profile Page
 
 .profile-info-body{
 display: flex;
-justify-content: center;
+
 align-items: center;
-height: 78vh;
 }
 
 .profile-info-container {
-display: flex;
-align-items: center;
-justify-content: space-between;
-height: -moz-fit-content;
-width: 70%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: -moz-fit-content;
+	padding-left: 70px;
+  	width: 100vw;
 
 	.profile-container-left{
 		display: flex;
@@ -684,8 +685,8 @@ width: 70%;
 			justify-content: center;
 			align-items: center;
 			overflow: hidden;
-			width: 20em;
-			height: 20em;
+			width: 17em;
+			height: 17em;
 			border-radius: 50%;
 			
 			img{
@@ -701,7 +702,7 @@ width: 70%;
 			align-items: center;
 			width: 100%;
 			height: 50px;
-			background-color: var(--blue2-color);
+			background-color: var(--logo-color);
 			border-radius: 10px;
 			margin-top: 20px;
 			color: #eee;
@@ -709,12 +710,12 @@ width: 70%;
 		}
 
 		.init-chat-bar:hover{
-			background-color: #5780aa;
+			background-color: #2883bf;
 			cursor: pointer;
 		}
 
 		.init-chat-bar:active {
-			background-color: #3c5879;
+			background-color: #2270a3;
 		  }
 	}
 
@@ -728,6 +729,27 @@ width: 70%;
 
 		
 	}
+}
+
+/*---------------
+Chat
+---------------*/
+
+.message-list{
+	height: 65vh;
+}
+
+.chat-input{
+	padding-left: 10px;
+}
+
+.send-message-button{
+	background-color: var(--logo-color);
+	color: #fff;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 

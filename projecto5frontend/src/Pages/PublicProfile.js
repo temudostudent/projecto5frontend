@@ -3,15 +3,20 @@ import { useParams } from 'react-router-dom';
 import AuthService from '../Components/Service/AuthService';
 import StatsService from '../Components/Service/StatsService';
 import DoughnutChart from '../Components/Charts/DoughnutChart';
+import Sidebar from '../Components/CommonElements/Sidebar'
 import { userStore } from '../Stores/UserStore'
+import { useActionsStore } from '../Stores/ActionStore'
 import { AiOutlineMessage } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import languages from "../Translations"; 
 
 const PublicProfile = () => {
   const { username } = useParams();
-  const token = userStore((state) => state.token);
+  const {token, locale} = userStore();
   const [userData, setUserData] = useState(null);
   const [userTasksCount, setUserTasksCount] = useState([]);
+  const { showSidebar, updateShowSidebar } = useActionsStore(); 
 
 
   useEffect(() => {
@@ -50,10 +55,21 @@ const PublicProfile = () => {
 
   console.log(userStats);
 
+  const handleLetsChatButton = () => {
+    updateShowSidebar(false);
+  }
+
 
   return (
     <div>
+      <IntlProvider locale={locale} messages={languages[locale]}>
       <div className='profile-info-body'>
+        <div className="sidebar-container">
+              <Sidebar
+                  collapsedWidth={showSidebar ? '100%' : '0'}
+                  userPath={username}
+              />
+          </div>
         {userData && 
           <div className='profile-info-container'>
             <div className='profile-container-left'>
@@ -64,9 +80,9 @@ const PublicProfile = () => {
               <span className="photo-info-container">
                   <img src={userData.photoURL} alt="Profile Pic" /> {/* Show profile picture */}
               </span> 
-              <div className='init-chat-bar'>
+              <div className='init-chat-bar' onClick={handleLetsChatButton}>
                 <IconContext.Provider value={{ color: "#eee", size: "2.2em" }}>
-                  Let's chat!
+                  <FormattedMessage id="lets-chat" />
                   <span>
                     <AiOutlineMessage />
                   </span>
@@ -82,6 +98,7 @@ const PublicProfile = () => {
           </div>
         }
       </div>
+      </IntlProvider> 
     </div>
   );
 }
