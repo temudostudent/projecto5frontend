@@ -4,6 +4,8 @@ import AuthService from '../Components/Service/AuthService';
 import StatsService from '../Components/Service/StatsService';
 import DoughnutChart from '../Components/Charts/DoughnutChart';
 import { userStore } from '../Stores/UserStore'
+import { AiOutlineMessage } from "react-icons/ai";
+import { IconContext } from "react-icons";
 
 const PublicProfile = () => {
   const { username } = useParams();
@@ -62,6 +64,14 @@ const PublicProfile = () => {
               <span className="photo-info-container">
                   <img src={userData.photoURL} alt="Profile Pic" /> {/* Show profile picture */}
               </span> 
+              <div className='init-chat-bar'>
+                <IconContext.Provider value={{ color: "#eee", size: "2.2em" }}>
+                  Let's chat!
+                  <span>
+                    <AiOutlineMessage />
+                  </span>
+                </IconContext.Provider>
+              </div>
             </div>
             <div className='profile-statistics-container'>
               <p>Total tasks: {userTasksCount.tasks}</p>

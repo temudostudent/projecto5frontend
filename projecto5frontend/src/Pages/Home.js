@@ -8,7 +8,6 @@ import { useTaskStore } from '../Stores/TaskStore'
 import { useActionsStore } from '../Stores/ActionStore'
 import { useCategoryStore } from '../Stores/CategoryStore'
 import Sidebar from '../Components/CommonElements/Sidebar'
-import { useNotificationStore } from '../Stores/NotificationStore';
 import WebSocketClient from '../Components/Websocket/WebSocketClient';
 import languages from "../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl"; 
@@ -18,7 +17,6 @@ const Home = () => {
     const location = useLocation(); // Get current location
 
     // Destructure values from stores
-    const { notifications } = useNotificationStore();
     WebSocketClient();
     const {token, userData, locale} = userStore();
     const { categories, updateCategories } = useCategoryStore();
@@ -190,7 +188,7 @@ const Home = () => {
         setSelectedOption(selectedOptionValue);
         switch (selectedFilter) {
             case 'State':
-                if (selectedOptionValue == 'Active') {
+                if (selectedOptionValue === 'Active') {
                     fetchTasks('', false);
                 }else {
                     fetchTasks('', true);
@@ -269,12 +267,6 @@ const Home = () => {
             <br/> 
             </p> 
             
-
-
-            <h2><FormattedMessage id="notifications_title" /></h2>
-            <p>
-                <FormattedMessage id="notifications" values={{ size: notifications.length }} />
-            </p>
 
 
             {!loading && (

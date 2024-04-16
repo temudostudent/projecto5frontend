@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import logo from '../Assets/agileflow-high-resolution-logo-transparent.png'
-import { IoIosNotificationsOutline } from "react-icons/io";
 import defaultPhoto from "../Assets/profile_pic_default.png"
 import './CommonElements.css'
 import { ToastContainer } from 'react-toastify'
@@ -13,12 +12,16 @@ import { useActionsStore } from '../../Stores/ActionStore'
 import { useCategoryStore } from '../../Stores/CategoryStore'
 import { useTaskStore } from '../../Stores/TaskStore'
 import { useUsersListStore } from '../../Stores/UsersDataStore'
+import { useNotificationStore } from '../../Stores/NotificationStore';
 import languages from "../../Translations"; 
-import { IntlProvider, FormattedMessage } from "react-intl"; 
+import { IntlProvider, FormattedMessage } from "react-intl";
+import WebSocketClient from "../Websocket/WebSocketClient";
 
 
 const Header = () => {
+    WebSocketClient();
     // Accessing state variables and functions from stores
+    const { notifications } = useNotificationStore();
     const {token, userData, locale, updateLocale} = userStore();
     const navigate = useNavigate();
     const [showAccountDrop, setShowAccountDrop] = useState(false);
@@ -113,16 +116,23 @@ const Header = () => {
                 <Menu items={items} typeOfUser={userData.typeOfUser}/>
                 {/* User profile */}
                 <div className="profile-container" onClick={() => setShowAccountDrop(true)}>
-                    <IoIosNotificationsOutline style={{size: 12}}/>
                     <a>{headerUsername}</a> {/* Show username */}
                     <span className="photo-container">
                         <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
                     </span>
                 </div>
+                {
+                    notifications.length > 0 && (
+                        <span className="notifications-number">
+                            {notifications.length}
+                        </span>
+                    )
+                }
                 {/* Dropdown menu for account */}
                 {showAccountDrop && (
                 <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>
                     <a onClick={() => navigate(`/edit/${userData.username}`)}><FormattedMessage id="my_profile" /></a>
+                    <a><FormattedMessage id="notification_label" /></a>
                     <a onClick={handleLogout}>Logout</a>
                 </div>
                 )}

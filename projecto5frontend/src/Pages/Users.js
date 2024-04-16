@@ -1,4 +1,5 @@
 import React, {useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { userStore } from '../Stores/UserStore'
 import { useUsersListStore } from '../Stores/UsersDataStore'
 import { useActionsStore } from '../Stores/ActionStore'
@@ -12,6 +13,7 @@ const Users = () => {
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [selected, setSelected] = useState([]); // State to manage selected users
   const { showSidebar, updateShowSidebar } = useActionsStore(); // Get showSidebar and updateShowSidebar functions from useActionsStore
+  const navigate = useNavigate();
 
     // Function to handle users selection change
     const handleUsersSelectionChange = (selectedUsersIds) => {
@@ -147,6 +149,10 @@ const Users = () => {
       } catch (error) {
           console.error('Error fetching data:', error);
       }
+    };
+
+    const handleDoubleClick = async (username) => {
+        navigate(`/profile/${username}`);
     };
 
     // Function to format type of user
@@ -307,6 +313,7 @@ const Users = () => {
                             onChangeVisibilitySelect={handleUsersVisibility}
                             onPermDeleteSelect={handleUsersPermDelete}
                             onEditSelect={handleEditButton}
+                            onDoubleClick={handleDoubleClick}
                             />
                     </>
                 )}

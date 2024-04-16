@@ -292,7 +292,7 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const { dataType, data, typeOfUser, onSelectionChange, onDeleteSelected, onAddChange, onEditSelect, headCells, filterData, handleFilter, onChangeVisibilitySelect, onPermDeleteSelect } = props;
+  const { dataType, data, typeOfUser, onSelectionChange, onDeleteSelected, onAddChange, onEditSelect, headCells, filterData, handleFilter, onChangeVisibilitySelect, onPermDeleteSelect, onDoubleClick } = props;
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -400,6 +400,10 @@ export default function EnhancedTable(props) {
                   onClick={(event) => {
                     console.log("Clicked row:", row.id);
                     handleClick(event, row.id);
+                  }}
+                  onDoubleClick={(event) => {
+                    handleClick(event, row.id);
+                    onDoubleClick(row.id);
                   }}
                   role="checkbox"
                   aria-checked={isItemSelected}
