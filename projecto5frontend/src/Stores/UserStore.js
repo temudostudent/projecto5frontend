@@ -6,10 +6,13 @@ export const userStore = create (
         (set) => ({
             token:'', //state variable
             updateToken : (token) => set({token}),
-            resetUserStore: () => set({ token: '', userData: [] }),    
+            resetUserStore: () => set({ token: '', userData: [], receiverData: [], locale: 'en'}),    
 
             userData:[],
             updateUserData: (newUserData) => set({ userData: newUserData }),
+
+            receiverData:[],
+            updateReceiverData: (newReceiverData) => set({ receiverData: newReceiverData }),
 
             locale:"en",
             updateLocale : (locale) => set({ locale })

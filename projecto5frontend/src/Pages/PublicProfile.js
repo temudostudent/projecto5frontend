@@ -13,7 +13,7 @@ import languages from "../Translations";
 
 const PublicProfile = () => {
   const { username } = useParams();
-  const {token, locale} = userStore();
+  const {token, locale, updateReceiverData} = userStore();
   const [userData, setUserData] = useState(null);
   const [userTasksCount, setUserTasksCount] = useState([]);
   const { showSidebar, updateShowSidebar } = useActionsStore(); 
@@ -25,6 +25,7 @@ const PublicProfile = () => {
         const userData = await AuthService.getUserData(token, username);
         
         setUserData(userData);
+        updateReceiverData(userData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -52,8 +53,6 @@ const PublicProfile = () => {
     { name: 'Doing', value: userTasksCount.doing, fill:'#59a4b16b' },
     { name: 'Done', value: userTasksCount.done, fill:'#4d7d9980' },
   ];
-
-  console.log(userStats);
 
   const handleLetsChatButton = () => {
     updateShowSidebar(false);
