@@ -75,7 +75,7 @@ const Menu = ({ items, typeOfUser }) => {
                 <div key={item.name} className="menu-item" onMouseEnter={() => handleMenuItemHover(index)} onClick={() => handleMenuItemClick(index)}>
                     {/* Conditional rendering based on user type and item type */}
                     {(item.name === "board" 
-                    || (item.name === "users" && typeOfUser !== 100) 
+                    || item.name === "users"
                     || (item.name === "categories" && typeOfUser === 300)
                     || (item.name === "dashboard" && typeOfUser === 300) ) && (
                         <a
@@ -86,7 +86,7 @@ const Menu = ({ items, typeOfUser }) => {
                         >
                             <span className="container-item">
                                 <FormattedMessage id={item.name} />
-                                {!(item.name === "categories" || item.name === "dashboard" || (item.name === "users" && typeOfUser === 200)) && (
+                                {!(item.name === "categories" || item.name === "dashboard" || (item.name === "users" && typeOfUser === 200)) || (item.name === "users" && typeOfUser === 100) && (
                                     <IoMdArrowDropdown />
                                 )}                        
                             </span>

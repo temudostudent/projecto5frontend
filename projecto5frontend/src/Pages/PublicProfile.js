@@ -13,7 +13,7 @@ import languages from "../Translations";
 
 const PublicProfile = () => {
   const { username } = useParams();
-  const {token, locale, updateReceiverData} = userStore();
+  const {token, locale, updateReceiverData, receiverData} = userStore();
   const [userData, setUserData] = useState(null);
   const [userTasksCount, setUserTasksCount] = useState([]);
   const { showSidebar, updateShowSidebar } = useActionsStore(); 
@@ -26,6 +26,7 @@ const PublicProfile = () => {
         
         setUserData(userData);
         updateReceiverData(userData);
+        console.log(receiverData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

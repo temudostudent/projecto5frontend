@@ -84,8 +84,7 @@ const Header = () => {
         {   
             name: "users", 
             color: "#4d7d99",
-            
-            path: (userData.typeOfUser === 200) ? "/users" : null,
+            path: "/users",
           
             submenu: (userData.typeOfUser === 300) ? [
                 { name: "manage_users", path: "/users" },

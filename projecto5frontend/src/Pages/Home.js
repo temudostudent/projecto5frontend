@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AuthService from '../Components/Service/AuthService'
 import ScrumBoard from '../Components/MainScrum/ScrumBoard'
 import { userStore } from '../Stores/UserStore'
@@ -18,6 +18,7 @@ const Home = () => {
 
     // Destructure values from stores
     WebSocketClient();
+    const navigate = useNavigate();
     const {token, userData, locale} = userStore();
     const { categories, updateCategories } = useCategoryStore();
     const { usersListData, updateUsersListData } = useUsersListStore();
@@ -34,6 +35,11 @@ const Home = () => {
     useEffect(() => {
         fetchInitialData();
     }, []);
+
+    if (!token) {
+        // Se o token não existir ou não for válido, redirecionar para uma página de erro
+        navigate('/404');
+    }
 
     // Function to fetch initial data (categories, users, tasks)
     const fetchInitialData = async () => {

@@ -4,10 +4,10 @@ import { useNotificationStore } from "../../Stores/NotificationStore";
 function WebSocketClient(){ 
 
     const addNotification = useNotificationStore((state) => state.addNotification); 
-    const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/"; 
+    const WS_URL = "ws://localhost:8080/project_backend/websocket/"; 
 
     useEffect(() => { 
-        const websocket = new WebSocket(WS_URL+"mytoken"); 
+        const websocket = new WebSocket(WS_URL+`/notifier/mytoken`); 
         websocket.onopen = () => { 
         console.log("The websocket connection is open"); 
         } 

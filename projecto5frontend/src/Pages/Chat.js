@@ -67,17 +67,21 @@ const handleSubmit = async (content) => {
       return;
     }
 
+    console.log(response);
+
     // Format the response message
     const  formattedMessage= {
       position: "right",
       type: "text",
       title: userData.username,
       text: content,
-      date: response.timestamp,
+      date: Date.now(),
       status: "sent",
       avatar: userData.photoURL,
       titleColor: "#D7693C",
     };
+
+    console.log(formattedMessage);
 
     // Add the formatted message to the messages list
     setMessages([...messages, formattedMessage]);
