@@ -1,20 +1,22 @@
 import { useEffect } from "react"; 
+import { userStore } from '../../Stores/UserStore'
 import { useNotificationStore } from "../../Stores/NotificationStore";
 
 function WebSocketClient(){ 
 
-    const addNotification = useNotificationStore((state) => state.addNotification); 
+    const { addNotification } = useNotificationStore(); 
+    const {token} = userStore();
     const WS_URL = "ws://localhost:8080/project_backend/websocket/"; 
 
     useEffect(() => { 
-        const websocket = new WebSocket(WS_URL+`/notifier/mytoken`); 
+        const websocket = new WebSocket(WS_URL+`/notifier/${token}`);
         websocket.onopen = () => { 
         console.log("The websocket connection is open"); 
         } 
 
         websocket.onmessage = (event) => { 
             const notification  = event.data; 
-            console.log("a new notification is received!") 
+            console.log("a new notification is received!", notification) 
             addNotification(notification); 
         } 
     },[] );

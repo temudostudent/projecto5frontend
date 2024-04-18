@@ -736,7 +736,8 @@ Chat
 ---------------*/
 
 .message-list{
-	height: 65vh;
+	height: 66vh;
+	overflow: auto;
 }
 
 .chat-input{

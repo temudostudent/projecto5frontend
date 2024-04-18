@@ -1,8 +1,17 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-export const useNotificationStore = create((set) => ({
-    notifications: [], // state variable to keep all notifications 
-    updateNotifications: (notifications) => set=({notifications}), // a function to update the list of notifications 
-    addNotification: (newNotification) => set((state) => ({notifications: [...state.notifications, newNotification]})) // a function to add a new notification to the list of notifications 
-
-}));
+export const useNotificationStore = create(
+  persist(
+    (set) => ({
+      notifications: [],
+      updateNotifications: (notifications) => set({ notifications }),
+      addNotification: (newNotification) =>
+        set((state) => ({ notifications: [...state.notifications, newNotification] })),
+      resetUseNotificationStore: () => set({ notifications: [] }),
+    }),
+    {
+      name: "notification_storage", // unique name
+    }
+  )
+);

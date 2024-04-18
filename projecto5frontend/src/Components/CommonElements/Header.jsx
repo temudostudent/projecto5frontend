@@ -36,6 +36,7 @@ const Header = () => {
     useEffect(() => {
         userHeaderData();
         console.log(userData);
+        console.log(notifications);
     }, [token, userData.photoURL])
 
 
@@ -53,7 +54,7 @@ const Header = () => {
             useCategoryStore.getState().resetUseCategoryStore();
             useTaskStore.getState().resetUseTaskStore();
             useUsersListStore.getState().resetUseUsersListStore();
-            
+            useNotificationStore.getState().resetUseNotificationStore();
             navigate('/');
         }catch (error) {
             console.log(error);
@@ -61,7 +62,6 @@ const Header = () => {
     }
 
     const handleClick = (language) => {
-        console.log(language);
         updateLocale(language);
         setSelectedLanguage(language);
     }

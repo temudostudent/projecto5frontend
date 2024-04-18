@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import AuthService from '../Components/Service/AuthService';
 import StatsService from '../Components/Service/StatsService';
+import MessageService from '../Components/Service/MessageService';
 import DoughnutChart from '../Components/Charts/DoughnutChart';
 import Sidebar from '../Components/CommonElements/Sidebar'
 import { userStore } from '../Stores/UserStore'
 import { useActionsStore } from '../Stores/ActionStore'
+import { useMessageStore } from '../Stores/MessageStore'
 import { AiOutlineMessage } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -13,20 +15,22 @@ import languages from "../Translations";
 
 const PublicProfile = () => {
   const { username } = useParams();
-  const {token, locale, updateReceiverData, receiverData} = userStore();
-  const [userData, setUserData] = useState(null);
+  const {token, userData, locale, updateReceiverData} = userStore();
+  const {updateMessages} = useMessageStore();
+  const [userConsultedData, setUserConsultedData] = useState([]);
   const [userTasksCount, setUserTasksCount] = useState([]);
-  const { showSidebar, updateShowSidebar } = useActionsStore(); 
+  const { showSidebar, updateShowSidebar } = useActionsStore();
+  const messageListRef = useRef(null);
 
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await AuthService.getUserData(token, username);
+        const thisUserData = await AuthService.getUserData(token, username);
         
-        setUserData(userData);
-        updateReceiverData(userData);
-        console.log(receiverData);
+        setUserConsultedData(thisUserData);
+        updateReceiverData(thisUserData);
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -48,6 +52,46 @@ const PublicProfile = () => {
     fetchStats();
   }, [username, token]);
 
+  // Fetch messages when component is mounted
+  useEffect(() => {
+    async function fetchMessages() {
+      try {
+        const response = await MessageService.getMessagesBetweenTwoUsers(token, userData.username, username);
+        
+        if (!response) {
+          console.error('No response from the server');
+          return;
+        }
+  
+        const formattedResponse = response.map(message => ({
+          position: message.sender.username === userData.username ? "right" : "left",
+          type: "text",
+          title: message.sender.username,
+          text: message.content,
+          date: message.timestamp,
+          status: message.readStatus === false ? "sent" : "read",
+          avatar: message.sender.username === userData.username ? userData.photoURL : userConsultedData.photoURL,
+          titleColor: message.sender.username === userData.username ? "#D7693C" : "#2C94D9",
+        }));
+  
+        updateMessages(formattedResponse);
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+      }
+    }
+  
+    fetchMessages();
+  }, []);
+
+  // Scroll to bottom whenever messages change
+  useEffect(() => {
+    if (messageListRef.current) {
+      const { scrollHeight, clientHeight } = messageListRef.current;
+      const maxScrollTop = scrollHeight - clientHeight;
+      messageListRef.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+    }
+  }, [userStore.messages]);
+
   //Info formatada para mostrar as legendas pretendidas
   const userStats =[
     { name: 'To Do', value: userTasksCount.toDo, fill:'#c8ae7e44'  },
@@ -64,7 +108,7 @@ const PublicProfile = () => {
     <div>
       <IntlProvider locale={locale} messages={languages[locale]}>
       <div className='profile-info-body'>
-        <div className="sidebar-container">
+        <div className="sidebar-container" ref={messageListRef}>
               <Sidebar
                   collapsedWidth={showSidebar ? '100%' : '0'}
                   userPath={username}
@@ -73,12 +117,12 @@ const PublicProfile = () => {
         {userData && 
           <div className='profile-info-container'>
             <div className='profile-container-left'>
-              <h2>Profile of {userData.username}</h2>
-              <p>First Name: {userData.firstName}</p>
-              <p>Last Name: {userData.lastName}</p>
-              <p>Email: {userData.email}</p>
+              <h2>Profile of {userConsultedData.username}</h2>
+              <p>First Name: {userConsultedData.firstName}</p>
+              <p>Last Name: {userConsultedData.lastName}</p>
+              <p>Email: {userConsultedData.email}</p>
               <span className="photo-info-container">
-                  <img src={userData.photoURL} alt="Profile Pic" /> {/* Show profile picture */}
+                  <img src={userConsultedData.photoURL} alt="Profile Pic" /> {/* Show profile picture */}
               </span> 
               <div className='init-chat-bar' onClick={handleLetsChatButton}>
                 <IconContext.Provider value={{ color: "#eee", size: "2.2em" }}>

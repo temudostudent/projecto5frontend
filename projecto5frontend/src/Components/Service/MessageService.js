@@ -8,7 +8,7 @@ const MessageService = {
 MESSAGES
 ----------------------*/
 
-    // Function to get users stats
+    // Function to get messages between two users
     getMessagesBetweenTwoUsers: async (token, username1, username2) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/?user1=${username1}&user2=${username2}`, {
@@ -45,10 +45,12 @@ MESSAGES
                 return response.data;
             } else if (response.status === 401) {
                 console.log("Invalid credentials");
+            } else {
+                console.log(`Unexpected status code: ${response.status}`);
             }
         } catch (error) {
             console.error('Error sending message:', error);
         }
-    },
+    }
 };
 export default MessageService;

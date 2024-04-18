@@ -2,7 +2,9 @@ import React, { useState } from "react"
 import logo from '../Assets/agileflow-high-resolution-logo-transparent.png'
 import { useNavigate } from 'react-router-dom'
 import { userStore } from '../../Stores/UserStore'
+import { useNotificationStore } from '../../Stores/NotificationStore'
 import AuthService from "../Service/AuthService"
+import NotificationService from "../Service/NotificationService"
 
 function LoginForm() {
 
@@ -11,6 +13,7 @@ function LoginForm() {
     // Accessing store methods
     const updateToken = userStore((state) => state.updateToken);
     const updateUserData = userStore((state) => state.updateUserData);
+    const {updateNotifications} = useNotificationStore();
     // Hook for navigation
     const navigate = useNavigate();
     
@@ -34,6 +37,7 @@ function LoginForm() {
                     const data = await response.data;
                     updateToken(data);
                     fetchUserData(data);
+                    fetchNotifications(data);
                     navigate('/home', {replace: true});
                 } else if (response.status === 401) {
                     alert("Invalid credentials, please try again");
@@ -54,6 +58,15 @@ function LoginForm() {
             await updateUserData(userData);
         } catch (error) {
             console.error('Error fetching data:', error);
+        }
+    }
+
+    const fetchNotifications = async (token) => {
+        try {
+            const notifications = await NotificationService.getNotificationsByReadStatus(token, false);
+            await updateNotifications(notifications);
+        } catch (error) {
+            console.error('Error fetching notifications:', error);
         }
     }
     

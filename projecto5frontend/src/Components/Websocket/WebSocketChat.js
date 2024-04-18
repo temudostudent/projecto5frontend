@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { userStore } from '../Stores/UserStore'
+import { userStore } from '../../Stores/UserStore'
 
 
 function WebSocketChat(){ 
@@ -10,7 +10,7 @@ function WebSocketChat(){
 
 
     useEffect(() => { 
-        const websocket = new WebSocket(WS_URL+`/chat/${token}/${token2}`); 
+        const websocket = new WebSocket(WS_URL+`/chat/${token}`); 
         websocket.onopen = () => { 
             console.log("The websocket chat connection is open"); 
             // Send the receiverToken and senderToken when sending a message

@@ -547,7 +547,6 @@ getAllTasks: async (token) => {
 // Function to get all tasks from a user
 getAllTasksFromUser: async (token, username) => {
 
-    console.log('getAllTasksFromUser');
     try {
         const response = await axios.get(`${API_BASE_URL}/${username}/tasks`, {
             headers: {
@@ -558,8 +557,6 @@ getAllTasksFromUser: async (token, username) => {
             }
         });
         if (response.status === 200) {
-
-            console.log(response);
    
             return response.data;
   

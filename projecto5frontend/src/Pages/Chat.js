@@ -5,43 +5,32 @@ import { IconContext } from "react-icons";
 import { MessageList, Input } from 'react-chat-elements'
 import MessageService from '../Components/Service/MessageService';
 import { userStore } from '../Stores/UserStore'
+import { useMessageStore } from '../Stores/MessageStore'
 
 const Chat = () => {
   const {token, userData, receiverData} = userStore();
-  const [messages, setMessages] = useState([]);
+  const {messages, addMessage} = useMessageStore();
+  const [chatMessages, setChatMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  // Create a reference to the message list
+  const messageListRef = React.createRef();
 
   useEffect(() => {
-    const fetchMessages = async() => {
-      try {
-        const response = await MessageService.getMessagesBetweenTwoUsers(token, userData.username, receiverData.username);
-        
-        if (!response) {
-          console.error('No response from the server');
-          return;
-        }
+    setChatMessages(messages);
+  }, [messages]);
   
-        const formattedResponse = response.map(message => ({
-          position: message.sender.username === userData.username ? "right" : "left",
-          type: "text",
-          title: message.sender.username,
-          text: message.content,
-          date: message.timestamp,
-          status: message.readStatus === false ? "sent" : "read",
-          avatar: message.sender.username === userData.username ? userData.photoURL : receiverData.photoURL,
-          titleColor: message.sender.username === userData.username ? "#D7693C" : "#2C94D9",
-        }));
 
-        console.log(formattedResponse);
-  
-        setMessages(formattedResponse);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-      }
+  // In your useEffect hook, scroll to the bottom whenever the messages array changes
+  useEffect(() => {
+    if (messageListRef.current) {
+      setTimeout(() => {
+        const scrollHeight = messageListRef.current.scrollHeight;
+        const height = messageListRef.current.clientHeight;
+        const maxScrollTop = scrollHeight - height;
+        messageListRef.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+      }, 100); // delay of 100ms
     }
-  
-    fetchMessages();
-  }, []);
+  }, [messages]);
 
   {/*EXEMPLO
     position:"left",
@@ -58,16 +47,15 @@ const handleInputChange = (event) => {
 };
   
 const handleSubmit = async (content) => {
+  
   try {
     // Call the API to send the message
     const response = await MessageService.sendMessage(content, token, receiverData.username);
-    
+
     if (!response) {
       console.error('No response from the server');
       return;
     }
-
-    console.log(response);
 
     // Format the response message
     const  formattedMessage= {
@@ -84,7 +72,8 @@ const handleSubmit = async (content) => {
     console.log(formattedMessage);
 
     // Add the formatted message to the messages list
-    setMessages([...messages, formattedMessage]);
+    //setMessages([...messages, formattedMessage]);
+    addMessage(formattedMessage);
     setInputValue('');
   } catch (error) {
     console.error('Error sending message:', error);
@@ -95,10 +84,11 @@ const handleSubmit = async (content) => {
  return (
    <div className="chat-container">
      <MessageList
-        className='message-list'
-        lockable={true}
-        toBottomHeight={'100%'}
-        dataSource={messages}
+      ref={messageListRef}
+      className='message-list'
+      lockable={true}
+      toBottomHeight="100%"
+      dataSource={chatMessages}
     />
     <Input
       className="chat-input"
