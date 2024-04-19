@@ -4,6 +4,8 @@ import defaultPhoto from "../Assets/profile_pic_default.png"
 import './CommonElements.css'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { IconContext } from "react-icons";
 import { useNavigate } from 'react-router-dom'
 import AuthService from "../Service/AuthService"
 import Menu from './Menu'
@@ -16,6 +18,7 @@ import { useNotificationStore } from '../../Stores/NotificationStore';
 import languages from "../../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 import WebSocketClient from "../Websocket/WebSocketClient";
+import moment from 'moment';
 
 
 const Header = () => {
@@ -25,7 +28,8 @@ const Header = () => {
     const {token, userData, locale, updateLocale} = userStore();
     const navigate = useNavigate();
     const [showAccountDrop, setShowAccountDrop] = useState(false);
-    const [headerUsername, setHeaderUsername] = useState('');
+    const [showNotificationDrop, setShowNotificationDrop] = useState(false);
+    const [time, setTime] = useState(new Date());
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const { updateIsAllTasksPage } = useActionsStore();
@@ -39,9 +43,18 @@ const Header = () => {
         console.log(notifications);
     }, [token, userData.photoURL])
 
+    useEffect(() => {
+        const timer = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+    
+        return () => {
+          clearInterval(timer);
+        };
+      }, []);
+
 
     const userHeaderData = async() => {
-        setHeaderUsername(userData.username);
         setHeaderPhoto(userData.photoURL);
     }
 
@@ -103,10 +116,12 @@ const Header = () => {
             <IntlProvider locale={locale} messages={languages[locale]}> 
             <ToastContainer position="top-center" />
             <div className="top-header">
-                {/*<select className="language-select" onChange={handleSelect} defaultValue={locale}> 
-                    {["en", "pt", "fr"].map(language => (<option            
-                    key={language}>{language}</option>))} 
-                    </select>*/}
+                <div className="time">
+                    <FormattedMessage id="time" values={{t: time}} /> 
+                </div>
+                <div className="date">
+                    <FormattedMessage id="date" values={{d: Date.now()}} /> 
+                </div>
                 <div className="language-select">
                     {["en", "pt", "fr"].map((language, index) => (
                         <React.Fragment key={language}>
@@ -126,26 +141,51 @@ const Header = () => {
                 {/* Menu */}
                 <Menu items={items} typeOfUser={userData.typeOfUser}/>
                 {/* User profile */}
-                <div className="profile-container" onClick={() => setShowAccountDrop(true)}>
-                    <a>{headerUsername}</a> {/* Show username */}
-                    <span className="photo-container">
-                        <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
-                    </span>
+                <div className="profile-container" >
+                    <IconContext.Provider value={{ color: "#4682A9", size: "2.7em", className: "notification-icon"}}>
+                        <span>
+                            <IoMdNotificationsOutline onClick={() => {setShowNotificationDrop(true); setShowAccountDrop(false);}}/>
+                        </span> {/* Show notifications icon */}
+                    </IconContext.Provider>
                     {
                     notifications.length > 0 && (
                         <span className="notifications-number">
                             {notifications.length}
                         </span>
                     )
-                }
+                    }
+                    <span className="photo-container" onClick={() => {setShowNotificationDrop(false); setShowAccountDrop(true);}}>
+                        <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
+                    </span>
                 </div>
                 
                 {/* Dropdown menu for account */}
                 {showAccountDrop && (
                 <div className="accountDrop" onMouseLeave={() => setShowAccountDrop(false)}>
                     <a onClick={() => navigate(`/edit/${userData.username}`)}><FormattedMessage id="my_profile" /></a>
-                    <a><FormattedMessage id="notification_label" /></a>
                     <a onClick={handleLogout}>Logout</a>
+                </div>
+                )}
+                {/* Dropdown for notifications */}
+                {showNotificationDrop && (
+                <div className="notificationDrop" /*onMouseLeave={() => setShowNotificationDrop(false)}*/>
+                    <h3><FormattedMessage id="notification_label" /></h3>
+                    {notifications.map((notification, index) => (
+                        <div key={index} className="notification-container">
+                            <div className="photo-container">
+                                <img src={notification.sender.photoURL} alt="Sender Pic" />
+                            </div>
+                            <div className="message-container">
+                                <p className="notification-text"><FormattedMessage id="notification_message" values={{user: notification.sender.username}} /></p>
+                                <p className="notification-moment">{moment(notification.timestamp).fromNow()}</p>
+                            </div>
+                            <span className="unreaded-dot"></span>
+                        
+                        {/*<p>Read Status: {notification.readStatus ? 'Read' : 'Unread'}</p>
+                        <p>Timestamp: {notification.timestamp}</p>
+                    <p>Sender: {notification.sender.username}</p>*/}
+                      </div>
+                        ))}
                 </div>
                 )}
             </div>

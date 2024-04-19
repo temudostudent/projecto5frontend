@@ -1,7 +1,7 @@
 { 
 "greeting":"Bonjour {username}!", 
-"time":"Il est {t, time, short}", 
-"date":"La date est {d, date}",
+"time":"{t, time, short}", 
+"date":"{d, date}",
 "notifications_title": "Le Notifications",
 "notifications": "Le user {size} notifications",
 "board": "Le Board",
@@ -16,6 +16,8 @@
 
 "my_profile":"Le Mieu Profile",
 "notification_label":"Le Notifications",
+
+"notification_message":"{user} enviou-te uma mensagem",
 
 "lets-chat":"Voulez-vous parler?"
 } 

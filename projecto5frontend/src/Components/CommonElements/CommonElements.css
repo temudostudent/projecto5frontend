@@ -20,12 +20,14 @@ Header
 
 .top-header{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   background-color: var(--logo-color);
-  padding: 5px;
+  padding: 0 15px;
   margin: 5px 15px;
   border-radius: 10px;
+  color: var(--light-color);
+  font-size: 0.8em;
 
   .language-select{
     display: flex;
@@ -33,9 +35,7 @@ Header
     justify-content: space-evenly;
     height: 10px;
     width: 7%;
-    padding: 0 10px;
-    color: var(--light-color);
-
+  
     span{
       cursor: pointer;
     }
@@ -91,9 +91,12 @@ Profile username and Photo
     align-items: flex-end;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
     width: 10%
   }
+
+.notification-icon{
+  cursor: pointer;
+}
 
 .photo-container{
   display: flex;
@@ -104,6 +107,7 @@ Profile username and Photo
   height: 5em;
   border-radius: 50%;
   position: relative;
+  cursor: pointer;
 }
 
 .photo-container img{
@@ -121,18 +125,18 @@ Notification circle
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 9px;
-  right: 2px;
+  top: 18px;
+  right: 114px;
   z-index: 1000;
   background-color: var(--orange-color);
   color: #fff;
   border-radius: 50%;
   padding: 2px 5px;
-  font-size: 12px;
+  font-size: 0.6em;
   font-weight: bold;
   transform: translate(50%, -50%);
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 /*--------
@@ -232,15 +236,14 @@ Menu
   }
 }
 
-
 /*---------
-Account Drop
- ----------*/
+Notifications Drop
+ ---------*/
 
-.accountDrop{
-  position: absolute;
-  top: 18%;
-  right: 1.5%;
+.notificationDrop{
+  position: fixed;
+  top: 124px;
+  right: 10px;
   background-color: white;
   border: 1px solid #ccc;
   border-bottom-left-radius: 5px;
@@ -250,12 +253,88 @@ Account Drop
   flex-direction: column;
   align-items: center;
   z-index: 2;
-  width: 10em;
+  max-height: 65vh;
+  max-width: 17em;
+  overflow-y: auto;
+
+  .notification-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.7em;
+    width: 100%;
+
+    .photo-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      position: relative;
+    }
+    
+    .photo-container img{
+      width: 100%;
+      height: auto; 
+      object-fit: cover;
+    }
+
+    .message-container{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 10px 10px 0 10px;
+      width: 75%;
+
+      .notification-text{
+        font-size: 1.1em;
+      }
+
+      .notification-moment{
+        font-style: bold;
+        color: var(--blue3-color);
+      }
+    }
+
+    .unreaded-dot{
+      background-color: var(--blue3-color);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+  
+  }
+}
+
+
+/*---------
+Account Drop
+ ----------*/
+
+.accountDrop{
+  position: fixed;
+  top: 124px;
+  right: 30px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  width: 8em;
 }
 
 .accountDrop a{
   cursor: pointer;
-  padding: 5px;
+  padding: 0 5px;
   border-radius: 10px;
 }
 

@@ -18,7 +18,6 @@ import Chat from './Pages/Chat'
 import Header from './Components/CommonElements/Header'
 import Footer from './Components/CommonElements/Footer'
 import reportWebVitals from './reportWebVitals'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom"
 
 function Routing() {

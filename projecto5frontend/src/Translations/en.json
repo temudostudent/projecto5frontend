@@ -1,7 +1,7 @@
 {
 "greeting":"Hello {username}!", 
-"time":"The time is {t, time, short}", 
-"date":"The date is {d, date}",
+"time":"{t, time, short}", 
+"date":"{d, date}",
 "notifications_title": "Notifications",
 "notifications": "You have {size} notifications",
 
@@ -17,6 +17,8 @@
 
 "my_profile":"My Profile",
 "notification_label":"Notifications",
+
+"notification_message":"You received a message from {user}",
 
 "lets-chat":"Let's Chat"
 

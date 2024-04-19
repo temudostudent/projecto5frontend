@@ -297,7 +297,7 @@ Pending Account Message
 -----------------*/
 
 .text-container{
-	text-align: justify;
+	text-align: left;
 	font-size: 0.9em;
 	padding: 0 60px;
 }
@@ -757,6 +757,30 @@ Chat
 /*---------------
 Dashboard
 ---------------*/
+
+.dashboard-container{
+	.container {
+		width: 100%;
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+	
+	.col {
+		flex: 1 0 0%;
+		max-width: 100%;
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+}
 
 
 .stat-container{

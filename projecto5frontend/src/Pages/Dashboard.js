@@ -1,7 +1,4 @@
 import React, {useState, useEffect} from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import StatsService from '../Components/Service/StatsService';
 import DoughnutChart from '../Components/Charts/DoughnutChart';
 import SimpleLineChart from '../Components/Charts/SimpleLineChart';
@@ -55,50 +52,52 @@ const Dashboard = () => {
 
 
     return (
-        <Container fluid>
-            <Row xs={1} md={3} lg={3} >
-                <Col sm={12} md={4} lg={4} className="stat-container"> 
+        <div className="dashboard-container">
+        <div className="container">
+            <div className="row">
+                <div className="col">
                     <p>Team Roles</p>
                     {usersCount.users > 0 && <StraightAnglePieChart data={teamRolesStats} total={usersCount.users} />}
-                </Col>
-                <Col sm={12} md={4} lg={4} className="stat-container">
+                </div>
+                <div className="col">
                     <p>Users State</p>
                     <StraightAnglePieChart data={userStatusStats}/>
-                </Col>
-                <Col sm={12} md={4} lg={4} className="stat-container">
+                </div>
+                <div className="col">
                     <p>Tasks Status</p>
                     {tasksCount.tasks > 0 && <StraightAnglePieChart data={tasksStatus} total={tasksCount.tasks}/>}
-                </Col>
-            </Row>
-            <Row >
-                <Col sm={6} md={6} lg={6} className="number-stat-container">
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
                     <p>Average Tasks per User</p>
                     {tasksCount.avgTasksPerUser}
-                </Col>
-                <Col sm={6} md={6} lg={6} className="number-stat-container">
+                </div>
+                <div className="col">
                     <p>Average Task Time</p>
-                </Col>
-            </Row>
-            <Row xs={1} md={2} lg={2} >
-                <Col className="line-stat-container">
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
                     Users over Time
                     <SimpleLineChart />
-                </Col>
-                <Col className="line-stat-container">
+                </div>
+                <div className="col">
                     Tasks Done over Time
                     <SimpleLineChart />
-                </Col>
-            </Row>
-            <Row xs={1} md={2} lg={2} >
-                <Col className="bar-stat-container">
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
                     Categories
                     <SimpleBarChart/>
-                </Col>
-                <Col className="bar-stat-container">
+                </div>
+                <div className="col">
                     User Status
-                </Col>
-            </Row>
-        </Container>
+                </div>
+            </div>
+        </div>
+        </div>
     );
 }
 

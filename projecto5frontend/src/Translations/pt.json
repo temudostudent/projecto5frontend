@@ -1,7 +1,7 @@
 {
 "greeting":"Olá {username}!", 
-"time":"A horas são {t, time, short}", 
-"date":"A data é {d, date}",
+"time":"{t, time, short}", 
+"date":"{d, date}",
 "notifications_title": "Notificações",
 "notifications": "Tens {size} notificações",
 "board": "Quadro",
@@ -16,6 +16,8 @@
 
 "my_profile":"Minha Conta",
 "notification_label":"Notificações",
+
+"notification_message":"{user} enviou-te uma mensagem",
 
 "lets-chat":"Bate-papo"
 }

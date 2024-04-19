@@ -264,17 +264,6 @@ const Home = () => {
     return (
         <div className='Home'>
             <IntlProvider locale={locale} messages={languages[locale]}> 
-            <p> 
-            <FormattedMessage id="greeting" values={{username: userData.username}} /> 
-            <br/> 
-            <FormattedMessage id="time" values={{t: Date.now()}} /> 
-            <br/> 
-            <FormattedMessage id="date" values={{d: Date.now()}} /> 
-            <br/> 
-            </p> 
-            
-
-
             {!loading && (
                 <div className={`container-home ${showSidebar ? 'sidebar-active' : 'sidebar-inactive'}`}>
                     <div className="sidebar-container">
