@@ -30,7 +30,7 @@ h2 {
 }
 
 span {
-	font-size: 12px;
+	font-size: 0.9em;
 }
 
 a {
@@ -53,6 +53,7 @@ button {
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
+	cursor: pointer;
 }
 
 button:active {

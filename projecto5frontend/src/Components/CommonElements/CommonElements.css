@@ -1,6 +1,7 @@
 #root{
     --light-color: #F6F4EB;
     --pastel-color: #D7D4B9;
+    --light-hover-color: #f6f9fb;
     --blue-color: #91C8E4;
     --blue2-color: #749BC2;
     --blue3-color: #4682A9;
@@ -68,9 +69,7 @@ clear: both;
   }
 
 .site-identity img {
-
-    margin: 0 10px 0 0;
-    max-width: 18em;
+    max-width: 14em;
     height: auto;
 }
 
@@ -91,11 +90,28 @@ Profile username and Photo
     align-items: flex-end;
     justify-content: space-between;
     align-items: center;
-    width: 10%
+    width: 120px;
+    padding: 5px 0 0 0;
   }
 
 .notification-icon{
   cursor: pointer;
+  background-color: white;
+  border-radius: 50%;
+  padding: 10px;
+  width: 3.2em;
+  height: auto;
+  margin-top: 2px;
+}
+
+.notification-icon-selected{
+  cursor: pointer;
+  background-color: var(--blue-color);
+  border-radius: 50%;
+  padding: 10px;
+  width: 3.2em;
+  height: auto;
+  margin-top: 2px;
 }
 
 .photo-container{
@@ -103,8 +119,8 @@ Profile username and Photo
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  width: 5em;
-  height: 5em;
+  width: 3.5em;
+  height: 3.5em;
   border-radius: 50%;
   position: relative;
   cursor: pointer;
@@ -124,9 +140,9 @@ Notification circle
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 18px;
-  right: 114px;
+  position: sticky;
+  top: 8px;
+  right: 135px;
   z-index: 1000;
   background-color: var(--orange-color);
   color: #fff;
@@ -137,6 +153,11 @@ Notification circle
   transform: translate(50%, -50%);
   width: 20px;
   height: 20px;
+  cursor: pointer;
+}
+
+.notifications-number:hover{
+  background-color: var(--blue3-color);
 }
 
 /*--------
@@ -149,7 +170,6 @@ Menu
     justify-content: space-between;
     position: relative;
     z-index: 1;
-    padding: 0 13em 0 1.5em;
     max-width: 800px;
     margin: 10px auto;
     border-bottom: 1px solid #eee;
@@ -254,6 +274,7 @@ Notifications Drop
   align-items: center;
   z-index: 2;
   max-height: 65vh;
+  width: 17em;
   max-width: 17em;
   overflow-y: auto;
 
@@ -265,6 +286,8 @@ Notifications Drop
     border-bottom: 1px solid #ccc;
     font-size: 0.7em;
     width: 100%;
+    border-radius: 2px;
+    cursor: pointer;
 
     .photo-container{
       display: flex;
@@ -309,6 +332,12 @@ Notifications Drop
     }
   
   }
+
+  .notification-container:hover{
+    background-color: var(--light-hover-color);
+  }
+
+  
 }
 
 

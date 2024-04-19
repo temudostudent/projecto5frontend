@@ -33,6 +33,7 @@ const Header = () => {
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const { updateIsAllTasksPage } = useActionsStore();
+    const unreadNotificationsCount = notifications.filter(notification => !notification.readStatus).length;
    
 
     // Fetching user header data
@@ -74,9 +75,14 @@ const Header = () => {
         }
     }
 
-    const handleClick = (language) => {
+    const handleClickLanguage = (language) => {
         updateLocale(language);
         setSelectedLanguage(language);
+    }
+
+    const handleClickNotification = (username) => {
+        setShowNotificationDrop(false);
+        navigate(`/profile/${username}`);
     }
     
     // Menu items
@@ -125,7 +131,7 @@ const Header = () => {
                 <div className="language-select">
                     {["en", "pt", "fr"].map((language, index) => (
                         <React.Fragment key={language}>
-                            <span className={selectedLanguage === language ? "selected" : ""} onClick={() => handleClick(language)}>
+                            <span className={selectedLanguage === language ? "selected" : ""} onClick={() => handleClickLanguage(language)}>
                                 {language.toUpperCase()}
                             </span>
                             {index !== ["en", "pt", "fr"].length - 1 && <span>|</span>}
@@ -142,17 +148,17 @@ const Header = () => {
                 <Menu items={items} typeOfUser={userData.typeOfUser}/>
                 {/* User profile */}
                 <div className="profile-container" >
-                    <IconContext.Provider value={{ color: "#4682A9", size: "2.7em", className: "notification-icon"}}>
+                    <IconContext.Provider value={{ color: "#4682A9", size: "2.7em", className: showNotificationDrop ? "notification-icon-selected" : "notification-icon"}}>
                         <span>
-                            <IoMdNotificationsOutline onClick={() => {setShowNotificationDrop(true); setShowAccountDrop(false);}}/>
+                            <IoMdNotificationsOutline onClick={() => {setShowNotificationDrop(!showNotificationDrop); setShowAccountDrop(false);}}/>
                         </span> {/* Show notifications icon */}
                     </IconContext.Provider>
                     {
-                    notifications.length > 0 && (
-                        <span className="notifications-number">
-                            {notifications.length}
-                        </span>
-                    )
+                        unreadNotificationsCount > 0 && (
+                            <span className="notifications-number" title="Mark all as Read">
+                                {unreadNotificationsCount}
+                            </span>
+                        )
                     }
                     <span className="photo-container" onClick={() => {setShowNotificationDrop(false); setShowAccountDrop(true);}}>
                         <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
@@ -168,10 +174,10 @@ const Header = () => {
                 )}
                 {/* Dropdown for notifications */}
                 {showNotificationDrop && (
-                <div className="notificationDrop" /*onMouseLeave={() => setShowNotificationDrop(false)}*/>
+                <div className="notificationDrop" >
                     <h3><FormattedMessage id="notification_label" /></h3>
                     {notifications.map((notification, index) => (
-                        <div key={index} className="notification-container">
+                        <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username)}>
                             <div className="photo-container">
                                 <img src={notification.sender.photoURL} alt="Sender Pic" />
                             </div>
@@ -179,11 +185,9 @@ const Header = () => {
                                 <p className="notification-text"><FormattedMessage id="notification_message" values={{user: notification.sender.username}} /></p>
                                 <p className="notification-moment">{moment(notification.timestamp).fromNow()}</p>
                             </div>
-                            <span className="unreaded-dot"></span>
-                        
-                        {/*<p>Read Status: {notification.readStatus ? 'Read' : 'Unread'}</p>
-                        <p>Timestamp: {notification.timestamp}</p>
-                    <p>Sender: {notification.sender.username}</p>*/}
+                            {!notification.readStatus && (
+                                <span className="unreaded-dot"></span>
+                            )}
                       </div>
                         ))}
                 </div>

@@ -17,6 +17,7 @@ const Chat = () => {
 
   useEffect(() => {
     setChatMessages(messages);
+    console.log(messages);
   }, [messages]);
   
 
@@ -69,10 +70,7 @@ const handleSubmit = async (content) => {
       titleColor: "#D7693C",
     };
 
-    console.log(formattedMessage);
-
     // Add the formatted message to the messages list
-    //setMessages([...messages, formattedMessage]);
     addMessage(formattedMessage);
     setInputValue('');
   } catch (error) {
@@ -87,7 +85,7 @@ const handleSubmit = async (content) => {
       ref={messageListRef}
       className='message-list'
       lockable={true}
-      toBottomHeight="100%"
+      toBottomHeight='100%'
       dataSource={chatMessages}
     />
     <Input

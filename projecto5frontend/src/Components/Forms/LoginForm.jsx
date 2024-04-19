@@ -30,7 +30,6 @@ function LoginForm() {
         event.preventDefault();
 
         try{
-
             // Attempting login
             const response = await AuthService.login(inputs);
                 if (response.status === 200) {
@@ -63,7 +62,7 @@ function LoginForm() {
 
     const fetchNotifications = async (token) => {
         try {
-            const notifications = await NotificationService.getNotificationsByReadStatus(token, false);
+            const notifications = await NotificationService.getNotifications(token, inputs.username);
             await updateNotifications(notifications);
         } catch (error) {
             console.error('Error fetching notifications:', error);

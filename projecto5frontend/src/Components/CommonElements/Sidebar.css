@@ -6,7 +6,9 @@
     box-sizing: border-box;
 }
 
-
+.close-button{
+    margin:0;
+}
 
 .sidebar{
     color: #000000;

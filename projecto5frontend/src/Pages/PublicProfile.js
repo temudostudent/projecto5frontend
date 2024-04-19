@@ -57,6 +57,8 @@ const PublicProfile = () => {
     async function fetchMessages() {
       try {
         const response = await MessageService.getMessagesBetweenTwoUsers(token, userData.username, username);
+
+        console.log(response);
         
         if (!response) {
           console.error('No response from the server');
@@ -70,7 +72,7 @@ const PublicProfile = () => {
           text: message.content,
           date: message.timestamp,
           status: message.readStatus === false ? "sent" : "read",
-          avatar: message.sender.username === userData.username ? userData.photoURL : userConsultedData.photoURL,
+          avatar: message.sender.photoURL,
           titleColor: message.sender.username === userData.username ? "#D7693C" : "#2C94D9",
         }));
   
