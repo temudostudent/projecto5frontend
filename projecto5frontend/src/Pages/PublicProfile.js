@@ -57,8 +57,6 @@ const PublicProfile = () => {
     async function fetchMessages() {
       try {
         const response = await MessageService.getMessagesBetweenTwoUsers(token, userData.username, username);
-
-        console.log(response);
         
         if (!response) {
           console.error('No response from the server');

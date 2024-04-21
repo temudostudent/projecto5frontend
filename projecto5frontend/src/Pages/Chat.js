@@ -17,7 +17,6 @@ const Chat = () => {
 
   useEffect(() => {
     setChatMessages(messages);
-    console.log(messages);
   }, [messages]);
   
 

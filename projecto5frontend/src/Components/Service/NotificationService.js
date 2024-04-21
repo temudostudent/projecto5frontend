@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const API_BASE_URL = 'http://localhost:8080/project_backend/rest/notification';
 
@@ -41,6 +42,42 @@ NOTIFICATIONS
             }
         } catch (error) {
             console.error('Error getting all notifications:', error);
+        }
+    },
+
+    markAllNotificationsAsRead: async (token) => {
+        try {
+            const response = await axios.put(`${API_BASE_URL}/read`, null,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+            });
+            if (response.status === 200) {
+                toast.success(response.data);
+            } else if (response.status === 401) {
+                console.log("Invalid credentials");
+            }
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+    },
+
+    markAllFromSenderToReceiverAsRead: async (token, senderUsername, receiverUsername) => {
+        try {
+            const response = await axios.put(`${API_BASE_URL}/read/${senderUsername}/${receiverUsername}`, null,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+            });
+            if (response.status === 200) {
+                
+            } else if (response.status === 401) {
+                console.log("Invalid credentials");
+            }
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
         }
     },
 

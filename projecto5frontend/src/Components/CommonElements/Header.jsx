@@ -8,6 +8,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { IconContext } from "react-icons";
 import { useNavigate } from 'react-router-dom'
 import AuthService from "../Service/AuthService"
+import NotificationService from "../Service/NotificationService"
 import Menu from './Menu'
 import { userStore } from '../../Stores/UserStore'
 import { useActionsStore } from '../../Stores/ActionStore'
@@ -24,7 +25,7 @@ import moment from 'moment';
 const Header = () => {
     WebSocketClient();
     // Accessing state variables and functions from stores
-    const { notifications } = useNotificationStore();
+    const { notifications, updateNotifications } = useNotificationStore();
     const {token, userData, locale, updateLocale} = userStore();
     const navigate = useNavigate();
     const [showAccountDrop, setShowAccountDrop] = useState(false);
@@ -33,7 +34,7 @@ const Header = () => {
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const { updateIsAllTasksPage } = useActionsStore();
-    const unreadNotificationsCount = notifications.filter(notification => !notification.readStatus).length;
+    const [notificationCount, setNotificationCount] = useState(0);
    
 
     // Fetching user header data
@@ -53,6 +54,17 @@ const Header = () => {
           clearInterval(timer);
         };
       }, []);
+
+    useEffect(() => {
+        const uniqueNotifications = {};
+        notifications.forEach(notification => {
+            if (!notification.readStatus) {
+                uniqueNotifications[notification.sender.username] = notification;
+            }
+        });
+        console.log(uniqueNotifications);
+        setNotificationCount(Object.keys(uniqueNotifications).length);
+    }, [notifications]);
 
 
     const userHeaderData = async() => {
@@ -80,9 +92,35 @@ const Header = () => {
         setSelectedLanguage(language);
     }
 
-    const handleClickNotification = (username) => {
+    const handleClickNotification = async (senderUsername, receiverUsername) => {
         setShowNotificationDrop(false);
-        navigate(`/profile/${username}`);
+        await NotificationService.markAllFromSenderToReceiverAsRead(token, senderUsername, receiverUsername);
+        const updatedNotifications = notifications.map(notification => {
+            if (notification.sender.username === senderUsername) {
+                return {
+                    ...notification,
+                    readStatus: true
+                };
+            } else {
+                return notification;
+            }
+        });
+        
+        updateNotifications(updatedNotifications);
+
+        navigate(`/profile/${senderUsername}`);
+    }
+
+    const handleClickNotificationsNumber = async () => {
+        
+        await NotificationService.markAllNotificationsAsRead(token);
+    
+        const updatedNotifications = notifications.map(notification => ({
+            ...notification,
+            readStatus: true
+        }));
+    
+        updateNotifications(updatedNotifications);
     }
     
     // Menu items
@@ -154,9 +192,9 @@ const Header = () => {
                         </span> {/* Show notifications icon */}
                     </IconContext.Provider>
                     {
-                        unreadNotificationsCount > 0 && (
-                            <span className="notifications-number" title="Mark all as Read">
-                                {unreadNotificationsCount}
+                        notificationCount > 0 && (
+                            <span className="notifications-number" title="Mark all as Read" onClick={() => handleClickNotificationsNumber(token)}>
+                                {notificationCount}
                             </span>
                         )
                     }
@@ -176,7 +214,14 @@ const Header = () => {
                 {showNotificationDrop && (
                 <div className="notificationDrop" >
                     <h3><FormattedMessage id="notification_label" /></h3>
-                    {notifications.map((notification, index) => (
+                    {notifications.reduce((acc, current) => {
+                        const x = acc.find(item => item.sender.username === current.sender.username);
+                        if (!x) {
+                        return acc.concat([current]);
+                        } else {
+                        return acc.map(item => item.sender.username === current.sender.username ? current : item);
+                        }
+                    }, []).map((notification, index) => (
                         <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username)}>
                             <div className="photo-container">
                                 <img src={notification.sender.photoURL} alt="Sender Pic" />
@@ -188,8 +233,8 @@ const Header = () => {
                             {!notification.readStatus && (
                                 <span className="unreaded-dot"></span>
                             )}
-                      </div>
-                        ))}
+                        </div>
+                    ))}
                 </div>
                 )}
             </div>

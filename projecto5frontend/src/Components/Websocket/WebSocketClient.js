@@ -15,8 +15,7 @@ function WebSocketClient(){
         } 
 
         websocket.onmessage = (event) => { 
-            const notification  = event.data; 
-            console.log("a new notification is received!", notification) 
+            const notification  = JSON.parse(event.data);
             addNotification(notification); 
         } 
     },[] );
