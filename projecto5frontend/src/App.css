@@ -17,6 +17,7 @@
 	--orange-color: #D7693C;
 	--dark-color: #282828;
 	--logo-color: #2C94D9;
+	--background-color: #f6f5f7;
 }
 
 h1 {
@@ -27,6 +28,14 @@ h1 {
 h2 {
 	text-align: center;
 	font-family: "Poppins", sans-serif;
+}
+
+h3 {
+	font-family: "Poppins", sans-serif;
+	text-align: center;
+	font-weight: bold;
+	margin: 0;
+	padding-bottom: 5px;
 }
 
 span {
@@ -760,6 +769,9 @@ Dashboard
 ---------------*/
 
 .dashboard-container{
+	height: 100%;
+	background-color: var(--background-color);
+
 	.container {
 		width: 100%;
 		padding: 0 20px;
@@ -770,28 +782,33 @@ Dashboard
 		flex-wrap: wrap;
 		height: 250px;
 		width: 100%;
+		border-bottom: #53b4e4a3 solid;
 	}
 
 	.row2 {
 		display: flex;
 		flex-wrap: wrap;
-		padding: 10px 20px;
-		max-height: 150px;
+		padding: 0 20px 40px;
+		margin: 10px 0;
+		max-height: 200px;
 		width: 100%;
+		border-bottom: #53b4e4a3 solid;
 	}
 
 	.row3 {
 		display: flex;
 		flex-wrap: wrap;
 		padding: 10px 20px;
-		height: 450px;
+		height: 500px;
 		width: 100%;
+		border-bottom: #53b4e4a3 solid;
 	}
 
 	.row4 {
 		display: flex;
 		flex-wrap: wrap;
 		padding: 10px 20px;
+		margin: 10px 0 40px 0;
 		height: 400px;
 		width: 100%;
 	}
@@ -807,6 +824,7 @@ Dashboard
 
 		.stat-number{
 			background-color: var(--orange-color);
+			color: var(--background-color);
 			padding: 1.5em;
 			border-radius: 50%;
 			font-size: 1.5em;

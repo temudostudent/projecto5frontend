@@ -17,6 +17,7 @@ const Categories = () => {
    const [newCategoryName, setNewCategoryName] = useState(''); // New category name input value
    const [isFormVisible, setIsFormVisible] = useState(false); // Visibility of add/edit category form
    const [isSelected, setIsSelected] = useState(false); // Flag indicating if a category is selected for editing
+   const [categoriesState, setCategoriesState] = useState([]); // Categories state variable
 
 
 
@@ -42,12 +43,14 @@ const Categories = () => {
 
      // Fetch categories and associated tasks on component mount or when token or categories change
     useEffect(() => {
-        
-        fetchCategories();
-
+      fetchCategories();
+    }, []);
+    
+    useEffect(() => {
+      setCategoriesState(categories);
     }, [token, categories]);
 
-
+    
     // Function to fetch categories and update state
     const fetchCategories = async () => {
       try {
@@ -204,7 +207,7 @@ const Categories = () => {
                             dataType="Categories"
                             typeOfUser={userData.typeOfUser}
                             headCells={headCells}
-                            data={categories}
+                            data={categoriesState}
                             onDeleteSelected={handleDeleteSelectedCategories}
                             onSelectionChange={handleCategorySelectionChange}
                             onAddChange={handleChangeAddCategory}

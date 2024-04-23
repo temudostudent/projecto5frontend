@@ -20,6 +20,17 @@
 
 "notification_message":"You received a message from {user}",
 
-"lets-chat":"Let's Chat"
+"lets-chat":"Let's Chat",
+
+"team-roles":"Team Roles",
+"users-state": "Users State",
+"tasks-status": "Tasks Status",
+"avg-tasks": "Average Tasks per User",
+"avg-tasks-time": "Average Task Time (Days)",
+"users-over-time": "Users over Time",
+"tasks-done-over-time": "Tasks Done over Time",
+"user-status": "User Status"
+
+
 
 } 

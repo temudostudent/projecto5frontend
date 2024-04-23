@@ -13,49 +13,33 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
   {
     name: 'Page C',
     key: 9800,
-  },
-  {
-    name: 'Page D',
-    key: 3908,
-  },
-  {
-    name: 'Page E',
-    key: 4800,
-  },
-  {
-    name: 'Page F',
-    key: 3800,
-  },
-  {
-    name: 'Page G',
-    key: 4300,
-  },
+  }
 ];*/
 
 export default class SimpleLineChart extends PureComponent {
 
   render() {
-    const { data } = this.props;
+    const { data, users } = this.props;
 
     return (
-      <ResponsiveContainer width="90%" height="90%">
+      <ResponsiveContainer width="99%" height="100%">
         <LineChart
           width={500}
           height={500}
           data={data}
           margin={{
-            top: 5,
+            top: 20,
             right: 30,
             left: 20,
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <CartesianGrid strokeDasharray="6" />
+          <XAxis dataKey="name" label={{ value: 'Day', position: 'insideRight', offset: 40 }}/>
+          <YAxis type="number" domain={[0, 6]}/>
           <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="key" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Legend verticalAlign="bottom"/>
+          <Line type="monotone" dataKey={users ? "Users" : "Tasks"} stroke="#4682A9" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     );

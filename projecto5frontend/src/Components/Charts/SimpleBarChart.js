@@ -1,47 +1,30 @@
 import React, { PureComponent } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const data = [
+/*const data = [
   {
     name: 'Page A',
     uv: 4000,
-    amt: 2400,
   },
   {
     name: 'Page B',
     uv: 3000,
-    amt: 2210,
   },
   {
     name: 'Page C',
     uv: 2000,
-    amt: 2290,
   },
   {
     name: 'Page D',
     uv: 2780,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    amt: 2100,
-  },
-];
+  }
+];*/
 
 export default class SimpleBarChart extends PureComponent {
 
   render() {
+    const { data } = this.props;
+
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -50,7 +33,7 @@ export default class SimpleBarChart extends PureComponent {
           data={data}
           margin={{
             top: 5,
-            right: 30,
+            right: 10,
             left: 20,
             bottom: 5,
           }}
@@ -59,8 +42,8 @@ export default class SimpleBarChart extends PureComponent {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Legend />
-          <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+          <Legend verticalAlign="right" height={36}/>
+          <Bar dataKey="Number of Tasks" fill="#749BC2" activeBar={<Rectangle fill="#D7693C" stroke="#D7D4B9" />} />
         </BarChart>
       </ResponsiveContainer>
     );

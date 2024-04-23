@@ -19,5 +19,15 @@
 
 "notification_message":"{user} enviou-te uma mensagem",
 
-"lets-chat":"Queres falar?"
+"lets-chat":"Queres falar?",
+
+"team-roles": "Funções da Equipa",
+"users-state": "Estado dos Utilizadores",
+"tasks-status": "Estado das Tarefas",
+"avg-tasks": "Média de Tarefas por Utilizador",
+"avg-tasks-time": "Tempo Médio por Tarefa (Dias)",
+"users-over-time": "Utilizadores ao Longo do Tempo",
+"tasks-done-over-time": "Tarefas Concluídas ao Longo do Tempo",
+"user-status": "Tarefas do Utilizador"
+
 }
