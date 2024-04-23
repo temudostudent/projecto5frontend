@@ -16,11 +16,11 @@ import languages from "../Translations";
 const PublicProfile = () => {
   const { username } = useParams();
   const {token, userData, locale, updateReceiverData} = userStore();
-  const {updateMessages} = useMessageStore();
+  const {updateMessages, messages} = useMessageStore();
   const [userConsultedData, setUserConsultedData] = useState([]);
   const [userTasksCount, setUserTasksCount] = useState([]);
   const { showSidebar, updateShowSidebar } = useActionsStore();
-  const messageListRef = useRef(null);
+  const [hasClicked, setHasClicked] = useState(false);
 
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const PublicProfile = () => {
         const thisUserData = await AuthService.getUserData(token, username);
         
         setUserConsultedData(thisUserData);
-        updateReceiverData(thisUserData);
+        await updateReceiverData(thisUserData);
         
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -39,8 +39,6 @@ const PublicProfile = () => {
     const fetchStats = async () => {
       try{
         const totalTasks = await StatsService.getCountTasks(token, username, null);
-
-        console.log(totalTasks);
 
         setUserTasksCount(totalTasks);
       }catch (error) {
@@ -81,16 +79,7 @@ const PublicProfile = () => {
     }
   
     fetchMessages();
-  }, []);
-
-  // Scroll to bottom whenever messages change
-  useEffect(() => {
-    if (messageListRef.current) {
-      const { scrollHeight, clientHeight } = messageListRef.current;
-      const maxScrollTop = scrollHeight - clientHeight;
-      messageListRef.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
-    }
-  }, [userStore.messages]);
+  }, [hasClicked, username]);
 
   //Info formatada para mostrar as legendas pretendidas
   const userStats =[
@@ -100,7 +89,18 @@ const PublicProfile = () => {
   ];
 
   const handleLetsChatButton = () => {
+    if (!hasClicked) {
+      setMessagesAsRead();
+      setHasClicked(true);
+    }
     updateShowSidebar(false);
+  }
+
+  const setMessagesAsRead = async () => {
+    //Verifica se a última mensagem não está lida
+    if(messages[messages.length-1].status === "sent"){
+      await MessageService.setAllMessagesRead(token, userData.username, username);
+    } 
   }
 
 
@@ -108,7 +108,7 @@ const PublicProfile = () => {
     <div>
       <IntlProvider locale={locale} messages={languages[locale]}>
       <div className='profile-info-body'>
-        <div className="sidebar-container" ref={messageListRef}>
+        <div className="sidebar-container">
               <Sidebar
                   collapsedWidth={showSidebar ? '100%' : '0'}
                   userPath={username}

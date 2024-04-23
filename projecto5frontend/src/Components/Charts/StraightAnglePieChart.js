@@ -13,7 +13,7 @@ export default class StraightAnglePieChart extends PureComponent {
   
       return (
         <ResponsiveContainer width="100%" height="100%">
-          <PieChart width={200} height={200}>
+          <PieChart max-width={200} max-height={200}>
             <Pie
               dataKey="value"
               startAngle={180}

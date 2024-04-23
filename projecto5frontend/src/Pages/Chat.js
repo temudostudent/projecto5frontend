@@ -6,30 +6,20 @@ import { MessageList, Input } from 'react-chat-elements'
 import MessageService from '../Components/Service/MessageService';
 import { userStore } from '../Stores/UserStore'
 import { useMessageStore } from '../Stores/MessageStore'
+import WebSocketChat from '../Components/Websocket/WebSocketChat';
 
-const Chat = () => {
+const Chat = (props) => {
   const {token, userData, receiverData} = userStore();
+  const {receiverUsername} = props;
   const {messages, addMessage} = useMessageStore();
   const [chatMessages, setChatMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  // Create a reference to the message list
-  const messageListRef = React.createRef();
+  const wsChat = WebSocketChat({ receiverUsername: receiverUsername });
 
   useEffect(() => {
     setChatMessages(messages);
-  }, [messages]);
-  
 
-  // In your useEffect hook, scroll to the bottom whenever the messages array changes
-  useEffect(() => {
-    if (messageListRef.current) {
-      setTimeout(() => {
-        const scrollHeight = messageListRef.current.scrollHeight;
-        const height = messageListRef.current.clientHeight;
-        const maxScrollTop = scrollHeight - height;
-        messageListRef.current.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
-      }, 100); // delay of 100ms
-    }
+    console.log("Messages:", messages);
   }, [messages]);
 
   {/*EXEMPLO
@@ -50,7 +40,7 @@ const handleSubmit = async (content) => {
   
   try {
     // Call the API to send the message
-    const response = await MessageService.sendMessage(content, token, receiverData.username);
+    const response = await MessageService.sendMessage(content, token, receiverUsername);
 
     if (!response) {
       console.error('No response from the server');
@@ -58,7 +48,7 @@ const handleSubmit = async (content) => {
     }
 
     // Format the response message
-    const  formattedMessage= {
+    const formattedMineMessage= {
       position: "right",
       type: "text",
       title: userData.username,
@@ -69,8 +59,7 @@ const handleSubmit = async (content) => {
       titleColor: "#D7693C",
     };
 
-    // Add the formatted message to the messages list
-    addMessage(formattedMessage);
+    addMessage(formattedMineMessage);
     setInputValue('');
   } catch (error) {
     console.error('Error sending message:', error);
@@ -81,7 +70,6 @@ const handleSubmit = async (content) => {
  return (
    <div className="chat-container">
      <MessageList
-      ref={messageListRef}
       className='message-list'
       lockable={true}
       toBottomHeight='100%'

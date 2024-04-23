@@ -62,7 +62,7 @@ function LoginForm() {
 
     const fetchNotifications = async (token) => {
         try {
-            const notifications = await NotificationService.getNotifications(token, inputs.username);
+            const notifications = await NotificationService.getLatestNotifications(token, inputs.username);
             await updateNotifications(notifications);
         } catch (error) {
             console.error('Error fetching notifications:', error);

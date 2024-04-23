@@ -28,7 +28,6 @@ MESSAGES
     },
     
     // Function to send a message
-
     sendMessage: async (content, token, receiver) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/send?to=${receiver}`, 
@@ -51,6 +50,31 @@ MESSAGES
         } catch (error) {
             console.error('Error sending message:', error);
         }
-    }
+    },
+
+    // Function to set messages as read
+    setAllMessagesRead: async (token, username1, username2) => {
+        try {
+            const response = await axios.put(`${API_BASE_URL}/read?user1=${username1}&user2=${username2}`, null,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+            });
+            if (response.status === 200) {
+                console.log(response.data);
+            } else if (response.status === 401) {
+                console.log(response.data);
+            } else if (response.status === 400) {
+                console.log(response.data);
+            }else {
+                console.log(`Unexpected status code: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    },
+
 };
 export default MessageService;

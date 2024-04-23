@@ -214,15 +214,8 @@ const Header = () => {
                 {showNotificationDrop && (
                 <div className="notificationDrop" >
                     <h3><FormattedMessage id="notification_label" /></h3>
-                    {notifications.reduce((acc, current) => {
-                        const x = acc.find(item => item.sender.username === current.sender.username);
-                        if (!x) {
-                        return acc.concat([current]);
-                        } else {
-                        return acc.map(item => item.sender.username === current.sender.username ? current : item);
-                        }
-                    }, []).map((notification, index) => (
-                        <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username)}>
+                    {notifications.map((notification, index) => (
+                        <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username, userData.username)}>
                             <div className="photo-container">
                                 <img src={notification.sender.photoURL} alt="Sender Pic" />
                             </div>

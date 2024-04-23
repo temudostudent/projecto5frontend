@@ -64,7 +64,9 @@ function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit, userPath}) {
             ) : null;
         } else if (location.pathname === `/profile/${userPath}`) {
             return (
-                <Chat />
+                <Chat 
+                    receiverUsername={userPath}
+                />
             );
         } else {
             return null;

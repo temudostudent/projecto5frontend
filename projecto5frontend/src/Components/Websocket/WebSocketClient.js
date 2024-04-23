@@ -4,7 +4,7 @@ import { useNotificationStore } from "../../Stores/NotificationStore";
 
 function WebSocketClient(){ 
 
-    const { addNotification } = useNotificationStore(); 
+    const { replaceOrAddNotification } = useNotificationStore(); 
     const {token} = userStore();
     const WS_URL = "ws://localhost:8080/project_backend/websocket/"; 
 
@@ -16,7 +16,7 @@ function WebSocketClient(){
 
         websocket.onmessage = (event) => { 
             const notification  = JSON.parse(event.data);
-            addNotification(notification); 
+            replaceOrAddNotification(notification); 
         } 
     },[] );
 
