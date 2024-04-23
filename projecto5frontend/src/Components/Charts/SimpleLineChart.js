@@ -22,10 +22,10 @@ export default class SimpleLineChart extends PureComponent {
     const { data, users } = this.props;
 
     return (
-      <ResponsiveContainer width="99%" height="100%">
+      <ResponsiveContainer width="90%" height="90%">
         <LineChart
-          width={500}
-          height={500}
+          width={200}
+          height={200}
           data={data}
           margin={{
             top: 20,

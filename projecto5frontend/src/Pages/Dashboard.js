@@ -11,9 +11,13 @@ import languages from "../Translations";
 import { IntlProvider, FormattedMessage } from "react-intl";
 
 const Dashboard = () => {
-    const {token, locale} = userStore();
+    const {token, userData, locale} = userStore();
     const [tasksCount, setTasksCount] = useState([]);
     const [usersCount, setUsersCount] = useState([]);
+    const [userTasksCount, setUserTasksCount] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [photo, setPhoto] = useState('');
+    const [usersListData, setUsersListData] = useState([]);
     const { categories, updateCategories} = useCategoryStore();
     
 
@@ -36,6 +40,43 @@ const Dashboard = () => {
         fetchStats();
         fetchCategories();
     }, [token]);
+
+    useEffect(() => {
+        // Function to fetch users data
+        const fetchUsers = async () => {
+            const allUsers = await AuthService.getAllUsersData(token);
+            setUsersListData(allUsers);
+        };
+
+        fetchUsers();
+
+        setSelectedOption(userData.username);
+        setPhoto(userData.photoURL);
+    }, []);
+
+    useEffect(() => {
+        const fetchPhoto = async () => {
+            try {
+                const user = await AuthService.getUserData(token, selectedOption);
+                setPhoto(user.photoURL);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        }
+
+        const fetchStats = async () => {
+          try{
+            const totalTasks = await StatsService.getCountTasks(token, selectedOption, null);
+    
+            setUserTasksCount(totalTasks);
+          }catch (error) {
+            console.error("Error fetching statistics:", error);
+          }
+        };
+    
+        fetchStats();
+        fetchPhoto();
+      }, [selectedOption, token]);
 
     // Function to fetch categories and update state
     const fetchCategories = async () => {
@@ -61,6 +102,7 @@ const Dashboard = () => {
             console.error('Error fetching data:', error);
         }
       };
+
     
     //Info formatada para mostrar as legendas pretendidas
     const teamRolesStats =[
@@ -125,6 +167,19 @@ const Dashboard = () => {
         'Number of Tasks': number_tasks
     }));
 
+    // Function to handle option change
+    const handleOptionChange = (event) => {
+        const selectedOptionValue = event.target.value;
+        setSelectedOption(selectedOptionValue);
+    }
+
+     //Info formatada para mostrar as legendas pretendidas
+    const userStats =[
+        { name: 'To Do', value: userTasksCount.toDo, fill:'#c8ae7e44'  },
+        { name: 'Doing', value: userTasksCount.doing, fill:'#59a4b16b' },
+        { name: 'Done', value: userTasksCount.done, fill:'#4d7d9980' },
+    ];
+
     
 
     return (
@@ -172,6 +227,22 @@ const Dashboard = () => {
                     </div>
                     <div className="col">
                         <h3><FormattedMessage id="user-status" /></h3>
+                        <div className="user-task-stats-container">
+                            <select onChange={handleOptionChange} value={selectedOption}>
+                            <option value="" disabled>Select User</option>
+                            {usersListData.map((user, index) => (
+                                <option key={index} value={user.username} data-category-id={user.username}>
+                                {user.username}
+                                </option>
+                            ))}
+                            </select>
+                            <span className="photo-info-container">
+                                <img src={photo} alt="Profile Pic" /> {/* Show profile picture */}
+                            </span> 
+                        </div> 
+                            <div className='chart'>
+                                {userTasksCount.tasks > 0 ? <DoughnutChart data={userStats} /> : <p>No Tasks</p>}
+                            </div>
                     </div>
                 </div>
             </div>

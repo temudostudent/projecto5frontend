@@ -26,16 +26,16 @@ export default class SimpleBarChart extends PureComponent {
     const { data } = this.props;
 
     return (
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="80%">
         <BarChart
           width={500}
           height={300}
           data={data}
           margin={{
-            top: 5,
+            top: 10,
             right: 10,
             left: 20,
-            bottom: 5,
+            bottom: 20,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />

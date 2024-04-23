@@ -47,9 +47,14 @@ function SignUpForm({ onSignUpSuccess, token }) {
         event.preventDefault();
 
         try {
+            let typeOfUser = parseInt(selectedType);
+                if(isNaN(typeOfUser)) {
+                    typeOfUser = 100;
+            }
+
             const dataToSend = {
                 ...inputs,
-                typeOfUser: parseInt(selectedType) // Add selected type to the data
+                typeOfUser: typeOfUser
             };
             console.log(dataToSend);
             const response = await AuthService.registerPending(token, dataToSend);
@@ -92,7 +97,7 @@ function SignUpForm({ onSignUpSuccess, token }) {
                         value={selectedType}
                         onChange={handleSelectChange}
                         required
-                      >
+                        >
                         <option value={''} disabled>Select Type Of User</option>
                         <option value={100}>Developer</option>
                         <option value={200}>Scrum Master</option>
