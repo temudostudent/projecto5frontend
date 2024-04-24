@@ -32,7 +32,7 @@ export default class SimpleBarChart extends PureComponent {
           height={300}
           data={data}
           margin={{
-            top: 10,
+            top: 0,
             right: 10,
             left: 20,
             bottom: 20,
@@ -40,9 +40,9 @@ export default class SimpleBarChart extends PureComponent {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis type='number' domain={[0, dataMax => Math.round(dataMax * 1.3)]}/>
           <Tooltip />
-          <Legend verticalAlign="right" height={36}/>
+          <Legend verticalAlign="top" height={36}/>
           <Bar dataKey="Number of Tasks" fill="#749BC2" activeBar={<Rectangle fill="#D7693C" stroke="#D7D4B9" />} />
         </BarChart>
       </ResponsiveContainer>

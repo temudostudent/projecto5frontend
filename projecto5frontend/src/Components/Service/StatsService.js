@@ -54,6 +54,30 @@ USER
         }
     },
 
+    // Function to get categories
+    getCategories: async (token) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/categories`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                    'token': token
+                }
+            });
+            if (response.status === 200) {
+       
+                return response.data;
+      
+              } else if (response.status === 401) {
+                toast.warning("Invalid credentials")
+              } else if (response.status === 404) {
+                toast.warning('Something went wrong. The categories were not found.')
+              }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+
 
 }
 

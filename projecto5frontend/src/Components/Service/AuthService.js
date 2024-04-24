@@ -649,7 +649,8 @@ newTask: async (token, username, task) => {
           } else if (response.status === 401) {
             toast.warning("Invalid credentials")
           } else if (response.status === 404) {
-            toast.warning("Impossible to create task. Verify all fields")
+            console.log("banana", response);
+            toast.warning(response.data);
           }
     } catch (error) {
         console.error('Error:', error);

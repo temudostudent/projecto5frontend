@@ -36,7 +36,7 @@ export default class SimpleLineChart extends PureComponent {
         >
           <CartesianGrid strokeDasharray="6" />
           <XAxis dataKey="name" label={{ value: 'Day', position: 'insideRight', offset: 40 }}/>
-          <YAxis type="number" domain={[0, 6]}/>
+          <YAxis type="number" domain={[0, dataMax => Math.round(dataMax * 1.4)]}/>
           <Tooltip />
           <Legend verticalAlign="bottom"/>
           <Line type="monotone" dataKey={users ? "Users" : "Tasks"} stroke="#4682A9" activeDot={{ r: 8 }} />

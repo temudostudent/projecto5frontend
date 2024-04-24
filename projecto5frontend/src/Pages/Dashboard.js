@@ -30,8 +30,14 @@ const Dashboard = () => {
             console.log("tasks", totalTasks);
             console.log("users", totalUsers);
     
-            setTasksCount(totalTasks);
-            setUsersCount(totalUsers);
+            if (totalTasks) {
+                setTasksCount(totalTasks);
+            }
+
+            if (totalUsers) {
+                setUsersCount(totalUsers);
+            }
+            
           }catch (error) {
             console.error("Error fetching statistics:", error);
           }
@@ -81,7 +87,7 @@ const Dashboard = () => {
     // Function to fetch categories and update state
     const fetchCategories = async () => {
         try {
-            const allCategories = await AuthService.getAllCategories(token);
+            const allCategories = await StatsService.getCategories(token);
             
             // Check if allCategories is not undefined before mapping over it
             if (allCategories !== undefined) {
@@ -203,21 +209,21 @@ const Dashboard = () => {
                 <div className="row2">
                     <div className="col">
                         <h3><FormattedMessage id="avg-tasks" /></h3>
-                        <span className="stat-number">{tasksCount.avgTasksPerUser}</span>
+                        <span className="stat-number">{tasksCount.avgTasksPerUser ? tasksCount.avgTasksPerUser.toFixed(1) : 'N/A'}</span>
                     </div>
                     <div className="col">
                         <h3><FormattedMessage id="avg-tasks-time" /></h3>
-                        <span className="stat-number">{tasksCount.avgTaskDone}</span>
+                        {tasksCount && <span className="stat-number">{tasksCount.avgTaskDone}</span>}
                     </div>
                 </div>
                 <div className="row3">
                     <div className="col">
                         <h3><FormattedMessage id="users-over-time" /></h3>
-                        <SimpleLineChart data={formatUsersOverTime(usersCount)} users/>
+                        {usersCount.users > 0 && <SimpleLineChart data={formatUsersOverTime(usersCount)} users/>}
                     </div>
                     <div className="col">
                         <h3><FormattedMessage id="tasks-done-over-time" /></h3>
-                        <SimpleLineChart data={formatTasksOverTime(tasksCount)}/>
+                        {tasksCount && <SimpleLineChart data={formatTasksOverTime(tasksCount)}/>}
                     </div>
                 </div>
                 <div className="row4">

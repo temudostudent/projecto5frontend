@@ -12,6 +12,15 @@ const FormTask = (props) => {
         priority: { value: '', disabled: true }
     });
 
+    const thisInitialValues = {
+        title: '',
+        description: '',
+        priority: '',
+        startDate: '',
+        limitDate: '',
+        category: { name: '' }
+    };
+
     // useEffect to update form data when initialValues change
     useEffect(() => {
         setFormData(initialValues || {
@@ -59,8 +68,10 @@ const FormTask = (props) => {
                 };
 
                 await onSubmit(formattedData);
+
+                console.log(formattedData);
                 // Clearing form data after submission
-                setFormData({});
+                setFormData(thisInitialValues);
 
             }
         } catch (error) {
@@ -80,7 +91,7 @@ const FormTask = (props) => {
                     name={name} 
                     required={input.required}
                     onChange={handleChange}
-                    value={(formData.category && formData.category.name)}
+                    value={(formData && formData.category ? formData.category.name : '')}
                 >
                     {options.map((option, index) => (
                         <option key={index} value={option.value} disabled={option.disabled}>{option.label}</option>

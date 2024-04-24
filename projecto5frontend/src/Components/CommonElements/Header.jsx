@@ -57,11 +57,13 @@ const Header = () => {
 
     useEffect(() => {
         const uniqueNotifications = {};
-        notifications.forEach(notification => {
-            if (!notification.readStatus) {
-                uniqueNotifications[notification.sender.username] = notification;
-            }
-        });
+        if (Array.isArray(notifications)) {
+            notifications.forEach(notification => {
+                if (!notification.readStatus) {
+                    uniqueNotifications[notification.sender.username] = notification;
+                }
+            });
+        }
         console.log(uniqueNotifications);
         setNotificationCount(Object.keys(uniqueNotifications).length);
     }, [notifications]);
@@ -95,31 +97,37 @@ const Header = () => {
     const handleClickNotification = async (senderUsername, receiverUsername) => {
         setShowNotificationDrop(false);
         await NotificationService.markAllFromSenderToReceiverAsRead(token, senderUsername, receiverUsername);
-        const updatedNotifications = notifications.map(notification => {
-            if (notification.sender.username === senderUsername) {
-                return {
-                    ...notification,
-                    readStatus: true
-                };
-            } else {
-                return notification;
-            }
-        });
+        
+        let updatedNotifications = [];
+        if (Array.isArray(notifications)) {
+            updatedNotifications = notifications.map(notification => {
+                if (notification.sender.username === senderUsername) {
+                    return {
+                        ...notification,
+                        readStatus: true
+                    };
+                } else {
+                    return notification;
+                }
+            });
+        }
         
         updateNotifications(updatedNotifications);
-
+    
         navigate(`/profile/${senderUsername}`);
     }
 
     const handleClickNotificationsNumber = async () => {
-        
         await NotificationService.markAllNotificationsAsRead(token);
-    
-        const updatedNotifications = notifications.map(notification => ({
-            ...notification,
-            readStatus: true
-        }));
-    
+        
+        let updatedNotifications = [];
+        if (Array.isArray(notifications)) {
+            updatedNotifications = notifications.map(notification => ({
+                ...notification,
+                readStatus: true
+            }));
+        }
+        
         updateNotifications(updatedNotifications);
     }
     
@@ -212,23 +220,23 @@ const Header = () => {
                 )}
                 {/* Dropdown for notifications */}
                 {showNotificationDrop && (
-                <div className="notificationDrop" >
-                    <h3><FormattedMessage id="notification_label" /></h3>
-                    {notifications.map((notification, index) => (
-                        <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username, userData.username)}>
-                            <div className="photo-container">
-                                <img src={notification.sender.photoURL} alt="Sender Pic" />
+                    <div className="notificationDrop" >
+                        <h3><FormattedMessage id="notification_label" /></h3>
+                        {Array.isArray(notifications) && notifications.map((notification, index) => (
+                            <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username, userData.username)}>
+                                <div className="photo-container">
+                                    <img src={notification.sender.photoURL} alt="Sender Pic" />
+                                </div>
+                                <div className="message-container">
+                                    <p className="notification-text"><FormattedMessage id="notification_message" values={{user: notification.sender.username}} /></p>
+                                    <p className="notification-moment">{moment(notification.timestamp).fromNow()}</p>
+                                </div>
+                                {!notification.readStatus && (
+                                    <span className="unreaded-dot"></span>
+                                )}
                             </div>
-                            <div className="message-container">
-                                <p className="notification-text"><FormattedMessage id="notification_message" values={{user: notification.sender.username}} /></p>
-                                <p className="notification-moment">{moment(notification.timestamp).fromNow()}</p>
-                            </div>
-                            {!notification.readStatus && (
-                                <span className="unreaded-dot"></span>
-                            )}
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
                 )}
             </div>
             </IntlProvider> 

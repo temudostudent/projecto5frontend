@@ -19,7 +19,6 @@ const ConfirmPassword = () => {
         const fetchUsername = async () => {
             try {
                 const response = await AuthService.getUsernamePending(token);
-                console.log(response);
                 if (response && response.status === 200) {
                     setUsername(response.data);
                 } else {
@@ -29,26 +28,24 @@ const ConfirmPassword = () => {
                 console.error('Error fetching data:', error); 
             }
         };
-
+    
         const checkTokenValidity = async () => {
             try {
-                // Chamar função para verificar se o token é válido
                 const isValid = await TokenService.checkAccountConfirmValidation(token);
                 setValidToken(isValid);
             } catch (error) {
                 console.error('Error checking token validity:', error);
                 setValidToken(false);
+                navigate('/404');
             }
         };
-
+    
         if (token) {
             checkTokenValidity();
-        } else {
-            setValidToken(false);
         }
-
+    
         fetchUsername();
-
+    
     }, [token]);
 
     const handleSubmit = async(e) => {
@@ -72,11 +69,6 @@ const ConfirmPassword = () => {
         }
 
     };
-
-    if (!token || !validToken) {
-        // Se o token não existir ou não for válido, redirecionar para uma página de erro
-        navigate('/404');
-    }
 
 
     return (

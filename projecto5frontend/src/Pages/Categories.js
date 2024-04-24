@@ -48,6 +48,7 @@ const Categories = () => {
     
     useEffect(() => {
       setCategoriesState(categories);
+      console.log(categories);
     }, [token, categories]);
 
     
@@ -64,6 +65,7 @@ const Categories = () => {
                       return { ...category, number_tasks: tasks.length };
                   })
               );
+              console.log(categoriesWithTasks);
               
               updateCategories(categoriesWithTasks);
           } else {
@@ -88,8 +90,7 @@ const Categories = () => {
                 // Limpar o campo de entrada
                 setNewCategoryName('');
                 // Atualizar a lista de categorias
-                const updatedCategories = await AuthService.getAllCategories(token);
-                updateCategories(updatedCategories);
+                fetchCategories();
                 setIsFormVisible(false);
             }
         } catch (error) {
@@ -163,8 +164,8 @@ const Categories = () => {
 
      // Function to handle showing the edit category form
     const handleChangeEditForm = () => {
-          setIsFormVisible(true);
-          setIsSelected(true);
+        setIsFormVisible(true);
+        setIsSelected(true);
     };
 
 

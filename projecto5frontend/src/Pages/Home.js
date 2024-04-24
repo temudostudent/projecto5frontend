@@ -55,18 +55,13 @@ const Home = () => {
      // Function to fetch tasks based on category, erasedStatus, or user
     const fetchTasks = async (categoryName , erasedStatus, username) => {
 
-        console.log('Fetching tasks');
         let userTasks;
         
         try {
             if (location.pathname === '/alltasks') {
 
-                console.log('category name',categoryName);
-                console.log('erased stat',erasedStatus);
-
                 if (categoryName) {
                     userTasks = await AuthService.getAllTasksByCategory(token, categoryName);
-                    console.log('maça');
                     
                 } else if (erasedStatus=== true || erasedStatus=== false) {
                     userTasks = await AuthService.getAllTasksByErasedStatus(token, erasedStatus);
@@ -77,7 +72,6 @@ const Home = () => {
                 }
             } else {
 
-                console.log('tarefas deste mesmo');
                 userTasks = await AuthService.getAllTasksFromUser(token, userData.username);
             }
     
@@ -176,12 +170,10 @@ const Home = () => {
     // Function to handle filter change
     const handleFilterChange = async (event) => {
         const selectedValue = event.target.value;
-      
-        console.log(selectedValue);
+
         setSelectedFilter(selectedValue);
         setSelectedOption('');
       
-        
         if (selectedValue === 'All') {
           fetchTasks();
         }
