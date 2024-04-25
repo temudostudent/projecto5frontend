@@ -41,12 +41,10 @@ function Routing() {
         </>} />
 
         <Route path="/home" element={<>
-          <Header />
           <Home />
         </>} />
 
         <Route path="/alltasks" element={<>
-          <Header />
           <Home />
         </>} />
 

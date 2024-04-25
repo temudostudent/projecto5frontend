@@ -16,12 +16,14 @@ import { useCategoryStore } from '../../Stores/CategoryStore'
 import { useTaskStore } from '../../Stores/TaskStore'
 import { useUsersListStore } from '../../Stores/UsersDataStore'
 import { useNotificationStore } from '../../Stores/NotificationStore';
+import { useStatsStore } from '../../Stores/StatsStore'
 import languages from "../../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 import moment from 'moment';
+import useWebSocketClient from '../Websocket/useWebSocketClient';
 
 
-const Header = () => {
+const Header = (props) => {
     // Accessing state variables and functions from stores
     const { notifications, updateNotifications } = useNotificationStore();
     const {token, userData, locale, updateLocale} = userStore();
@@ -33,6 +35,9 @@ const Header = () => {
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const { updateIsAllTasksPage } = useActionsStore();
     const [notificationCount, setNotificationCount] = useState(0);
+    const { selectedFilter, selectedOption } = props
+
+    useWebSocketClient(selectedFilter, selectedOption);
    
 
     // Fetching user header data
@@ -81,6 +86,7 @@ const Header = () => {
             useTaskStore.getState().resetUseTaskStore();
             useUsersListStore.getState().resetUseUsersListStore();
             useNotificationStore.getState().resetUseNotificationStore();
+            useStatsStore.getState().resetUseStatsStore();
             navigate('/');
         }catch (error) {
             console.log(error);
@@ -101,10 +107,10 @@ const Header = () => {
             updatedNotifications = notifications.map(notification => {
                 if (notification.sender.username === senderUsername) {
                     console.log("notification", notification);
-                    if (notification.type === 10) {
+                    if (notification.task === null) {
                         navigate(`/profile/${senderUsername}`);
                     }else {
-                        navigate(`/home`);
+                        navigate("/home");
                     }
                     return {
                         ...notification,

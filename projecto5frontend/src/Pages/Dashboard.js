@@ -6,6 +6,7 @@ import SimpleBarChart from '../Components/Charts/SimpleBarChart';
 import StraightAnglePieChart from '../Components/Charts/StraightAnglePieChart';
 import { userStore } from '../Stores/UserStore'
 import { useCategoryStore } from '../Stores/CategoryStore'
+import { useStatsStore } from '../Stores/StatsStore'
 import AuthService from '../Components/Service/AuthService'
 import languages from "../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -19,9 +20,11 @@ const Dashboard = () => {
     const [photo, setPhoto] = useState('');
     const [usersListData, setUsersListData] = useState([]);
     const { categories, updateCategories} = useCategoryStore();
+    const { usersStats, tasksStats} = useStatsStore();
     
 
     useEffect(() => {
+
         const fetchStats = async () => {
           try{
             const totalTasks = await StatsService.getCountTasks(token, null, null);
@@ -45,7 +48,7 @@ const Dashboard = () => {
     
         fetchStats();
         fetchCategories();
-    }, [token]);
+    }, [token, usersStats, tasksStats]);
 
     useEffect(() => {
         // Function to fetch users data

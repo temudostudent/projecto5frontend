@@ -2,19 +2,22 @@ import { useEffect } from "react";
 import { userStore } from '../../Stores/UserStore'
 import { useNotificationStore } from "../../Stores/NotificationStore";
 import { useTaskStore } from "../../Stores/TaskStore";
+import { useStatsStore } from '../../Stores/StatsStore'
 import { useLocation } from 'react-router-dom';
 
 function useWebSocketClient(selectedFilter, selectedOption){ 
 
     const location = useLocation(); // Get current location
     const {replaceOrAddMessageNotification} = useNotificationStore(); 
-    const {replaceTaskById, deleteTaskById, addTask} = useTaskStore(); 
+    const {replaceTaskById, deleteTaskById, addTask} = useTaskStore();
+    const {updateUserStats, updateTasksStats} = useStatsStore();
     const {token} = userStore();
     const WS_URL = "ws://localhost:8080/project_backend/websocket/"; 
 
     useEffect(() => { 
         const websocket = new WebSocket(WS_URL+`/notifier/${token}`);
-        console.log("WebSocket created");
+        
+
         websocket.onopen = () => { 
             console.log("The websocket connection is open"); 
         } 
@@ -39,7 +42,14 @@ function useWebSocketClient(selectedFilter, selectedOption){
                 }else{
                     replaceTaskById(data);
                 }
-            } 
+            } else if (data.dtoType === "Statistics") { 
+                console.log("Statistics received: ", data);
+                if(data.users > 0){
+                    updateUserStats(data);
+                }else if(data.tasks > 0){
+                    updateTasksStats(data);
+                }
+            }
              
         } 
 

@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 export const useTaskStore = create(
   persist(
     (set) => ({
-      tasks: [],
+      tasks: [], // Initialize tasks as an empty array
       selectedTask: null,
       updateTasks: (tasks) => set({ tasks }),
       setSelectedTask: (task) => set({ selectedTask: task }),

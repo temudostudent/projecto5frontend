@@ -8,9 +8,9 @@ import { useTaskStore } from '../Stores/TaskStore'
 import { useActionsStore } from '../Stores/ActionStore'
 import { useCategoryStore } from '../Stores/CategoryStore'
 import Sidebar from '../Components/CommonElements/Sidebar'
-import useWebSocketClient from '../Components/Websocket/useWebSocketClient';
 import languages from "../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl"; 
+import Header from '../Components/CommonElements/Header'
 
 const Home = () => {
 
@@ -31,7 +31,6 @@ const Home = () => {
     const [selectedOption, setSelectedOption] = useState('');
     const [updatedSignal, setUpdatedSignal] = useState(true);
 
-    useWebSocketClient(selectedFilter, selectedOption);
 
     // Fetch initial data on component mount
     useEffect(() => {
@@ -256,6 +255,11 @@ const Home = () => {
 
 
     return (
+        <>
+        <Header 
+        selectedFilter={selectedFilter}
+        selectedOption={selectedOption}
+        />
         <div className='Home'>
             <IntlProvider locale={locale} messages={languages[locale]}> 
             {!loading && (
@@ -288,6 +292,7 @@ const Home = () => {
             {loading && <div>Loading...</div>}
             </IntlProvider> 
         </div>
+        </>
         
     );
 };
