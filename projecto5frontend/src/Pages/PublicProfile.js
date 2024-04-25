@@ -98,7 +98,7 @@ const PublicProfile = () => {
 
   const setMessagesAsRead = async () => {
     //Verifica se a última mensagem não está lida
-    if(messages[messages.length-1].status === "sent"){
+    if(messages.length > 0 && messages[messages.length-1].status === "sent"){
       await MessageService.setAllMessagesRead(token, userData.username, username);
     } 
   }

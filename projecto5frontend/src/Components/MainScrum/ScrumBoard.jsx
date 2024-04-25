@@ -10,12 +10,11 @@ import './ScrumBoard.css';
 
 const ScrumBoard = (props) => {
 
-  // Extracting location information from react-router-dom
-  const location = useLocation();
-  const { pathname } = location;
-
   // Destructuring props
   const { token , userData, homeTasksChange } = props;
+
+  // Extracting location information from react-router-dom
+  const {pathname} = useLocation();
 
   // Accessing state and functions from custom hooks
   const { tasks, updateTasks, setSelectedTask } = useTaskStore();
@@ -53,6 +52,30 @@ const ScrumBoard = (props) => {
   useEffect(() => {
     updateTaskList(tasks);
   }, [tasks]);
+
+  // useEffect hook to set up the WebSocket event listener
+  /*useEffect(() => {
+    ws.onmessage = (event) => {
+      let data;
+      try {
+        data = JSON.parse(event.data);
+        console.log('Data received:', data);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+        return;
+      }
+
+      console.log('Data received...:', data);
+      
+      if (data === 'ping') {
+        fetchTasks();
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);*/
 
 
   // Function to update the currentTaskList state
@@ -208,7 +231,7 @@ const ScrumBoard = (props) => {
               <div className="title">To Do</div>
               { renderTasksByStatus("100")}
 
-              {(location.pathname === '/home' || (location.pathname === '/alltasks' && userData.typeOfUser !== 100)) && (
+              {(pathname === '/home' || (pathname === '/alltasks' && userData.typeOfUser !== 100)) && (
                   <button onClick={handleNewTaskButton}>&nbsp;+ New Task</button>
               )}
 

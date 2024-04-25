@@ -8,7 +8,7 @@ import { useTaskStore } from '../Stores/TaskStore'
 import { useActionsStore } from '../Stores/ActionStore'
 import { useCategoryStore } from '../Stores/CategoryStore'
 import Sidebar from '../Components/CommonElements/Sidebar'
-import WebSocketClient from '../Components/Websocket/WebSocketClient';
+import useWebSocketClient from '../Components/Websocket/useWebSocketClient';
 import languages from "../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl"; 
 
@@ -17,7 +17,7 @@ const Home = () => {
     const location = useLocation(); // Get current location
 
     // Destructure values from stores
-    WebSocketClient();
+    
     const navigate = useNavigate();
     const {token, userData, locale} = userStore();
     const { categories, updateCategories } = useCategoryStore();
@@ -30,6 +30,8 @@ const Home = () => {
     const [selectedFilter, setSelectedFilter] = useState('All');
     const [selectedOption, setSelectedOption] = useState('');
     const [updatedSignal, setUpdatedSignal] = useState(true);
+
+    useWebSocketClient(selectedFilter, selectedOption);
 
     // Fetch initial data on component mount
     useEffect(() => {

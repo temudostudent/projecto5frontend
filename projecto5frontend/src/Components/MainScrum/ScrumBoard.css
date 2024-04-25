@@ -39,12 +39,11 @@ e matém-se na mesma poisção*/
     width: 100%;
     border: none;
     text-align: left;
-    font-size: 15px;
-    border-radius: 5px;
+    font-size: 0.9em;
     margin-left: 10px;
     background-color: var(--white);
     color: var(--dark-color);
-    padding: 3px 0px 8px 5px;
+    padding: 10px 3px;
     font-weight: bold;
     cursor: pointer;
     

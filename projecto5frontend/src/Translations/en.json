@@ -19,6 +19,7 @@
 "notification_label":"Notifications",
 
 "notification_message":"You received a message from {user}",
+"task_update_message":"{user} updated your task {taskName}",
 
 "lets-chat":"Let's Chat",
 

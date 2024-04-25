@@ -18,12 +18,10 @@ import { useUsersListStore } from '../../Stores/UsersDataStore'
 import { useNotificationStore } from '../../Stores/NotificationStore';
 import languages from "../../Translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
-import WebSocketClient from "../Websocket/WebSocketClient";
 import moment from 'moment';
 
 
 const Header = () => {
-    WebSocketClient();
     // Accessing state variables and functions from stores
     const { notifications, updateNotifications } = useNotificationStore();
     const {token, userData, locale, updateLocale} = userStore();
@@ -42,7 +40,7 @@ const Header = () => {
     useEffect(() => {
         userHeaderData();
         console.log(userData);
-        console.log(notifications);
+        console.log("notifications", notifications);
     }, [token, userData.photoURL])
 
     useEffect(() => {
@@ -64,7 +62,7 @@ const Header = () => {
                 }
             });
         }
-        console.log(uniqueNotifications);
+        console.log("notifications", uniqueNotifications);
         setNotificationCount(Object.keys(uniqueNotifications).length);
     }, [notifications]);
 
@@ -102,6 +100,12 @@ const Header = () => {
         if (Array.isArray(notifications)) {
             updatedNotifications = notifications.map(notification => {
                 if (notification.sender.username === senderUsername) {
+                    console.log("notification", notification);
+                    if (notification.type === 10) {
+                        navigate(`/profile/${senderUsername}`);
+                    }else {
+                        navigate(`/home`);
+                    }
                     return {
                         ...notification,
                         readStatus: true
@@ -114,7 +118,7 @@ const Header = () => {
         
         updateNotifications(updatedNotifications);
     
-        navigate(`/profile/${senderUsername}`);
+        
     }
 
     const handleClickNotificationsNumber = async () => {
@@ -228,7 +232,12 @@ const Header = () => {
                                     <img src={notification.sender.photoURL} alt="Sender Pic" />
                                 </div>
                                 <div className="message-container">
-                                    <p className="notification-text"><FormattedMessage id="notification_message" values={{user: notification.sender.username}} /></p>
+                                <p className="notification-text">
+                                    <FormattedMessage 
+                                        id={notification.type === 10 ? "notification_message" : "task_update_message"} 
+                                        values={notification.type === 10 ? {user: notification.sender.username} : {user: notification.sender.username, taskName: notification.task.title}} 
+                                    />
+                                    </p>
                                     <p className="notification-moment">{moment(notification.timestamp).fromNow()}</p>
                                 </div>
                                 {!notification.readStatus && (
