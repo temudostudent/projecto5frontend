@@ -58,12 +58,12 @@ const Header = (props) => {
         };
       }, []);
 
-    useEffect(() => {
-        const uniqueNotifications = {};
+      useEffect(() => {
+        let uniqueNotifications = {};
         if (Array.isArray(notifications)) {
-            notifications.forEach(notification => {
+            notifications.forEach((notification, index) => {
                 if (!notification.readStatus) {
-                    uniqueNotifications[notification.sender.username] = notification;
+                    uniqueNotifications[index] = notification;
                 }
             });
         }
@@ -98,18 +98,20 @@ const Header = (props) => {
         setSelectedLanguage(language);
     }
 
-    const handleClickNotification = async (senderUsername, receiverUsername) => {
+    const handleClickNotification = async (senderUsername, receiverUsername, type) => {
         setShowNotificationDrop(false);
-        await NotificationService.markAllFromSenderToReceiverAsRead(token, senderUsername, receiverUsername);
+        await NotificationService.markAllFromSenderToReceiverAsRead(token, senderUsername, receiverUsername, type);
         
         let updatedNotifications = [];
         if (Array.isArray(notifications)) {
             updatedNotifications = notifications.map(notification => {
-                if (notification.sender.username === senderUsername) {
+                if (notification.sender.username === senderUsername && notification.type === type) {
                     console.log("notification", notification);
-                    if (notification.task === null) {
+                    if (type === 10) {
+                        console.log("aqui", notification.type);
                         navigate(`/profile/${senderUsername}`);
                     }else {
+                        console.log("ali", notification.type);
                         navigate("/home");
                     }
                     return {
@@ -233,7 +235,7 @@ const Header = (props) => {
                     <div className="notificationDrop" >
                         <h3><FormattedMessage id="notification_label" /></h3>
                         {Array.isArray(notifications) && notifications.map((notification, index) => (
-                            <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username, userData.username)}>
+                            <div key={index} className="notification-container" onClick={() => handleClickNotification(notification.sender.username, userData.username, notification.type)}>
                                 <div className="photo-container">
                                     <img src={notification.sender.photoURL} alt="Sender Pic" />
                                 </div>

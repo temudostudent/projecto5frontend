@@ -81,9 +81,9 @@ NOTIFICATIONS
         }
     },
 
-    markAllFromSenderToReceiverAsRead: async (token, senderUsername, receiverUsername) => {
+    markAllFromSenderToReceiverAsRead: async (token, senderUsername, receiverUsername, type) => {
         try {
-            const response = await axios.put(`${API_BASE_URL}/read/${senderUsername}/${receiverUsername}`, null,{
+            const response = await axios.put(`${API_BASE_URL}/read/${senderUsername}/${receiverUsername}/?type=${type}`, null,{
                 headers: {
                     'Content-Type': 'application/json',
                     'token': token
