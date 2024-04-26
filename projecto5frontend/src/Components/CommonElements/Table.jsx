@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -12,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
@@ -132,8 +133,27 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { dataType, typeOfUser, numSelected, onDeleteSelected, selected, setSelected, onEditSelect, filterData, handleFilter, onChangeVisibilitySelect, onPermDeleteSelect} = props;
+  const { dataType, typeOfUser, numSelected, onDeleteSelected, selected, setSelected, onEditSelect, filterData, handleFilter, onChangeVisibilitySelect, onPermDeleteSelect, data, sendFilteredData} = props;
   const [anchorEl, setAnchorEl] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState(data);
+
+  useEffect(() => {
+    
+    setFilteredData(
+      data.filter((item) =>
+        (item.username ? item.username.toLowerCase().includes(searchTerm.toLowerCase()) : false) ||
+        (item.email ? item.email.toLowerCase().includes(searchTerm.toLowerCase()) : false)
+      )
+    );
+
+    console.log(filteredData);
+    sendFilteredData(filteredData);
+  }, [searchTerm, data]);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   const handleDelete = () => {
     onDeleteSelected();
@@ -175,6 +195,7 @@ function EnhancedTableToolbar(props) {
         }),
       }}
     >
+      
       {numSelected > 0 ? (
         <Typography
           sx={{ flex: '1 1 100%' }}
@@ -206,8 +227,6 @@ function EnhancedTableToolbar(props) {
               </IconButton>
             </>
           )}
-
-
 
 
           {(typeOfUser === 300) && (
@@ -276,6 +295,24 @@ function EnhancedTableToolbar(props) {
       ))}
       </Menu>
       )}
+
+      {dataType === "Users" && (
+        <TextField
+        label="Search"
+        variant="outlined"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        sx={{
+          width: '25ch',
+          bgcolor: 'background.paper', 
+          m: 1, 
+          borderRadius: 1,
+          '& .MuiOutlinedInput-input': {
+            padding: '10px 14px',
+          },
+        }}
+        />
+      )}
     
     </Toolbar>
   );
@@ -292,8 +329,17 @@ export default function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [filteredData, setFilteredData] = React.useState([]);
   const { dataType, data, typeOfUser, onSelectionChange, onDeleteSelected, onAddChange, onEditSelect, headCells, filterData, handleFilter, onChangeVisibilitySelect, onPermDeleteSelect, onDoubleClick } = props;
 
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data]);   
+
+  const handleFilteredDataChange = (filteredData) => {
+    setFilteredData(filteredData);
+  };
+  
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -302,7 +348,7 @@ export default function EnhancedTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = data.map((n) => n.id);
+      const newSelected = filteredData.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -344,15 +390,15 @@ export default function EnhancedTable(props) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredData.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(data, getComparator(order, orderBy)).slice(
+      stableSort(filteredData, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [data, order, orderBy, page, rowsPerPage],
+    [filteredData, order, orderBy, page, rowsPerPage],
   );
 
     return( 
@@ -370,6 +416,9 @@ export default function EnhancedTable(props) {
         handleFilter={handleFilter}
         onChangeVisibilitySelect={onChangeVisibilitySelect}
         onPermDeleteSelect={onPermDeleteSelect}
+        data={data}
+        sendFilteredData={handleFilteredDataChange}
+        
       />
       <TableContainer>
         <Table
@@ -386,7 +435,7 @@ export default function EnhancedTable(props) {
             orderBy={orderBy}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={data.length}
+            rowCount={filteredData.length}
           />
           <TableBody>
             {visibleRows.map((row, index) => {
@@ -465,7 +514,7 @@ export default function EnhancedTable(props) {
         <TablePagination
           rowsPerPageOptions={[5]}
           component="div"
-          count={data.length}
+          count={filteredData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

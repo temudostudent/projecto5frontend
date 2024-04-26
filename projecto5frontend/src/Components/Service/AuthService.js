@@ -10,29 +10,34 @@ USER
 ----------------------*/
 
 // Function to handle user login
-    login: async (inputs) => {
-
-        try{
-            const response = await axios.post(`${API_BASE_URL}/login`, inputs, 
-            {
-                headers: 
-                {
-                    'Accept': '*/*',
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (response.status === 200) {
-                return response;
-            } else if (response.status === 401) {
-                toast.warning("Invalid credentials, please try again");
-            } else {
-                throw new Error("Something went wrong");
+login: async (inputs) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/login`, inputs, {
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
             }
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-            toast.error("An error occurred, please try again later.");
-        };
-    },
+        });
+
+        if (response) {
+            if (response.status === 200) {
+                return { response, status: response.status }; // Include status in the return value
+            } 
+        } else {
+            throw new Error("No response received from the server");
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return { response: error.response, status: error.response.status }; // Include status in the return value
+        } else if (error.response && error.response.status === 401) {
+            toast.warning("Invalid credentials, please try again");
+        } else {
+            throw new Error("Something went wrong");
+        }
+        console.error('There was a problem with the fetch operation:', error);
+    }
+},
+
 
     // Function to handle user logout
     logout: async (token) => {
@@ -118,45 +123,55 @@ USER
                     'token': token
                 }
             });
-
+    
             if (response.status === 201) {
                 toast.success("Confirmation email sent!");
                 return response;
-            } else {
-                let errorData = response.data;
-
-                switch (response.status) {
+            }
+                
+        } catch (error) {
+            if (error.response) {
+                let errorData = error.response.data;
+    
+                switch (error.response.status) {
                     case 422:
-                        switch (errorData.error) {
-                            case "empty_fields":
-                                toast.error("Please fill all fields");
-                                break;
-                            case "invalid_email":
-                                toast.error("The email you used is not valid");
-                                break;
-                            case "invalid_phone":
-                                toast.error("The phone number is not valid");
-                                break;
-                            default:
-                                console.error('Unknown error message:', errorData.error);
-                                toast.error("Something went wrong");
-                                break;
+                        console.log('Error data:', errorData);
+                        if (errorData) {
+                            switch (errorData) {
+                                case "empty_fields":
+                                    toast.error("Please fill all fields");
+                                    break;
+                                case "Invalid email":
+                                    toast.error("The email you used is not valid");
+                                    break;
+                                case "Invalid phone number":
+                                    toast.error("The phone number is not valid");
+                                    break;
+                                default:
+                                    console.error('Unknown error message:', errorData.error);
+                                    toast.error("Something went wrong");
+                                    break;
+                            }
+                        } else {
+                            console.error('Error data is undefined:', errorData);
+                            toast.error("Something went wrong");
                         }
                         break;
                     case 409:
                         toast.error("Username already in use");
                         break;
                     default:
-                        console.error('Unknown error message:', errorData);
+                        console.error('Unknown error status:', error.response.status);
                         toast.error("Something went wrong");
                         break;
                 }
+            } else {
+                console.error('Error occurred without response:', error);
+                toast.error("Something went wrong");
             }
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error("Something went wrong");
         }
     },
+    
 
     // Function to handle user reset password
     forgotPassword: async (email) => {

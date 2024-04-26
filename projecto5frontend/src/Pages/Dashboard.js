@@ -195,21 +195,21 @@ const Dashboard = () => {
         <div className="dashboard-container">
             <IntlProvider locale={locale} messages={languages[locale]}> 
             <div className="container">
-                <div className="row1">
-                    <div className="col">
+                <div className="row">
+                    <div className="col" style={{ height: '230px' }}>
                         <h3><FormattedMessage id="team-roles" /></h3>
                         {usersCount.users > 0 && <StraightAnglePieChart data={teamRolesStats} total={usersCount.users} />}
                     </div>
-                    <div className="col">
+                    <div className="col" style={{ height: '230px' }}>
                         <h3><FormattedMessage id="users-state" /></h3>
                         {usersCount.users > 0 && <StraightAnglePieChart data={userStatusStats} total={usersCount.confirmedUsers+usersCount.notConfirmedUsers} />}
                     </div>
-                    <div className="col">
+                    <div className="col" style={{ height: '230px' }}>
                         <h3><FormattedMessage id="tasks-status" /></h3>
                         {tasksCount.tasks > 0 && <StraightAnglePieChart data={tasksStatus} total={tasksCount.tasks}/>}
                     </div>
                 </div>
-                <div className="row2">
+                <div className="row">
                     <div className="col">
                         <h3><FormattedMessage id="avg-tasks" /></h3>
                         <span className="stat-number">{tasksCount.avgTasksPerUser ? tasksCount.avgTasksPerUser.toFixed(1) : 'N/A'}</span>
@@ -219,22 +219,22 @@ const Dashboard = () => {
                         {tasksCount && <span className="stat-number">{tasksCount.avgTaskDone}</span>}
                     </div>
                 </div>
-                <div className="row3">
-                    <div className="col">
+                <div className="row">
+                    <div className="col" style={{ height: '350px' }}>
                         <h3><FormattedMessage id="users-over-time" /></h3>
                         {usersCount.users > 0 && <SimpleLineChart data={formatUsersOverTime(usersCount)} users/>}
                     </div>
-                    <div className="col">
+                    <div className="col" style={{ height: '350px' }}>
                         <h3><FormattedMessage id="tasks-done-over-time" /></h3>
                         {tasksCount && <SimpleLineChart data={formatTasksOverTime(tasksCount)}/>}
                     </div>
                 </div>
-                <div className="row4">
+                <div className="row">
                     <div className="col">
                         <h3><FormattedMessage id="categories" /></h3>
                         <SimpleBarChart data={formattedCategoriesWithTasks}/>
                     </div>
-                    <div className="col">
+                    <div className="col" style={{ height: '540px' }}>
                         <h3><FormattedMessage id="user-status" /></h3>
                         <div className="user-task-stats-container">
                             <select onChange={handleOptionChange} value={selectedOption}>

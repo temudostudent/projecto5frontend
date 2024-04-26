@@ -26,7 +26,7 @@ const renderActiveShape = (props) => {
   const cos = Math.cos(-RADIAN * midAngle);
   const sx = cx + (outerRadius + 10) * cos;
   const sy = cy + (outerRadius + 10) * sin;
-  const mx = cx + (outerRadius + 30) * cos;
+  const mx = cx + (outerRadius + 10) * cos;
   const my = cy + (outerRadius + 30) * sin;
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
   const ey = my;
@@ -96,7 +96,7 @@ export default function DoughnutChart({data}) {
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={190}
+        cx={200}
         cy={200}
         innerRadius={55}
         outerRadius={75}

@@ -35,6 +35,7 @@ const Header = (props) => {
     const [selectedLanguage, setSelectedLanguage] = useState(locale);
     const { updateIsAllTasksPage } = useActionsStore();
     const [notificationCount, setNotificationCount] = useState(0);
+    const [isMenuOpen, setIsMenuOpen] = useState(window.innerWidth > 810);
     const { selectedFilter, selectedOption } = props
 
     useWebSocketClient(selectedFilter, selectedOption);
@@ -175,6 +176,16 @@ const Header = (props) => {
         },
     ];
 
+    const toggleMenu = () => {
+        setIsMenuOpen(prevState => {
+            if (window.innerWidth <= 810) {
+                return !prevState;
+            } else {
+                return true;
+            }
+        });
+    };
+
     return (
         <header className="site-header">
             <IntlProvider locale={locale} messages={languages[locale]}> 
@@ -199,11 +210,11 @@ const Header = (props) => {
             </div>
             <div className="bottom-header">
                 {/* Logo */}
-                <div className="site-identity">
+                <div className="site-identity" onClick={toggleMenu}>
                     <img src={logo} alt="Logo da empresa" />
                 </div> 
                 {/* Menu */}
-                <Menu items={items} typeOfUser={userData.typeOfUser}/>
+                {isMenuOpen && <Menu items={items} typeOfUser={userData.typeOfUser}/> }
                 {/* User profile */}
                 <div className="profile-container" >
                     <IconContext.Provider value={{ color: "#4682A9", size: "2.7em", className: showNotificationDrop ? "notification-icon-selected" : "notification-icon"}}>

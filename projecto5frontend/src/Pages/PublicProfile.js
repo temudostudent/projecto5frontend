@@ -152,14 +152,17 @@ const PublicProfile = () => {
         {userData && 
           <div className='profile-info-container'>
             <div className='profile-container-left'>
-              <h2>Profile of {userConsultedData.username}</h2>
-              <p>First Name: {userConsultedData.firstName}</p>
-              <p>Last Name: {userConsultedData.lastName}</p>
-              <p>Email: {userConsultedData.email}</p>
+              <div className='data-container'>
+                <h2>Profile of {userConsultedData.username}</h2>
+                <p>First Name: {userConsultedData.firstName}</p>
+                <p>Last Name: {userConsultedData.lastName}</p>
+                <p>Email: {userConsultedData.email}</p>
+              </div>
               <span className="photo-info-container">
                   <img src={userConsultedData.photoURL} alt="Profile Pic" /> {/* Show profile picture */}
               </span> 
-              <div className='init-chat-bar' onClick={handleLetsChatButton}>
+              {(userConsultedData.username !== userData.username) && (
+                <div className='init-chat-bar' onClick={handleLetsChatButton}>
                 <IconContext.Provider value={{ color: "#eee", size: "2.2em" }}>
                   <FormattedMessage id="lets-chat" />
                   <span>
@@ -167,6 +170,7 @@ const PublicProfile = () => {
                   </span>
                 </IconContext.Provider>
               </div>
+              )}    
             </div>
             <div className='profile-statistics-container'>
               <p>Total tasks: {userTasksCount.tasks}</p>

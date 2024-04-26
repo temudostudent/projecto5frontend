@@ -28,26 +28,31 @@ function LoginForm() {
     // Function to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        try{
+    
+        try {
             // Attempting login
-            const response = await AuthService.login(inputs);
-                if (response.status === 200) {
+            const { response, status } = await AuthService.login(inputs);
+            if (response && status) { // Check if response and status exist
+                if (status === 200) {
                     const data = await response.data;
                     updateToken(data);
                     fetchUserData(data);
                     fetchNotifications(data);
-                    navigate('/home', {replace: true});
-                } else if (response.status === 401) {
-                    alert("Invalid credentials, please try again");
+                    navigate('/home', { replace: true });
+                } else if (status === 404) {
+                    navigate('/pending')
                 } else {
                     throw new Error("Something went wrong");
                 }
+            } else {
+                throw new Error("No response received from the server");
+            }
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             alert("An error occurred, please try again later.");
         };
     }
+    
 
     // Function to fetch user data after successful login
     const fetchUserData = async (token) => {

@@ -53,30 +53,6 @@ const ScrumBoard = (props) => {
     updateTaskList(tasks);
   }, [tasks]);
 
-  // useEffect hook to set up the WebSocket event listener
-  /*useEffect(() => {
-    ws.onmessage = (event) => {
-      let data;
-      try {
-        data = JSON.parse(event.data);
-        console.log('Data received:', data);
-      } catch (error) {
-        console.error('Error parsing JSON:', error);
-        return;
-      }
-
-      console.log('Data received...:', data);
-      
-      if (data === 'ping') {
-        fetchTasks();
-      }
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);*/
-
 
   // Function to update the currentTaskList state
   const updateTaskList = async (tasks) => {

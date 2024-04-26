@@ -51,6 +51,7 @@ Header
 
 .bottom-header { 
     display: flex;
+    justify-content: space-around;
     border-bottom: 1px solid #ccc;
     padding: 0 4em .5em 4em;
     align-items: center;
@@ -78,6 +79,45 @@ clear: both;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+}
+
+@media (max-width: 810px) {
+  .bottom-header {
+    padding: 0 1em;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-identity {
+    cursor: pointer; /* Add pointer cursor for better UX */
+  }
+
+  .site-identity img {
+    max-width: 14em;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .site-identity.flex-row {
+    flex-direction: row;
+  }
+
+  .bottom-header .profile-container {
+    display: flex; /* Ensure profile-container is always displayed */
+  }
+
+  .menu {
+    display: none; /* Hide menu by default */
+  }
+
+  .menu.show {
+    display: block; /* Show menu when the show class is added */
+  }
 }
 
 /*--------
@@ -158,6 +198,27 @@ Notification circle
 
 .notifications-number:hover{
   background-color: var(--blue3-color);
+}
+
+@media (max-width: 810px) {
+  .notifications-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    right: 52%;
+    z-index: 1000;
+    background-color: var(--orange-color);
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 0.6em;
+    font-weight: bold;
+    transform: translate(50%, -50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
 }
 
 /*--------
@@ -340,6 +401,28 @@ Notifications Drop
   
 }
 
+@media (max-width: 930px) {
+  .notificationDrop{
+    position: fixed;
+    top: 11%;
+    right: 50%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    max-height: 65vh;
+    width: 17em;
+    max-width: 17em;
+    overflow-y: auto;
+  }
+
+}
+
 
 /*---------
 Account Drop
@@ -369,6 +452,13 @@ Account Drop
 
 .accountDrop a:hover{
   background-color: var(--light-color);
+}
+
+@media (max-width: 930px) {
+  .accountDrop{
+  top: 10.8%;
+  right: 60%;
+  }
 }
   
 /*-----
