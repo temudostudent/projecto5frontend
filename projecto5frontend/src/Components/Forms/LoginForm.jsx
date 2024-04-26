@@ -76,7 +76,7 @@ function LoginForm() {
             {/* Login form */}
             <form  action="#" onSubmit={handleSubmit}>
                     <div className='logo-top' style={{ textAlign: 'center' }}>
-                        <img src={logo} alt="Logo da empresa" style={{ width: '70%', height: 'auto' }} />
+                        <img src={logo} alt="Logo da empresa" style={{ width: '70%', height: 'auto', marginBottom: '20px' }} />
                     </div> 
                     <br/>
                     {/* Username input */}

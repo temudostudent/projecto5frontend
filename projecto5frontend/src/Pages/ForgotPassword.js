@@ -11,13 +11,16 @@ const ForgotPassword = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const email = e.target.email.value;
+        const emailInput = e.target.email;
+        const email = emailInput.value;
 
         try{
             const response = await AuthService.forgotPassword( email );
             if (response && response.status === 200) {
                 toast.success("We have sent you an email with further instructions");
                 navigate('/');
+                emailInput.value = '';
+
             } else if (response && response.status === 401) {
                 toast.error("Email not registered");
             } else {

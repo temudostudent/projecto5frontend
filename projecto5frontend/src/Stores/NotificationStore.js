@@ -11,7 +11,7 @@ export const useNotificationStore = create(
       addNotification: (newNotification) =>
         set((state) => ({ notifications: [...state.notifications, newNotification] })),
 
-        replaceOrAddMessageNotification: (newNotification) =>
+      replaceOrAddMessageNotification: (newNotification) =>
         set((state) => {
           let updatedNotifications;
       

@@ -62,6 +62,7 @@ const PublicProfile = () => {
         }
   
         const formattedResponse = response.map(message => ({
+          id: message.id,
           position: message.sender.username === userData.username ? "right" : "left",
           type: "text",
           title: message.sender.username,
@@ -99,10 +100,44 @@ const PublicProfile = () => {
   const setMessagesAsRead = async () => {
     //Verifica se a última mensagem não está lida
     if(messages.length > 0 && messages[messages.length-1].status === "sent"){
+      fetchLatestMessages();
       await MessageService.setAllMessagesRead(token, userData.username, username);
     } 
   }
 
+  const fetchLatestMessages = async() => {
+    try {
+      const response = await MessageService.getLatestMessagesBetweenTwoUsers(token, userData.username, username);
+      
+      if (!response) {
+        console.error('No response from the server');
+        return;
+      }
+
+      const formattedResponse = response.map(message => ({
+        id: message.id,
+        position: message.sender.username === userData.username ? "right" : "left",
+        type: "text",
+        title: message.sender.username,
+        text: message.content,
+        date: message.timestamp,
+        status: "read",
+        avatar: message.sender.photoURL,
+        titleColor: message.sender.username === userData.username ? "#D7693C" : "#2C94D9",
+      }));
+
+      // Atualiza o status das mensagens no array 'messages' para 'read' se elas corresponderem às mensagens recuperadas
+      const updatedMessages = messages.map(message => {
+        const matchingMessage = formattedResponse.find(formattedMessage => formattedMessage.id === message.id);
+        return matchingMessage ? { ...message, status: "read" } : message;
+      });
+
+      updateMessages(updatedMessages);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  }
+  
 
   return (
     <div>

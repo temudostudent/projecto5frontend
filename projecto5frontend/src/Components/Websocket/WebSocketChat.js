@@ -5,7 +5,7 @@ import { useMessageStore } from '../../Stores/MessageStore'
 
 function WebSocketChat({ receiverUsername }){ 
 
-    const { addMessage } = useMessageStore();     
+    const { addMessage, markMessageAsRead } = useMessageStore();     
     const WS_URL = "ws://localhost:8080/project_backend/websocket/"; 
     const {token: senderToken} = userStore();
 
@@ -22,16 +22,22 @@ function WebSocketChat({ receiverUsername }){
             const message  = JSON.parse(event.data); 
             console.log("a new message is on!", message);
 
-            const formattedMessage = {
-                type: "text",
-                title: message.sender.username,
-                text: message.content,
-                date: Date.now(),
-                status: "read",
-                avatar: message.sender.photoURL,
-                titleColor: "#D7693C",
+            if(message.readNow){
+                markMessageAsRead(message.id);
+            }else{
+                const formattedMessage = {
+                    id: message.id,
+                    type: "text",
+                    title: message.sender.username,
+                    text: message.content,
+                    date: Date.now(),
+                    status: "read",
+                    avatar: message.sender.photoURL,
+                    titleColor: "#D7693C",
+                }
+                addMessage(formattedMessage);
             }
-            addMessage(formattedMessage);
+            
         } 
 
         // Store the WebSocket instance in the ref

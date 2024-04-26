@@ -194,6 +194,16 @@ input {
 	width: 50%;
 	opacity: 0;
 	z-index: 1;
+
+	.ask-signup-container{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		text-align: center;
+		background-color: #FFFFFF;
+    	height: 100%;
+	}
 }
 
 .container-index.right-panel-active .sign-up-container {

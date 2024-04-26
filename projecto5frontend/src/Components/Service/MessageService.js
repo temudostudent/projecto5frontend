@@ -26,6 +26,25 @@ MESSAGES
             console.error('Error getting messages:', error);
         }
     },
+
+    // Function to get latest messages between two users
+    getLatestMessagesBetweenTwoUsers: async (token, username1, username2) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/latest?user1=${username1}&user2=${username2}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                },
+            });
+            if (response.status === 200) {
+                return response.data;
+            } else if (response.status === 401) {
+                console.log("Invalid credentials");
+            }
+        } catch (error) {
+            console.error('Error getting messages:', error);
+        }
+    },
     
     // Function to send a message
     sendMessage: async (content, token, receiver) => {

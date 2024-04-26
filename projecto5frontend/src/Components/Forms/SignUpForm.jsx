@@ -45,28 +45,30 @@ function SignUpForm({ onSignUpSuccess, token }) {
     // Function to handle form submission
     const handleSubmitPendingRegister = async (event) => {
         event.preventDefault();
-
+    
         try {
             let typeOfUser = parseInt(selectedType);
-                if(isNaN(typeOfUser)) {
-                    typeOfUser = 100;
+            if (isNaN(typeOfUser)) {
+                typeOfUser = 100;
             }
-
+    
             const dataToSend = {
                 ...inputs,
                 typeOfUser: typeOfUser
             };
-            console.log(dataToSend);
+    
             const response = await AuthService.registerPending(token, dataToSend);
     
-            console.log(response);
-    
-            if (response.status === 201) {
-                onSignUpSuccess();
-                setInputs({});
-                setSelectedType('');
+            if (response) {
+                if (response.status === 201) {
+                    onSignUpSuccess();
+                    setInputs({});
+                    setSelectedType('');
+                } else {
+                    console.error("Failed to register. Response:", response);
+                }
             } else {
-                console.error("Failed to register. Response:", response);
+                console.error("Failed to register. Response is undefined.");
             }
         } catch (error) {
             console.error("An error occurred during registration:", error);

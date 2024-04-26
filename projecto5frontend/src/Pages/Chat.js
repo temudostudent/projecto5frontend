@@ -9,7 +9,7 @@ import { useMessageStore } from '../Stores/MessageStore'
 import WebSocketChat from '../Components/Websocket/WebSocketChat';
 
 const Chat = (props) => {
-  const {token, userData, receiverData} = userStore();
+  const {token, userData} = userStore();
   const {receiverUsername} = props;
   const {messages, addMessage} = useMessageStore();
   const [chatMessages, setChatMessages] = useState([]);
@@ -49,6 +49,7 @@ const handleSubmit = async (content) => {
 
     // Format the response message
     const formattedMineMessage= {
+      id: response.toString(),
       position: "right",
       type: "text",
       title: userData.username,
