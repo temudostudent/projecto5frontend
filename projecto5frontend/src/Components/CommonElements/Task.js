@@ -6,9 +6,11 @@ import { userStore } from '../../Stores/UserStore'
 import { useTaskStore } from '../../Stores/TaskStore'
 import { useActionsStore } from '../../Stores/ActionStore'
 import { useLocation } from 'react-router-dom';
+import { TbArrowMoveDown } from "react-icons/tb";
+import { TbArrowMoveUp } from "react-icons/tb";
 
 
-const Task = ({ task , index , onEraseStatusChange, onTaskDoubleClick, onDeleteChange }) => {
+const Task = ({ task , index , onEraseStatusChange, onTaskDoubleClick, onDeleteChange, onChangeTaskStatus }) => {
 
   // Accessing necessary state and functions from stores and hooks
   const { setSelectedTask } = useTaskStore();
@@ -59,6 +61,21 @@ const Task = ({ task , index , onEraseStatusChange, onTaskDoubleClick, onDeleteC
     console.log(task);
   };
 
+  const handleChangeTaskStatusUp = () => {
+    
+    if (task.stateId === 300 || task.stateId === 200){
+      onChangeTaskStatus(task.id, task.stateId - 100);
+    }
+    
+  }
+
+  const handleChangeTaskStatusDown = () => {
+    
+    if (task.stateId === 100 || task.stateId === 200){
+      onChangeTaskStatus(task.id, task.stateId + 100);
+    }
+  }
+
 
   return (
     
@@ -84,6 +101,13 @@ const Task = ({ task , index , onEraseStatusChange, onTaskDoubleClick, onDeleteC
 
             {(location.pathname === '/home' || (location.pathname === '/alltasks' && userData.typeOfUser !== 100)) && (
                     <div className='buttons-container'>
+                      {window.innerWidth < 820 && task.stateId !== 100 && (
+                        <span title='Transfer Task to column above' onClick={handleChangeTaskStatusUp}><TbArrowMoveUp /></span>
+                      )}
+                      {window.innerWidth < 820 && task.stateId !== 300 && (
+                        <span title='Transfer Task to column below' onClick={handleChangeTaskStatusDown}><TbArrowMoveDown /></span>
+                      )}
+                    
                     <span title="Edit" onClick={handleEditClick}><MdEdit /></span>
       
                     {task.erased && (

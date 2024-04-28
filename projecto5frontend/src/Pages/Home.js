@@ -212,7 +212,7 @@ const Home = () => {
     // Function to render select filter dropdown
     const renderSelect = ({ name }) => {
         return (
-            <div>
+            <div className='select-container'>
                 <IntlProvider locale={locale} messages={languages[locale]}> 
                 <select name={name} onChange={handleFilterChange} value={selectedFilter}>
                 <option value="All"><FormattedMessage id="all" /></option>
@@ -275,19 +275,21 @@ const Home = () => {
                         onSubmit={isEditing ? handleEditTask : handleCreateTask}
                     />
                     </div>
-                    <div className={`scrum-board-container ${showSidebar ? 'scrum-board-expanded' : ''}`}>
-                        <ScrumBoard
-                            token={token}
-                            userData={userData}
-                            homeTasksChange={updatedSignal}
+                    <div className='right-home-container'>
+                        <div className={`scrum-board-container ${showSidebar ? 'scrum-board-expanded' : ''}`}>
+                            <ScrumBoard
+                                token={token}
+                                userData={userData}
+                                homeTasksChange={updatedSignal}
+                                
+                            />
+                        </div>
+                        <div className='select-filter-container'>
+                            {(location.pathname === '/alltasks') && (userData.typeOfUser!==100) && (
+                                    renderSelect({ name: 'Filters' })
+                            )}
                             
-                        />
-                    </div>
-                    <div className='select-filter-container'>
-                        {(location.pathname === '/alltasks') && (userData.typeOfUser!==100) && (
-                                renderSelect({ name: 'Filters' })
-                        )}
-                        
+                        </div>
                     </div>
                 </div>
             )}

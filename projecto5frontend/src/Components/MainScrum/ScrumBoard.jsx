@@ -74,6 +74,21 @@ const ScrumBoard = (props) => {
   const updateTaskList = async (tasks) => {
     setCurrentTaskList(tasks);
   }
+
+  const handleUpdateTaskStatus = async (taskId, newStateId) => {
+    if(taskId){
+      await AuthService.updateTaskStatus(token, taskId, newStateId);
+
+      await updateTasks(prevTasks => {
+        return prevTasks.map(task => {
+          if (task.id === taskId) {
+            return { ...task, stateId: newStateId };
+          }
+          return task;
+        });
+      });
+    }
+  }
   
 
   // Function to handle changing the erase status of a task
@@ -181,19 +196,6 @@ const ScrumBoard = (props) => {
     return newStateId;
   }
 
-  const slide = (direction) => {
-    const slider = document.querySelector('.slider-container');
-    if (slider) {
-      console.log(slider.clientWidth);
-      const scrollAmount = slider.clientWidth;
-      slider.scrollBy({
-        left: direction * scrollAmount,
-        behavior: 'smooth'
-      });
-    } else {
-      console.error('Slider element not found');
-    }
-  };
 
   // Function to render tasks based on their status
   const renderTasksByStatus = (status) => {
@@ -217,6 +219,7 @@ const ScrumBoard = (props) => {
                 onTaskDoubleClick={handleTaskDoubleClick}
                 onDeleteChange={handleTaskDelete}
                 className={task.erased ? 'erased-task' : ''}
+                onChangeTaskStatus={handleUpdateTaskStatus}
               />
             ))}
             {provided.placeholder}
