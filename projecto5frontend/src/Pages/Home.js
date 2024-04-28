@@ -146,7 +146,7 @@ const Home = () => {
             name: 'category', 
             required: true,
             options: [
-                { value: '', label: 'Category', disabled: true, categoryId: null},
+                { value: '', label: <FormattedMessage id="category" />, disabled: true, categoryId: null},
                 ...(categories ? categories.map(category => ({ value: category.name, label: category.name, categoryId: category.id})) : [])
               ]
         },
@@ -157,14 +157,14 @@ const Home = () => {
             name: 'priority', 
             required: true,
             options: [
-            { value: '', label: 'Priority', disabled: true},
-            { value: 300, label: 'High' },
-            { value: 200, label: 'Medium' },
-            { value: 100, label: 'Low' }
+            { value: '', label: <FormattedMessage id="priority" />, disabled: true},
+            { value: 300, label: <FormattedMessage id="high" /> },
+            { value: 200, label: <FormattedMessage id="medium" /> },
+            { value: 100, label: <FormattedMessage id="low" /> }
             ]
         },
-        { type: 'date', label: 'Start', name: 'startDate', required: true },
-        { type: 'date', label: 'End', name: 'limitDate' },
+        { type: 'date', label: <FormattedMessage id="start" />, name: 'startDate', required: true },
+        { type: 'date', label: <FormattedMessage id="end" />, name: 'limitDate' },
         
     ];
 
@@ -213,24 +213,25 @@ const Home = () => {
     const renderSelect = ({ name }) => {
         return (
             <div>
+                <IntlProvider locale={locale} messages={languages[locale]}> 
                 <select name={name} onChange={handleFilterChange} value={selectedFilter}>
-                <option value="All">All</option>
-                    <option value="State">State</option>
-                    <option value="Categories">Categories</option>
-                    <option value="Users">Users</option>
+                <option value="All"><FormattedMessage id="all" /></option>
+                    <option value="State"><FormattedMessage id="state" /></option>
+                    <option value="Categories"><FormattedMessage id="categories" /></option>
+                    <option value="Users"><FormattedMessage id="users" /></option>
                 </select>
 
                 {selectedFilter === 'State' && (
                     <select onChange={handleOptionChange} value={selectedOption}>
-                    <option value="" disabled>Select State</option>
-                    <option value="Active">Active</option>
-                    <option value="Erased">Erased</option>
+                    <option value="" disabled><FormattedMessage id="select_state" /></option>
+                    <option value="Active"><FormattedMessage id="active" /></option>
+                    <option value="Erased"><FormattedMessage id="erased" /></option>
                     </select>
                 )}
 
                 {selectedFilter === 'Categories' && (
                     <select onChange={handleOptionChange} value={selectedOption}>
-                    <option value="" disabled>Select Category</option>
+                    <option value="" disabled><FormattedMessage id="select_category" /></option>
                     {categories.map((category, index) => (
                         <option key={index} value={category.name} data-category-id={category.id}>
                         {category.name}
@@ -241,7 +242,7 @@ const Home = () => {
 
                 {selectedFilter === 'Users' && (
                     <select onChange={handleOptionChange} value={selectedOption}>
-                    <option value="" disabled>Select User</option>
+                    <option value="" disabled><FormattedMessage id="select_user" /></option>
                     {usersListData.map((user, index) => (
                         <option key={index} value={user.username} data-category-id={user.username}>
                         {user.username}
@@ -249,6 +250,7 @@ const Home = () => {
                     ))}
                     </select>
                 )}
+                </IntlProvider> 
                 </div>
             );
         };
@@ -267,13 +269,13 @@ const Home = () => {
                     <div className="sidebar-container">
                     <Sidebar
                         collapsedWidth={showSidebar ? '100%' : '0'}
-                        formTitle={isEditing ? 'Edit Task' : 'Add Task'} 
+                        formTitle={isEditing ? <FormattedMessage id="edit_task" /> : <FormattedMessage id="add_task" />} 
                         inputs={inputs}
-                        formSubmitTitle={isEditing ? 'Save Changes' : 'Submit'}
+                        formSubmitTitle={isEditing ? <FormattedMessage id="save_changes" /> : <FormattedMessage id="submit" />}
                         onSubmit={isEditing ? handleEditTask : handleCreateTask}
                     />
                     </div>
-                     <div className={`scrum-board-container ${showSidebar ? 'scrum-board-expanded' : ''}`}>
+                    <div className={`scrum-board-container ${showSidebar ? 'scrum-board-expanded' : ''}`}>
                         <ScrumBoard
                             token={token}
                             userData={userData}

@@ -31,12 +31,19 @@ const ConfirmPassword = () => {
     
         const checkTokenValidity = async () => {
             try {
-                const isValid = await TokenService.checkAccountConfirmValidation(token);
-                setValidToken(isValid);
+                const { response, status } = await TokenService.checkAccountConfirmValidation(token);
+
+                if (response && status) { // Check if response and status exist
+                    if (status === 200) {
+                        setValidToken(true);
+                    } else{
+                        setValidToken(false);
+                        navigate('/404');
+                    }
+                }
+                
             } catch (error) {
                 console.error('Error checking token validity:', error);
-                setValidToken(false);
-                navigate('/404');
             }
         };
     

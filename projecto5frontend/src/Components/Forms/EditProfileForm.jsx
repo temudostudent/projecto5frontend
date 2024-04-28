@@ -3,6 +3,8 @@ import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import { userStore } from '../../Stores/UserStore'
 import { useLocation } from 'react-router-dom';
+import languages from "../../Translations"; 
+import { IntlProvider, FormattedMessage } from "react-intl";
 
 // Setting the root element for the modal
 Modal.setAppElement('#root');
@@ -12,7 +14,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
     // State variables
     const [inputs, setInputs] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const { token, userData} = userStore();
+    const { token, userData, locale} = userStore();
     const location = useLocation();
   
     // Function to handle changes in input fields
@@ -80,8 +82,9 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
 
     return (
       <div>
+        <IntlProvider locale={locale} messages={languages[locale]}> 
         <form onSubmit={handleSubmit}>
-          <label htmlFor="firstName">First Name:</label>
+          <label htmlFor="firstName"><FormattedMessage id="first_name" />:</label>
           <input
             type="text"
             name="firstName"
@@ -91,7 +94,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
           />
           <br />
     
-          <label htmlFor="lastName">Last Name:</label>
+          <label htmlFor="lastName"><FormattedMessage id="last_name" />:</label>
           <input
             type="text"
             name="lastName" 
@@ -112,7 +115,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
           />
           <br />
 
-          <label htmlFor="phone">Phone:</label>
+          <label htmlFor="phone"><FormattedMessage id="phone" />:</label>
           <input
             type="text"
             name="phone" 
@@ -123,7 +126,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
           />
           <br />
     
-          <label htmlFor="photoUrl">Photo URL:</label>
+          <label htmlFor="photoUrl"><FormattedMessage id="photo" />:</label>
           <input
             type="url"
             name="photoURL" 
@@ -135,7 +138,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
          {(location.pathname === '/users') && (userData.typeOfUser===300) && (
             <>
               <br />
-              <label htmlFor="typeOfUser">Type:</label>
+              <label htmlFor="typeOfUser"><FormattedMessage id="type" />:</label>
               <select
                 name="typeOfUser"
                 value={inputs.typeOfUser || printData.typeOfUser}
@@ -154,7 +157,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
           {!(location.pathname === '/users') && (
               <button type="button" onClick={() => setModalIsOpen(true)}>Change Password</button>
           )}
-              <button type="submit">Submit</button>
+              <button type="submit"><FormattedMessage id="submit" /></button>
           </div>
           </>
           )}
@@ -175,6 +178,7 @@ const EditProfileForm = ({username, printData, onUpdateSuccess}) => {
                 </form>
                 <button onClick={() => setModalIsOpen(false)}>Close Modal</button>
             </Modal>
+            </IntlProvider> 
       </div>
       
     );

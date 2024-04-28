@@ -403,22 +403,8 @@ Notifications Drop
 
 @media (max-width: 930px) {
   .notificationDrop{
-    position: fixed;
-    top: 11%;
-    right: 50%;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 2;
-    max-height: 65vh;
-    width: 17em;
-    max-width: 17em;
-    overflow-y: auto;
+    top: 18.3%;
+    right: 15%;
   }
 
 }
@@ -456,8 +442,8 @@ Account Drop
 
 @media (max-width: 930px) {
   .accountDrop{
-  top: 10.8%;
-  right: 60%;
+  top: 164px;
+  right: 35%;
   }
 }
   

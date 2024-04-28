@@ -132,20 +132,20 @@ const FormTask = (props) => {
 
     return (
         <>
-        <div className="form">
-            <div className="form-content">
-                
-                <h2>{title}</h2>
-                <form onSubmit={handleSubmitTask}>
-                    {inputs.map((input, index) => (
-                        <div key={index}>
-                            {createInput(input)}
-                        </div>
-                    ))}
-                    <button type="submit">{buttonText}</button>
-                </form>
+            <div className="form">
+                <div className="form-content">
+                    
+                    <h2>{title}</h2>
+                    <form onSubmit={handleSubmitTask}>
+                        {inputs.map((input, index) => (
+                            <div key={index}>
+                                {createInput(input)}
+                            </div>
+                        ))}
+                        <button type="submit">{buttonText}</button>
+                    </form>
+                </div>
             </div>
-        </div>
         </>
     );
 }

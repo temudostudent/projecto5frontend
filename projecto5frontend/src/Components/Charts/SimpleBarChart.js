@@ -34,7 +34,7 @@ export default class SimpleBarChart extends PureComponent {
           margin={{
             top: 0,
             right: 10,
-            left: 20,
+            left: 10,
             bottom: 20,
           }}
         >

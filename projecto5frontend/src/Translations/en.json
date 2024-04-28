@@ -30,7 +30,49 @@
 "avg-tasks-time": "Average Task Time (Days)",
 "users-over-time": "Users over Time",
 "tasks-done-over-time": "Tasks Done over Time",
-"user-status": "User Status"
+"user-status": "User Status",
+
+"to_do": "To Do",
+"doing": "Doing",
+"done": "Done",
+
+"low": "Low",
+"medium": "Medium",
+"high": "High",
+
+"add_new_task": "+ New Task",
+
+"task_details": "Task Details",
+"title": "Title",
+"description": "Description",
+"start_date": "Start Date",
+"limit_date": "Limit Date",
+"owner": "Owner",
+"category": "Category",
+"priority": "Priority",
+"status": "Status",
+
+"all": "All",
+"state": "State",
+"select_state": "Select State",
+"active": "Active",
+"erased": "Erased",
+"select_category": "Select Category",
+"select_user": "Select User",
+
+"start": "Start",
+"end": "End",
+
+"edit_task": "Edit Task",
+"add_task": "Add Task",
+"save_changes": "Save Changes",
+"submit": "Submit",
+
+"first_name": "First Name",
+"last_name": "Last Name",
+"phone": "Phone",
+"photo": "Photo",
+"Type": "Type"
 
 
 

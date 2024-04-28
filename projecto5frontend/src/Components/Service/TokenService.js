@@ -42,14 +42,21 @@ const TokenService = {
                     'token': token
                 }
             });
-            if (response.status === 200) {
-                return response;
-            } else if (response.status === 401) {
-                toast.warning("Invalid credentials");
+            if (response) {
+                if (response.status === 200) {
+                    return { response, status: response.status }; // Include status in the return value
+                } 
+            } else {
+                throw new Error("No response received from the server");
             }
         } catch (error) {
+            if (error.response && error.response.status === 401) {
+                return { response: error.response, status: error.response.status };
+            } else {
+                throw new Error("Something went wrong");
+            }
             console.error('There was a problem with the fetch operation:', error);
-        };
+        }
     },
 
 };

@@ -25,6 +25,20 @@ function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit, userPath}) {
     // Get the current location
     const location = useLocation();
 
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        // Clean up event listener on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // useEffect hook to update initial values when selectedTask changes
     useEffect(() => {
         // Verifica se selectedTask mudou
@@ -78,8 +92,8 @@ function Sidebar({ formTitle, inputs, formSubmitTitle, onSubmit, userPath}) {
         <Layout className='sidebar-container'>
             {/* Sidebar component */}
             <Sider 
-                width={location.pathname === `/profile/${userPath}` ? 500 : 300}
-                style={{ height: '80vh', backgroundColor: '#f6f5f7'}}
+                 width={location.pathname === `/profile/${userPath}` ? (windowWidth < 820 ? 400 : 500) : 300}
+                style={{ height: '100%', backgroundColor: '#f6f5f7'}}
                 collapsed={showSidebar}
                 collapsedWidth={0}
                 collapsible

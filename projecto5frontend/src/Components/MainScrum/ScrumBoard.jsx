@@ -1,5 +1,6 @@
 import React, { useState , useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
+import { userStore } from '../../Stores/UserStore'
 import { useTaskStore } from '../../Stores/TaskStore'
 import { useActionsStore } from '../../Stores/ActionStore'
 import AuthService from '../../Components/Service/AuthService'
@@ -7,6 +8,8 @@ import Task from '../../Components/CommonElements/Task'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import  ModalInfo from '../CommonElements/ModalInfo'
 import './ScrumBoard.css';
+import { IntlProvider, FormattedMessage } from "react-intl";
+import languages from "../../Translations";
 
 const ScrumBoard = (props) => {
 
@@ -19,11 +22,36 @@ const ScrumBoard = (props) => {
   // Accessing state and functions from custom hooks
   const { tasks, updateTasks, setSelectedTask } = useTaskStore();
   const { updateShowSidebar, updateIsEditing, updateShowModal, showModal } = useActionsStore();
+  const {locale} = userStore();
 
   // State variables
   const [loading, setLoading] = useState(true);
   const [selectedTaskInfo, setSelectedTaskInfo] = useState(null);
   const [currentTaskList, setCurrentTaskList] = useState([]);
+  const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth < 800);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWindowSmall(window.innerWidth < 800);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Limpeza na desmontagem
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // useEffect to fetch tasks when token, userData, pathname, or homeTasksChange changes
+  useEffect(() => {
+    fetchTasks();
+  }, [token, userData, pathname, homeTasksChange]);
+
+  // useEffect to update currentTaskList whenever tasks change
+  useEffect(() => {
+    updateTaskList(tasks);
+  }, [tasks]);
 
   // Function to fetch tasks from the server
   const fetchTasks = async () => {
@@ -41,18 +69,6 @@ const ScrumBoard = (props) => {
       setLoading(false);
     }
   };
-
-
-  // useEffect to fetch tasks when token, userData, pathname, or homeTasksChange changes
-  useEffect(() => {
-    fetchTasks();
-  }, [token, userData, pathname, homeTasksChange]);
-
-  // useEffect to update currentTaskList whenever tasks change
-  useEffect(() => {
-    updateTaskList(tasks);
-  }, [tasks]);
-
 
   // Function to update the currentTaskList state
   const updateTaskList = async (tasks) => {
@@ -143,11 +159,11 @@ const ScrumBoard = (props) => {
   const parsePriorityToString = (priority) => {
     let newPriority = '';
     if(priority === 100) {
-      newPriority = 'Low';
+      newPriority = <FormattedMessage id="low" />;
     } else if(priority === 200) {
-      newPriority = 'Medium';
+      newPriority = <FormattedMessage id="medium" />;
     } else if(priority === 300) {
-      newPriority = 'High';
+      newPriority = <FormattedMessage id="high" />;
     }
     return newPriority;
   }
@@ -156,14 +172,28 @@ const ScrumBoard = (props) => {
   const parseStateIdToString = (stateId) => {
     let newStateId = '';
     if(stateId === 100) {
-      newStateId = 'To Do';
+      newStateId = <FormattedMessage id="to_do" />;
     } else if(stateId === 200) {
-      newStateId = 'Doing';
+      newStateId = <FormattedMessage id="doing" />;
     } else if(stateId === 300) {
-      newStateId = 'Done';
+      newStateId = <FormattedMessage id="done" />;
     }
     return newStateId;
   }
+
+  const slide = (direction) => {
+    const slider = document.querySelector('.slider-container');
+    if (slider) {
+      console.log(slider.clientWidth);
+      const scrollAmount = slider.clientWidth;
+      slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+    } else {
+      console.error('Slider element not found');
+    }
+  };
 
   // Function to render tasks based on their status
   const renderTasksByStatus = (status) => {
@@ -198,53 +228,62 @@ const ScrumBoard = (props) => {
 
   return (
     <main>
+      <IntlProvider locale={locale} messages={languages[locale]}> 
       {loading ? (
         <div>Loading...</div>
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
           <section className="scrum_section">
+          
             <div className="column column1">
-              <div className="title">To Do</div>
+              <div className="title"><FormattedMessage id="to_do" /></div>
               { renderTasksByStatus("100")}
 
               {(pathname === '/home' || (pathname === '/alltasks' && userData.typeOfUser !== 100)) && (
-                  <button onClick={handleNewTaskButton}>&nbsp;+ New Task</button>
+                  <button onClick={handleNewTaskButton}>&nbsp;<FormattedMessage id="add_new_task" /></button>
               )}
 
              
             </div>
 
             <div className="column column2">
-              <div className="title">Doing</div>
+              <div className="title"><FormattedMessage id="doing" /></div>
               {renderTasksByStatus("200")}
             </div>
 
             <div className="column column3">
-              <div className="title">Done</div>
+              <div className="title"><FormattedMessage id="done" /></div>
               {renderTasksByStatus("300")}
+              
             </div>
           </section>
         </DragDropContext>
-        
       )}
+
+      {isWindowSmall && (
+        <>
+          
+        </>
+      )}
+      
 
       {/* Modal for displaying task details */}
       {showModal && selectedTaskInfo && (
           <ModalInfo 
-            title="Task Details"
+            title = {<FormattedMessage id="task_details" />}
             inputs={[
-              { label: 'Title', type: 'textarea', value: selectedTaskInfo.title, disabled: true },
-              { label: 'Description', type: 'textarea', value: selectedTaskInfo.description, disabled: true },
-              { label: 'Start Date', type: 'text', value: selectedTaskInfo.startDate, disabled: true },
-              { label: 'Limit Date', type: 'text', value: selectedTaskInfo.limitDate, disabled: true },
-              { label: 'Owner', type: 'text', value: selectedTaskInfo.owner.username, disabled: true },
-              { label: 'Category', type: 'text', value: selectedTaskInfo.category.name, disabled: true },
-              { label: 'Priority', type: 'text', value: parsePriorityToString(selectedTaskInfo.priority), disabled: true },
-              { label: 'Status', type: 'text', value: parseStateIdToString(selectedTaskInfo.stateId), disabled: true },
+              { label: <FormattedMessage id="title" />, type: 'textarea', value: selectedTaskInfo.title, disabled: true },
+              { label: <FormattedMessage id="description" />, type: 'textarea', value: selectedTaskInfo.description, disabled: true },
+              { label: <FormattedMessage id="start_date" />, type: 'text', value: selectedTaskInfo.startDate, disabled: true },
+              { label: <FormattedMessage id="limit_date" />, type: 'text', value: selectedTaskInfo.limitDate, disabled: true },
+              { label: <FormattedMessage id="owner" />, type: 'text', value: selectedTaskInfo.owner.username, disabled: true },
+              { label: <FormattedMessage id="category" />, type: 'text', value: selectedTaskInfo.category.name, disabled: true },
+              { label: <FormattedMessage id="priority" />, type: 'text', value: parsePriorityToString(selectedTaskInfo.priority), disabled: true },
+              { label: <FormattedMessage id="status" />, type: 'text', value: parseStateIdToString(selectedTaskInfo.stateId), disabled: true },
             ]}
           />
         )}
-
+    </IntlProvider> 
     </main>
   );
 }

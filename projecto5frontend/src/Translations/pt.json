@@ -18,6 +18,7 @@
 "notification_label":"Notificações",
 
 "notification_message":"{user} enviou-te uma mensagem",
+"task_update_message":"{user} atualizou a tua tarefa: {taskName}",
 
 "lets-chat":"Queres falar?",
 
@@ -28,6 +29,48 @@
 "avg-tasks-time": "Tempo Médio por Tarefa (Dias)",
 "users-over-time": "Utilizadores ao Longo do Tempo",
 "tasks-done-over-time": "Tarefas Concluídas ao Longo do Tempo",
-"user-status": "Tarefas do Utilizador"
+"user-status": "Tarefas do Utilizador",
+
+"to_do": "Por Fazer",
+"doing": "A Fazer",
+"done": "Feito",
+
+"low": "Baixa",
+"medium": "Média",
+"high": "Alta",
+
+"add_new_task": "+ Nova Tarefa",
+
+"task_details": "Detalhes da Tarefa",
+"title": "Título",
+"description": "Descrição",
+"start_date": "Data de Início",
+"limit_date": "Data Limite",
+"owner": "Responsável",
+"category": "Categoria",
+"priority": "Prioridade",
+"status": "Estado",
+
+"all": "Tudo",
+"state": "Estado",
+"select_state": "Selecione o Estado",
+"active": "Ativo",
+"erased": "Apagado",
+"select_category": "Selecione a Categoria",
+"select_user": "Selecione o Utilizador",
+
+"start": "Início",
+"end": "Fim",
+
+"edit_task": "Editar Tarefa",
+"add_task": "Adicionar Tarefa",
+"save_changes": "Gravar Alterações",
+"submit": "Gravar",
+
+"first_name": "Primeiro Nome",
+"last_name": "Último Nome",
+"phone": "Telefone",
+"photo": "Foto",
+"Type": "Tipo"
 
 }
