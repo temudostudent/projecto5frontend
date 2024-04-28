@@ -187,7 +187,7 @@ const Header = (props) => {
     };
 
     return (
-        <header className="site-header">
+        <header className="site-header" data-testid="header">
             <IntlProvider locale={locale} messages={languages[locale]}> 
             <ToastContainer position="top-center" />
             <div className="top-header">

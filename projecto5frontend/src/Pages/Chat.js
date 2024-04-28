@@ -69,7 +69,7 @@ const handleSubmit = async (content) => {
 
 
  return (
-   <div className="chat-container">
+   <div className="chat-container" data-testid="chat">
      <MessageList
       className='message-list'
       lockable={true}
@@ -85,7 +85,7 @@ const handleSubmit = async (content) => {
       rightButtons={
         <>
           <IconContext.Provider value={{ color: "#eee", size: "1.5em" }}>
-              <span className="send-message-button" onClick={() => handleSubmit(inputValue)}>
+              <span className="send-message-button" data-testid="send-message-button" onClick={() => handleSubmit(inputValue)}>
                 <IoIosSend />
               </span>
           </IconContext.Provider>
