@@ -33,8 +33,8 @@ export default class SimpleBarChart extends PureComponent {
           data={data}
           margin={{
             top: 0,
-            right: 10,
-            left: 10,
+            right: 20,
+            left: 5,
             bottom: 20,
           }}
         >

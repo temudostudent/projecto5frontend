@@ -35,12 +35,18 @@ const Home = () => {
     // Fetch initial data on component mount
     useEffect(() => {
         fetchInitialData();
+
+        if (!token) {
+            // Se o token não existir ou não for válido, redirecionar para uma página de erro
+            navigate('/404');
+        }
     }, []);
 
-    if (!token) {
-        // Se o token não existir ou não for válido, redirecionar para uma página de erro
-        navigate('/404');
-    }
+    useEffect(() => {
+        updateShowSidebar(true);
+    }, [location.pathname]);
+
+    
 
     // Function to fetch initial data (categories, users, tasks)
     const fetchInitialData = async () => {
@@ -107,6 +113,7 @@ const Home = () => {
                 const tasksUpdated = await fetchTasks();
                 updateTasks(tasksUpdated);
                 setUpdatedSignal(!updatedSignal);
+                updateShowSidebar(true);
             } else {
                 console.error('Error creating task:', response.error);
             }

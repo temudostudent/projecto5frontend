@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import AuthService from '../Components/Service/AuthService';
 import StatsService from '../Components/Service/StatsService';
 import MessageService from '../Components/Service/MessageService';
@@ -21,6 +21,7 @@ const PublicProfile = () => {
   const [userTasksCount, setUserTasksCount] = useState([]);
   const { showSidebar, updateShowSidebar } = useActionsStore();
   const [hasClicked, setHasClicked] = useState(false);
+  const location = useLocation();
 
 
   useEffect(() => {
@@ -49,6 +50,10 @@ const PublicProfile = () => {
     fetchUserData();
     fetchStats();
   }, [username, token]);
+
+  useEffect(() => {
+    updateShowSidebar(true);
+  }, [location.pathname]);
 
   // Fetch messages when component is mounted
   useEffect(() => {

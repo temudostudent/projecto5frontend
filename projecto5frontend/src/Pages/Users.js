@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { userStore } from '../Stores/UserStore'
 import { useUsersListStore } from '../Stores/UsersDataStore'
 import { useActionsStore } from '../Stores/ActionStore'
@@ -14,6 +14,22 @@ const Users = () => {
   const [selected, setSelected] = useState([]); // State to manage selected users
   const { showSidebar, updateShowSidebar } = useActionsStore(); // Get showSidebar and updateShowSidebar functions from useActionsStore
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    updateShowSidebar(true);
+  }, [location.pathname]);
+
+
+  // Fetch users data on component mount
+  useEffect(() => {
+      const fetchData = async () => {
+          await fetchUsers({});
+          console.log(usersListData);
+      };
+  
+      fetchData();
+  }, []);
 
     // Function to handle users selection change
     const handleUsersSelectionChange = (selectedUsersIds) => {
@@ -100,16 +116,7 @@ const Users = () => {
         },
     ];
 
-
-    // Fetch users data on component mount
-    useEffect(() => {
-        const fetchData = async () => {
-            await fetchUsers({});
-            console.log(usersListData);
-        };
     
-        fetchData();
-    }, []);
     
     // Function to fetch users based on filters
     const fetchUsers = async ({type, visible}) => {
