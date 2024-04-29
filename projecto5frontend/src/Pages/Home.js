@@ -110,8 +110,7 @@ const Home = () => {
 
             if (response.status === 201) {
                 
-                const tasksUpdated = await fetchTasks();
-                updateTasks(tasksUpdated);
+                /* Retirada do fetch tasks, já estava a ser chamado */
                 setUpdatedSignal(!updatedSignal);
                 updateShowSidebar(true);
             } else {
@@ -132,8 +131,7 @@ const Home = () => {
 
             if (response.status === 200) {
                 
-                const tasksUpdated = await fetchTasks();
-                updateTasks(tasksUpdated);
+                
                 updateShowSidebar(true);
                 setSelectedTask(null);
                 setUpdatedSignal(!updatedSignal);

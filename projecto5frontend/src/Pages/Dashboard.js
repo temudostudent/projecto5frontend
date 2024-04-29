@@ -216,7 +216,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col">
                         <h3><FormattedMessage id="avg-tasks-time" /></h3>
-                        {tasksCount && <span className="stat-number">{tasksCount.avgTaskDone}</span>}
+                        {tasksCount && <span className="stat-number">{tasksCount.avgTaskDone ? tasksCount.avgTaskDone.toFixed(1) : 'N/A'}</span>}
                     </div>
                 </div>
                 <div className="row">

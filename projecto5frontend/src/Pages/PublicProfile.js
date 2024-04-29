@@ -137,7 +137,7 @@ const PublicProfile = () => {
         return matchingMessage ? { ...message, status: "read" } : message;
       });
 
-      updateMessages(updatedMessages);
+      await updateMessages(updatedMessages);
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
